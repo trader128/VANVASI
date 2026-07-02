@@ -123,6 +123,7 @@
 		3BFD6A6DAB04A8FE131C03B1 /* VANVASIShieldAction.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = VANVASIShieldAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E4EB58A0F249E702C08BBF8 /* VANASITheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANASITheme.swift; sourceTree = "<group>"; };
 		45A6D7C08C83AEDE2AEE0949 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		501117AA7DEAC316103F089F /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 		514A21C4E9FC0E3E2F6FA5C8 /* VANVASIWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VANVASIWidget.entitlements; sourceTree = "<group>"; };
 		547FF63F8C644B64997C472E /* VANVASIMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VANVASIMonitor.entitlements; sourceTree = "<group>"; };
 		5562D1789482EFBA1A928337 /* VANVASI.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VANVASI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,6 +181,14 @@
 				B7746F711CFDDDA5FCB80567 /* Unlock */,
 			);
 			path = Features;
+			sourceTree = "<group>";
+		};
+		66D645CF3EDA2892E9CA9E35 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				501117AA7DEAC316103F089F /* Signing.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		6E6D6CE1AB144436611B2D66 /* Core */ = {
@@ -261,6 +270,7 @@
 		D259C22FCD37F6CDF8B42FC0 = {
 			isa = PBXGroup;
 			children = (
+				66D645CF3EDA2892E9CA9E35 /* Config */,
 				EB2EB062808EEED1863E3858 /* Shared */,
 				C87A2C2A255E2B4197CB51A6 /* VANVASI */,
 				0D4029E8D9CAF4BA29F51148 /* VANVASIMonitor */,
@@ -397,19 +407,24 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					1010DE27032334EA53E4AEF1 = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 259R8YNA9M;
+						ProvisioningStyle = Automatic;
 					};
 					213ED8512F8F7BAD62FD5D1B = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 259R8YNA9M;
+						ProvisioningStyle = Automatic;
 					};
 					5CD1960405504FA21F0008D3 = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 259R8YNA9M;
+						ProvisioningStyle = Automatic;
 					};
 					6077AFA18940A2B431080F82 = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 259R8YNA9M;
+						ProvisioningStyle = Automatic;
 					};
 					73A06A9103E942503AEEB7D2 = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 259R8YNA9M;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -589,9 +604,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = VANVASI;
-				INFOPLIST_KEY_CFBundleShortVersionString = 1.0.0;
-				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLSchemes\": [\"vanasi\"], \"CFBundleURLName\": \"com.vanasi.app\"]]";
-				INFOPLIST_KEY_CFBundleVersion = 1;
+				INFOPLIST_KEY_CFBundleShortVersionString = "$(MARKETING_VERSION)";
+				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLName\": \"com.vanasi.app\", \"CFBundleURLSchemes\": [\"vanasi\"]]]";
+				INFOPLIST_KEY_CFBundleVersion = "$(CURRENT_PROJECT_VERSION)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -606,6 +621,7 @@
 		};
 		59AF7FAC1933FA0272D34315 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 501117AA7DEAC316103F089F /* Signing.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -637,10 +653,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 259R8YNA9M;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -673,6 +690,7 @@
 		};
 		6F82D9E7F00874DCD39DB17B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 501117AA7DEAC316103F089F /* Signing.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -704,10 +722,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 259R8YNA9M;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -739,9 +758,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = VANVASI;
-				INFOPLIST_KEY_CFBundleShortVersionString = 1.0.0;
-				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLSchemes\": [\"vanasi\"], \"CFBundleURLName\": \"com.vanasi.app\"]]";
-				INFOPLIST_KEY_CFBundleVersion = 1;
+				INFOPLIST_KEY_CFBundleShortVersionString = "$(MARKETING_VERSION)";
+				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLName\": \"com.vanasi.app\", \"CFBundleURLSchemes\": [\"vanasi\"]]]";
+				INFOPLIST_KEY_CFBundleVersion = "$(CURRENT_PROJECT_VERSION)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (

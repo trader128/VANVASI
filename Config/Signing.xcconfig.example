@@ -1,0 +1,4 @@
+// Copy to Signing.xcconfig and replace with your Apple Developer Team ID.
+// Find it: Xcode → Settings → Accounts → your Apple ID → Team ID (10 characters)
+// Or: Xcode → VANVASI target → Signing → Team dropdown shows it in parentheses.
+DEVELOPMENT_TEAM =

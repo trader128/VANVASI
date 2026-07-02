@@ -11,15 +11,27 @@ open VANVASI.xcodeproj
 
 After `xcodegen generate`, verify entitlements files still contain Family Controls + App Groups (see troubleshooting).
 
-## 2. Xcode signing
+## 2. Xcode signing (required for iPhone)
 
-1. Select **VANVASI** target → **Signing & Capabilities**
-2. Set your **Team** (Apple Developer account)
-3. Repeat for each extension target:
-   - VANVASIMonitor
-   - VANVASIShield
-   - VANVASIShieldAction
-   - VANVASIWidget
+Every target needs your **Apple Developer Team**. Do **one** of the following:
+
+### Option A — config file (survives `xcodegen generate`)
+
+1. Open `Config/Signing.xcconfig`
+2. Set your 10-character Team ID:
+   ```
+   DEVELOPMENT_TEAM = AB12CD34EF
+   ```
+   Find it: **Xcode → Settings → Accounts →** your Apple ID → Team ID
+3. Regenerate: `./scripts/generate-xcodeproj.sh`
+
+### Option B — Xcode UI (must redo after each `xcodegen generate`)
+
+For **each** target (VANVASI, VANVASIMonitor, VANVASIShield, VANVASIShieldAction, VANVASIWidget):
+
+1. Select target → **Signing & Capabilities**
+2. Check **Automatically manage signing**
+3. **Team** → your Apple ID / Personal Team
 
 ## 3. Capabilities (main app)
 
