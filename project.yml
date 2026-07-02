@@ -1,0 +1,110 @@
+name: VANVASI
+options:
+  bundleIdPrefix: com.vanasi
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    TARGETED_DEVICE_FAMILY: "1"
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: ""
+
+targets:
+  VANVASI:
+    type: application
+    platform: iOS
+    sources:
+      - path: VANVASI
+      - path: Shared
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.vanasi.app
+      INFOPLIST_KEY_CFBundleDisplayName: VANVASI
+      INFOPLIST_KEY_CFBundleShortVersionString: "1.0.0"
+      INFOPLIST_KEY_CFBundleVersion: "1"
+      INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+      INFOPLIST_KEY_UILaunchScreen_Generation: YES
+      INFOPLIST_KEY_CFBundleURLTypes:
+        - CFBundleURLName: com.vanasi.app
+          CFBundleURLSchemes:
+            - vanasi
+      GENERATE_INFOPLIST_FILE: YES
+      CODE_SIGN_ENTITLEMENTS: VANVASI/VANVASI.entitlements
+    dependencies:
+      - target: VANVASIMonitor
+        embed: true
+      - target: VANVASIShield
+        embed: true
+      - target: VANVASIShieldAction
+        embed: true
+      - target: VANVASIWidget
+        embed: true
+
+  VANVASIMonitor:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: VANVASIMonitor
+        excludes:
+          - Info.plist
+      - path: Shared
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.vanasi.app.monitor
+      INFOPLIST_FILE: VANVASIMonitor/Info.plist
+      GENERATE_INFOPLIST_FILE: NO
+      CODE_SIGN_ENTITLEMENTS: VANVASIMonitor/VANVASIMonitor.entitlements
+
+  VANVASIShield:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: VANVASIShield
+        excludes:
+          - Info.plist
+      - path: Shared
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.vanasi.app.shield
+      INFOPLIST_FILE: VANVASIShield/Info.plist
+      GENERATE_INFOPLIST_FILE: NO
+      CODE_SIGN_ENTITLEMENTS: VANVASIShield/VANVASIShield.entitlements
+
+  VANVASIShieldAction:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: VANVASIShieldAction
+        excludes:
+          - Info.plist
+      - path: Shared
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.vanasi.app.shieldaction
+      INFOPLIST_FILE: VANVASIShieldAction/Info.plist
+      GENERATE_INFOPLIST_FILE: NO
+      CODE_SIGN_ENTITLEMENTS: VANVASIShieldAction/VANVASIShieldAction.entitlements
+
+  VANVASIWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: VANVASIWidget
+        excludes:
+          - Info.plist
+      - path: Shared
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.vanasi.app.widget
+      INFOPLIST_FILE: VANVASIWidget/Info.plist
+      GENERATE_INFOPLIST_FILE: NO
+      CODE_SIGN_ENTITLEMENTS: VANVASIWidget/VANVASIWidget.entitlements
+
+schemes:
+  VANVASI:
+    build:
+      targets:
+        VANVASI: all
+    run:
+      config: Debug
