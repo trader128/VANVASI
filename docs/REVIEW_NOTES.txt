@@ -1,0 +1,24 @@
+VANVASI — Notes for App Review
+================================
+
+VANVASI is a self-imposed digital wellbeing app for adults.
+
+HOW TO TEST:
+1. Complete onboarding — grant Screen Time (Family Controls) permission when prompted.
+2. On "Free apps" step, select Phone, Messages, and VANVASI (required so user is not locked out).
+3. Tap the lock ring on home screen to enable "Monk mode."
+4. Leave the app and open any other app (e.g. Safari) — a shield appears.
+5. Tap "Unlock" on shield → open VANVASI from notification → complete "Pause." flow.
+6. To disable: tap ⋯ (top right) → End lock.
+
+FAMILY CONTROLS:
+This app uses Apple's Family Controls API for app shielding.
+Entitlement: com.apple.developer.family-controls.
+The user locks their own device — not parental monitoring.
+
+EMERGENCY EXIT:
+Settings (⋯ menu) → End lock. Optional PIN can be enabled by user.
+
+DEMO ACCOUNT: Not required — no login.
+
+CONTACT: support@vanasi.app

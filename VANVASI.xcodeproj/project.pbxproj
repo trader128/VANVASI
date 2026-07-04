@@ -9,8 +9,12 @@
 /* Begin PBXBuildFile section */
 		001D3FF956B3C199FB8826AC /* DeviceActivityScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */; };
 		030588D5D2B82CE4A5E1BAA5 /* DeviceActivityMonitorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4FE3503FD8709BCB316480 /* DeviceActivityMonitorExtension.swift */; };
+		05B1B1F79F89839BF8EDED2A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A865E88E60B395DAC3A814CD /* PrivacyInfo.xcprivacy */; };
+		0A9239C39680462DB60C5CF4 /* StoreKitPaymentGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12DD5939500AC05B8FA701BC /* StoreKitPaymentGateway.swift */; };
 		0BC535A160AED26C4A65325D /* VANVASIWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C5D3583774A8E0D253381981 /* VANVASIWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		167B8C75FFA76D687F4D3AF5 /* MonkLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B9D053C8E04016AD00834A /* MonkLockManager.swift */; };
+		1E5D41BEC21D95BE59F41A6A /* PaymentGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FCEA6072FBEB6973A344A0 /* PaymentGateway.swift */; };
+		1FB5F3637F25E063CA74E36D /* ScheduledLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */; };
 		1FB7B70E1165515356703920 /* ShieldPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD531661848C770FE9EDCE3 /* ShieldPolicy.swift */; };
 		2142EA8E08A680EBE2F1B065 /* DeviceActivityScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */; };
 		2367A831DA7E47DB31520B01 /* VANVASIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33210F33C06C00FB64AA154F /* VANVASIConfig.swift */; };
@@ -21,13 +25,17 @@
 		31CA6F892F5C587065C9301B /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ADAF212F91E17268ED7E62 /* Models.swift */; };
 		37233CF6C0E859FA9E14989F /* NotificationPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = F71553EC4BE18E8778DA2543 /* NotificationPermission.swift */; };
 		3773FABE07B556308CB0BF6C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ADAF212F91E17268ED7E62 /* Models.swift */; };
+		39C6F40FD50176480FE04968 /* PINProtection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07727A59DFE9B3159C127719 /* PINProtection.swift */; };
+		472C16261987B4BB1C0CC704 /* ScheduledLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */; };
 		478C34E3EEC5EFD3BA3E42CD /* UnlockDeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D2EB42B5662423A8C38DCD /* UnlockDeepLinkHandler.swift */; };
 		4A41C893ACDDA54ABBCAE833 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2F8DE26D67EF5BE09753CF /* HomeView.swift */; };
 		4E6342EC599E1D10E17E6EE0 /* VANVASIMonitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 790CFE7DE40C1A745E498652 /* VANVASIMonitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		539F3386B23061245548B135 /* VANVASIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33210F33C06C00FB64AA154F /* VANVASIConfig.swift */; };
 		55329A336EDD66494E0E992D /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ADAF212F91E17268ED7E62 /* Models.swift */; };
+		569EBFAB2D9158C0257F0F84 /* VANVASIAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C757CCEE828A49AF26C2233 /* VANVASIAppIntents.swift */; };
 		5C6BCC6C3088B0191DBC8823 /* FamilyActivitySelection+Allowlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90799D7BA0EBCF620D90DBD /* FamilyActivitySelection+Allowlist.swift */; };
 		5FACF29422F51CADCE5C0E79 /* UnlockPricing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB38917534DA0973B4BF0D /* UnlockPricing.swift */; };
+		5FEDFD69F2456A098696D32E /* PINSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665E8C1A469787E8D33DD0D7 /* PINSetupView.swift */; };
 		650E8B174F82F73E42632F76 /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E523EB99504942AF3FA10955 /* SharedStore.swift */; };
 		6D30C19C24BE5CBCBAA7866C /* UnlockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDF4A6838D2F6CD70C8DC81 /* UnlockService.swift */; };
 		6ED997B0BFD68DC80550778B /* VANVASIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33210F33C06C00FB64AA154F /* VANVASIConfig.swift */; };
@@ -35,21 +43,27 @@
 		8984B79D606EEFF44106C8CF /* VANASITheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4EB58A0F249E702C08BBF8 /* VANASITheme.swift */; };
 		8B6744055CD0C297EB26439E /* ShieldPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD531661848C770FE9EDCE3 /* ShieldPolicy.swift */; };
 		8F1B676DA1D830E4DBC029FF /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E523EB99504942AF3FA10955 /* SharedStore.swift */; };
+		91BE4CAC7B40BB522CF5BF8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08BF486825516410D745A6C3 /* Assets.xcassets */; };
+		91CA926383172F75D35F8867 /* ScheduledLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */; };
 		966DBA6F812EA1EDD3876ECE /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E523EB99504942AF3FA10955 /* SharedStore.swift */; };
 		99835D20BEBF0968CE35E1E2 /* DeviceActivityScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */; };
 		9C55684CE047BD5B185EF163 /* VANVASIWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE46A58E37E787C2F4DE63A /* VANVASIWidget.swift */; };
 		9FA5DD0C26B9DE2BF8A3D2E3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A6D7C08C83AEDE2AEE0949 /* OnboardingView.swift */; };
 		A0DD3092329954BA46AB1656 /* UnlockConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0E01CC3626724B9D230928 /* UnlockConfirmView.swift */; };
+		A3ABE4886F4B9112883B8637 /* ScheduledLockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46726112FD1676CDEEAC6734 /* ScheduledLockView.swift */; };
 		A475A14CB1478F2D45364AAA /* VANVASIShield.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 95A37A6B5B4B517104305660 /* VANVASIShield.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AB91D71C39E3C30A7096E835 /* DeviceActivityScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */; };
 		ABC425F30FE80D1F99E42EBF /* FamilyActivitySelection+Allowlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90799D7BA0EBCF620D90DBD /* FamilyActivitySelection+Allowlist.swift */; };
+		AD968BE0F036B5A6464CBADE /* FocusStatsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42BC0C2B14619E5B96054544 /* FocusStatsCalculator.swift */; };
 		B31C0280A5CCF3F7E2D342C1 /* ShieldPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD531661848C770FE9EDCE3 /* ShieldPolicy.swift */; };
 		B712DD8FC302783E2E3FED47 /* UnlockPricing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB38917534DA0973B4BF0D /* UnlockPricing.swift */; };
 		B82E9628F41C16C5B9310905 /* VANVASIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33210F33C06C00FB64AA154F /* VANVASIConfig.swift */; };
+		BEE3C7AB36E5BAC893B808E3 /* SessionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B224CAC9B2717AD036E7119F /* SessionHistoryView.swift */; };
 		C85F00E7657585A0B0486DDF /* ShieldPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD531661848C770FE9EDCE3 /* ShieldPolicy.swift */; };
 		C98F39C14A3517F1B47F1641 /* FamilyActivitySelection+Allowlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90799D7BA0EBCF620D90DBD /* FamilyActivitySelection+Allowlist.swift */; };
 		DA96894AC7969EB70A8A023F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ADAF212F91E17268ED7E62 /* Models.swift */; };
 		DAC85E3B4B0137E43994F3E7 /* UnlockPricing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB38917534DA0973B4BF0D /* UnlockPricing.swift */; };
+		DC961B43B0D1F39C068540A0 /* ScheduledLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */; };
 		E00DB323BD6C003522FC4CB9 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ADAF212F91E17268ED7E62 /* Models.swift */; };
 		E2CC2A27D5AE246DA5061B73 /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E523EB99504942AF3FA10955 /* SharedStore.swift */; };
 		E75D74039819C9EC86332023 /* DeviceActivityScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */; };
@@ -58,6 +72,7 @@
 		F0221E0E75AEDD7F86C135ED /* FamilyActivitySelection+Allowlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90799D7BA0EBCF620D90DBD /* FamilyActivitySelection+Allowlist.swift */; };
 		F0903E43A25F306E62F99EB4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1689B23C6902CC23002256B7 /* SettingsView.swift */; };
 		F0A3367B68ABE12A368350A4 /* FamilyActivitySelection+Allowlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90799D7BA0EBCF620D90DBD /* FamilyActivitySelection+Allowlist.swift */; };
+		F1877E2DE25C690F9CCF226E /* ScheduledLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */; };
 		FC33262616404F0B6479A632 /* VANVASIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33210F33C06C00FB64AA154F /* VANVASIConfig.swift */; };
 		FEC00AF3183EBB5D936945E7 /* UnlockPricing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB38917534DA0973B4BF0D /* UnlockPricing.swift */; };
 /* End PBXBuildFile section */
@@ -112,28 +127,39 @@
 
 /* Begin PBXFileReference section */
 		00B9D053C8E04016AD00834A /* MonkLockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonkLockManager.swift; sourceTree = "<group>"; };
+		07727A59DFE9B3159C127719 /* PINProtection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PINProtection.swift; sourceTree = "<group>"; };
+		08BF486825516410D745A6C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0BE46A58E37E787C2F4DE63A /* VANVASIWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANVASIWidget.swift; sourceTree = "<group>"; };
+		108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledLockManager.swift; sourceTree = "<group>"; };
+		12DD5939500AC05B8FA701BC /* StoreKitPaymentGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitPaymentGateway.swift; sourceTree = "<group>"; };
 		1689B23C6902CC23002256B7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1A9CA23E7087F1744CB7DA14 /* VANVASIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANVASIApp.swift; sourceTree = "<group>"; };
 		1CD531661848C770FE9EDCE3 /* ShieldPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldPolicy.swift; sourceTree = "<group>"; };
 		2BBD4C3F07B7A375833044C4 /* VANVASIShieldAction.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VANVASIShieldAction.entitlements; sourceTree = "<group>"; };
+		2C757CCEE828A49AF26C2233 /* VANVASIAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANVASIAppIntents.swift; sourceTree = "<group>"; };
 		31ADAF212F91E17268ED7E62 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		33210F33C06C00FB64AA154F /* VANVASIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANVASIConfig.swift; sourceTree = "<group>"; };
 		343C6DC0E5E0143B34F7F013 /* VANVASI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VANVASI.entitlements; sourceTree = "<group>"; };
 		3BFD6A6DAB04A8FE131C03B1 /* VANVASIShieldAction.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = VANVASIShieldAction.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E4EB58A0F249E702C08BBF8 /* VANASITheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANASITheme.swift; sourceTree = "<group>"; };
+		42BC0C2B14619E5B96054544 /* FocusStatsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusStatsCalculator.swift; sourceTree = "<group>"; };
 		45A6D7C08C83AEDE2AEE0949 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		46726112FD1676CDEEAC6734 /* ScheduledLockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledLockView.swift; sourceTree = "<group>"; };
 		501117AA7DEAC316103F089F /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 		514A21C4E9FC0E3E2F6FA5C8 /* VANVASIWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VANVASIWidget.entitlements; sourceTree = "<group>"; };
 		547FF63F8C644B64997C472E /* VANVASIMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VANVASIMonitor.entitlements; sourceTree = "<group>"; };
 		5562D1789482EFBA1A928337 /* VANVASI.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VANVASI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		61FCEA6072FBEB6973A344A0 /* PaymentGateway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentGateway.swift; sourceTree = "<group>"; };
+		665E8C1A469787E8D33DD0D7 /* PINSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PINSetupView.swift; sourceTree = "<group>"; };
 		6DFB38917534DA0973B4BF0D /* UnlockPricing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockPricing.swift; sourceTree = "<group>"; };
 		790CFE7DE40C1A745E498652 /* VANVASIMonitor.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = VANVASIMonitor.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		95A37A6B5B4B517104305660 /* VANVASIShield.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = VANVASIShield.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityScheduler.swift; sourceTree = "<group>"; };
+		A865E88E60B395DAC3A814CD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		AB2F8DE26D67EF5BE09753CF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		ABCB9F87167B031CF5B94794 /* ShieldActionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldActionExtension.swift; sourceTree = "<group>"; };
 		AFDF4A6838D2F6CD70C8DC81 /* UnlockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockService.swift; sourceTree = "<group>"; };
+		B224CAC9B2717AD036E7119F /* SessionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHistoryView.swift; sourceTree = "<group>"; };
 		BD4FE3503FD8709BCB316480 /* DeviceActivityMonitorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityMonitorExtension.swift; sourceTree = "<group>"; };
 		C5D3583774A8E0D253381981 /* VANVASIWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = VANVASIWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD0E01CC3626724B9D230928 /* UnlockConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockConfirmView.swift; sourceTree = "<group>"; };
@@ -146,6 +172,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		075DF951D5497F4768771202 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				08BF486825516410D745A6C3 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		0D4029E8D9CAF4BA29F51148 /* VANVASIMonitor */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +201,9 @@
 		56EB1C9F441ADE66F41B88F2 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				665E8C1A469787E8D33DD0D7 /* PINSetupView.swift */,
+				46726112FD1676CDEEAC6734 /* ScheduledLockView.swift */,
+				B224CAC9B2717AD036E7119F /* SessionHistoryView.swift */,
 				1689B23C6902CC23002256B7 /* SettingsView.swift */,
 			);
 			path = Settings;
@@ -194,10 +231,14 @@
 		6E6D6CE1AB144436611B2D66 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				42BC0C2B14619E5B96054544 /* FocusStatsCalculator.swift */,
 				00B9D053C8E04016AD00834A /* MonkLockManager.swift */,
 				F71553EC4BE18E8778DA2543 /* NotificationPermission.swift */,
+				07727A59DFE9B3159C127719 /* PINProtection.swift */,
 				F4D2EB42B5662423A8C38DCD /* UnlockDeepLinkHandler.swift */,
 				AFDF4A6838D2F6CD70C8DC81 /* UnlockService.swift */,
+				DF7536C2E413413F5868085A /* Intents */,
+				CD87758ED65D9D9B63A26CE6 /* Payment */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -241,11 +282,13 @@
 		C87A2C2A255E2B4197CB51A6 /* VANVASI */ = {
 			isa = PBXGroup;
 			children = (
+				A865E88E60B395DAC3A814CD /* PrivacyInfo.xcprivacy */,
 				343C6DC0E5E0143B34F7F013 /* VANVASI.entitlements */,
 				1A9CA23E7087F1744CB7DA14 /* VANVASIApp.swift */,
 				6E6D6CE1AB144436611B2D66 /* Core */,
 				82C0A403826E494F927FE53A /* Design */,
 				5A2948EAA418C3AFA6D265A5 /* Features */,
+				075DF951D5497F4768771202 /* Resources */,
 			);
 			path = VANVASI;
 			sourceTree = "<group>";
@@ -257,6 +300,15 @@
 				2BBD4C3F07B7A375833044C4 /* VANVASIShieldAction.entitlements */,
 			);
 			path = VANVASIShieldAction;
+			sourceTree = "<group>";
+		};
+		CD87758ED65D9D9B63A26CE6 /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				61FCEA6072FBEB6973A344A0 /* PaymentGateway.swift */,
+				12DD5939500AC05B8FA701BC /* StoreKitPaymentGateway.swift */,
+			);
+			path = Payment;
 			sourceTree = "<group>";
 		};
 		CDD04673F2A22C5687D67C3A /* Onboarding */ = {
@@ -281,12 +333,21 @@
 			);
 			sourceTree = "<group>";
 		};
+		DF7536C2E413413F5868085A /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				2C757CCEE828A49AF26C2233 /* VANVASIAppIntents.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
 		EB2EB062808EEED1863E3858 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */,
 				E90799D7BA0EBCF620D90DBD /* FamilyActivitySelection+Allowlist.swift */,
 				31ADAF212F91E17268ED7E62 /* Models.swift */,
+				108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */,
 				E523EB99504942AF3FA10955 /* SharedStore.swift */,
 				1CD531661848C770FE9EDCE3 /* ShieldPolicy.swift */,
 				6DFB38917534DA0973B4BF0D /* UnlockPricing.swift */,
@@ -346,6 +407,7 @@
 			buildConfigurationList = 885C0052A49962C78909156B /* Build configuration list for PBXNativeTarget "VANVASI" */;
 			buildPhases = (
 				A740198456CFB9A64243CC38 /* Sources */,
+				94092FA9FC01940BA2626808 /* Resources */,
 				DE5D4FB751035AD7EC709436 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -451,6 +513,18 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		94092FA9FC01940BA2626808 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91BE4CAC7B40BB522CF5BF8C /* Assets.xcassets in Resources */,
+				05B1B1F79F89839BF8EDED2A /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4ACE93E4D8F61A67D1135A80 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -459,6 +533,7 @@
 				AB91D71C39E3C30A7096E835 /* DeviceActivityScheduler.swift in Sources */,
 				F0221E0E75AEDD7F86C135ED /* FamilyActivitySelection+Allowlist.swift in Sources */,
 				31CA6F892F5C587065C9301B /* Models.swift in Sources */,
+				F1877E2DE25C690F9CCF226E /* ScheduledLockManager.swift in Sources */,
 				966DBA6F812EA1EDD3876ECE /* SharedStore.swift in Sources */,
 				C85F00E7657585A0B0486DDF /* ShieldPolicy.swift in Sources */,
 				5FACF29422F51CADCE5C0E79 /* UnlockPricing.swift in Sources */,
@@ -473,20 +548,29 @@
 			files = (
 				001D3FF956B3C199FB8826AC /* DeviceActivityScheduler.swift in Sources */,
 				C98F39C14A3517F1B47F1641 /* FamilyActivitySelection+Allowlist.swift in Sources */,
+				AD968BE0F036B5A6464CBADE /* FocusStatsCalculator.swift in Sources */,
 				4A41C893ACDDA54ABBCAE833 /* HomeView.swift in Sources */,
 				55329A336EDD66494E0E992D /* Models.swift in Sources */,
 				167B8C75FFA76D687F4D3AF5 /* MonkLockManager.swift in Sources */,
 				37233CF6C0E859FA9E14989F /* NotificationPermission.swift in Sources */,
 				9FA5DD0C26B9DE2BF8A3D2E3 /* OnboardingView.swift in Sources */,
+				39C6F40FD50176480FE04968 /* PINProtection.swift in Sources */,
+				5FEDFD69F2456A098696D32E /* PINSetupView.swift in Sources */,
+				1E5D41BEC21D95BE59F41A6A /* PaymentGateway.swift in Sources */,
+				DC961B43B0D1F39C068540A0 /* ScheduledLockManager.swift in Sources */,
+				A3ABE4886F4B9112883B8637 /* ScheduledLockView.swift in Sources */,
+				BEE3C7AB36E5BAC893B808E3 /* SessionHistoryView.swift in Sources */,
 				F0903E43A25F306E62F99EB4 /* SettingsView.swift in Sources */,
 				7551FCBB5FB0C0041A0223DA /* SharedStore.swift in Sources */,
 				B31C0280A5CCF3F7E2D342C1 /* ShieldPolicy.swift in Sources */,
+				0A9239C39680462DB60C5CF4 /* StoreKitPaymentGateway.swift in Sources */,
 				A0DD3092329954BA46AB1656 /* UnlockConfirmView.swift in Sources */,
 				478C34E3EEC5EFD3BA3E42CD /* UnlockDeepLinkHandler.swift in Sources */,
 				B712DD8FC302783E2E3FED47 /* UnlockPricing.swift in Sources */,
 				6D30C19C24BE5CBCBAA7866C /* UnlockService.swift in Sources */,
 				8984B79D606EEFF44106C8CF /* VANASITheme.swift in Sources */,
 				EDE2289739DF9BFDF969056E /* VANVASIApp.swift in Sources */,
+				569EBFAB2D9158C0257F0F84 /* VANVASIAppIntents.swift in Sources */,
 				FC33262616404F0B6479A632 /* VANVASIConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,6 +582,7 @@
 				99835D20BEBF0968CE35E1E2 /* DeviceActivityScheduler.swift in Sources */,
 				ABC425F30FE80D1F99E42EBF /* FamilyActivitySelection+Allowlist.swift in Sources */,
 				3773FABE07B556308CB0BF6C /* Models.swift in Sources */,
+				472C16261987B4BB1C0CC704 /* ScheduledLockManager.swift in Sources */,
 				650E8B174F82F73E42632F76 /* SharedStore.swift in Sources */,
 				2A801C084A90139A1544BAFF /* ShieldConfigurationExtension.swift in Sources */,
 				1FB7B70E1165515356703920 /* ShieldPolicy.swift in Sources */,
@@ -513,6 +598,7 @@
 				2142EA8E08A680EBE2F1B065 /* DeviceActivityScheduler.swift in Sources */,
 				5C6BCC6C3088B0191DBC8823 /* FamilyActivitySelection+Allowlist.swift in Sources */,
 				DA96894AC7969EB70A8A023F /* Models.swift in Sources */,
+				1FB5F3637F25E063CA74E36D /* ScheduledLockManager.swift in Sources */,
 				8F1B676DA1D830E4DBC029FF /* SharedStore.swift in Sources */,
 				EBD9C9D99D9CA75D7452B563 /* ShieldActionExtension.swift in Sources */,
 				2933B944A42E1612F056218A /* ShieldPolicy.swift in Sources */,
@@ -529,6 +615,7 @@
 				E75D74039819C9EC86332023 /* DeviceActivityScheduler.swift in Sources */,
 				F0A3367B68ABE12A368350A4 /* FamilyActivitySelection+Allowlist.swift in Sources */,
 				E00DB323BD6C003522FC4CB9 /* Models.swift in Sources */,
+				91CA926383172F75D35F8867 /* ScheduledLockManager.swift in Sources */,
 				E2CC2A27D5AE246DA5061B73 /* SharedStore.swift in Sources */,
 				8B6744055CD0C297EB26439E /* ShieldPolicy.swift in Sources */,
 				FEC00AF3183EBB5D936945E7 /* UnlockPricing.swift in Sources */,
@@ -600,14 +687,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = VANVASI/VANVASI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = VANVASI;
 				INFOPLIST_KEY_CFBundleShortVersionString = "$(MARKETING_VERSION)";
-				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLName\": \"com.vanasi.app\", \"CFBundleURLSchemes\": [\"vanasi\"]]]";
+				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLSchemes\": [\"vanasi\"], \"CFBundleURLName\": \"com.vanasi.app\"]]";
 				INFOPLIST_KEY_CFBundleVersion = "$(CURRENT_PROJECT_VERSION)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_BackgroundColor = LaunchBackground;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -754,14 +843,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = VANVASI/VANVASI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = VANVASI;
 				INFOPLIST_KEY_CFBundleShortVersionString = "$(MARKETING_VERSION)";
-				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLName\": \"com.vanasi.app\", \"CFBundleURLSchemes\": [\"vanasi\"]]]";
+				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLSchemes\": [\"vanasi\"], \"CFBundleURLName\": \"com.vanasi.app\"]]";
 				INFOPLIST_KEY_CFBundleVersion = "$(CURRENT_PROJECT_VERSION)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_BackgroundColor = LaunchBackground;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

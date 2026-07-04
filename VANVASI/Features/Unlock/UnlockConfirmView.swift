@@ -8,101 +8,146 @@ struct UnlockConfirmView: View {
 
     @EnvironmentObject private var lockManager: MonkLockManager
     @Environment(\.modelContext) private var context
-    @State private var breathScale: CGFloat = 0.92
+    @State private var breathScale: CGFloat = 0.94
     @State private var appeared = false
+    @State private var isPurchasing = false
+    @State private var purchaseError: String?
 
     private var pricing: UnlockPricing { request.pricing }
+    private var paymentsOn: Bool { SharedStore.paymentsEnabled }
 
     var body: some View {
         ZStack {
             VANASIBackground()
 
-            VStack(spacing: 28) {
+            VStack(spacing: 0) {
                 Spacer()
 
                 ZStack {
                     Circle()
-                        .stroke(VANASITheme.accent.opacity(0.3), lineWidth: 2)
-                        .frame(width: 140, height: 140)
+                        .stroke(VANASITheme.ringIdle, lineWidth: 1)
+                        .frame(width: 160, height: 160)
                         .scaleEffect(breathScale)
 
                     Circle()
-                        .fill(VANASITheme.accentSoft)
-                        .frame(width: 100, height: 100)
-
-                    Image(systemName: "lock.open")
-                        .font(.system(size: 36, weight: .light))
-                        .foregroundStyle(VANASITheme.accent)
+                        .fill(VANASITheme.ringFill)
+                        .frame(width: 130, height: 130)
                 }
                 .onAppear {
-                    withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
-                        breathScale = 1.08
+                    withAnimation(.easeInOut(duration: 4).repeatForever(autoreverses: true)) {
+                        breathScale = 1.06
                     }
                 }
 
-                VStack(spacing: 10) {
-                    Text("Pause.")
-                        .font(.system(size: 34, weight: .light, design: .serif))
-                        .foregroundStyle(VANASITheme.textPrimary)
+                Spacer().frame(height: 48)
 
-                    Text(headerSubtitle)
-                        .font(.subheadline)
+                Text("Pause.")
+                    .font(.system(size: 40, weight: .ultraLight))
+                    .foregroundStyle(VANASITheme.textPrimary)
+
+                Text(headerSubtitle)
+                    .font(.subheadline.weight(.light))
+                    .foregroundStyle(VANASITheme.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 12)
+                    .padding(.horizontal, 40)
+
+                Text("\(pricing.minutes) minutes · then lock returns")
+                    .font(.caption)
+                    .foregroundStyle(VANASITheme.textWhisper)
+                    .padding(.top, 20)
+
+                if paymentsOn {
+                    Text(priceLabel)
+                        .font(.caption)
                         .foregroundStyle(VANASITheme.textSecondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 32)
+                        .padding(.top, 8)
                 }
 
-                VANASICard {
-                    VStack(spacing: 12) {
-                        row("Access", pricing.title)
-                        row("Duration", "\(pricing.minutes) min")
-                        row("After", "Lock returns automatically")
-                    }
+                if let purchaseError {
+                    Text(purchaseError)
+                        .font(.footnote)
+                        .foregroundStyle(.orange)
+                        .padding(.top, 12)
                 }
-                .padding(.horizontal, 24)
 
                 Spacer()
 
-                VStack(spacing: 12) {
-                    Button {
-                        VANASIHaptics.medium()
-                        let service = UnlockService(lockManager: lockManager, context: context)
-                        _ = service.grantUnlock(request: request)
-                        onUnlocked()
-                    } label: {
-                        Text("Unlock for \(pricing.minutes) min")
+                VStack(spacing: 20) {
+                    Button { performUnlock() } label: {
+                        Group {
+                            if isPurchasing {
+                                ProgressView().tint(.black)
+                            } else {
+                                Text(unlockButtonTitle)
+                            }
+                        }
                     }
                     .buttonStyle(VANASIPrimaryButton())
 
                     Button("Stay focused", action: onCancel)
-                        .font(.subheadline)
-                        .foregroundStyle(VANASITheme.textSecondary)
+                        .buttonStyle(VANASITextButton())
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 32)
+                .padding(.horizontal, 32)
+                .padding(.bottom, 56)
             }
         }
         .opacity(appeared ? 1 : 0)
         .onAppear {
-            withAnimation(.easeOut(duration: 0.4)) { appeared = true }
+            withAnimation(.easeOut(duration: 0.5)) { appeared = true }
         }
+    }
+
+    private var priceLabel: String {
+        switch request {
+        case .singleApp: return VANVASIConfig.singleAppPriceLabel
+        case .unlockAll: return VANVASIConfig.unlockAllPriceLabel
+        }
+    }
+
+    private var unlockButtonTitle: String {
+        if paymentsOn { return "Pay \(priceLabel)" }
+        return "Unlock"
     }
 
     private var headerSubtitle: String {
         switch request {
-        case .singleApp(let label):
-            return "Do you still need \(label)?"
-        case .unlockAll:
-            return "Do you still need your phone?"
+        case .singleApp(let label): return "Do you still need \(label)?"
+        case .unlockAll: return "Do you still need your phone?"
         }
     }
 
-    private func row(_ key: String, _ value: String) -> some View {
-        HStack {
-            Text(key).foregroundStyle(VANASITheme.textSecondary)
-            Spacer()
-            Text(value).foregroundStyle(VANASITheme.textPrimary)
+    private func performUnlock() {
+        VANASIHaptics.medium()
+        purchaseError = nil
+
+        Task {
+            isPurchasing = true
+            defer { isPurchasing = false }
+
+            var wasPaid = false
+            if paymentsOn {
+                do {
+                    let result = try await StoreKitPaymentGateway.shared.purchaseUnlock(for: request)
+                    wasPaid = true
+                    context.insert(PaymentRecord(
+                        productID: result.productID,
+                        transactionID: result.transactionID,
+                        amountLabel: result.amountLabel,
+                        unlockLabel: result.unlockLabel,
+                        durationMinutes: result.durationMinutes
+                    ))
+                } catch PaymentError.userCancelled {
+                    return
+                } catch {
+                    purchaseError = error.localizedDescription
+                    return
+                }
+            }
+
+            let service = UnlockService(lockManager: lockManager, context: context)
+            _ = service.grantUnlock(request: request, wasPaid: wasPaid)
+            onUnlocked()
         }
-        .font(.subheadline)
     }
 }

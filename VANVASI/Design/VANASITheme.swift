@@ -1,78 +1,96 @@
 import SwiftUI
 
-/// Premium visual system — calm, dark, minimal (Opal / One Sec inspired).
+/// Ultra-minimal visual system — One Sec inspired. Void, whitespace, one hero.
 enum VANASITheme {
-    static let void = Color(red: 0.04, green: 0.04, blue: 0.05)
-    static let surface = Color(red: 0.11, green: 0.11, blue: 0.13)
-    static let surfaceElevated = Color(red: 0.15, green: 0.15, blue: 0.18)
-    static let textPrimary = Color(red: 0.96, green: 0.94, blue: 0.90)
-    static let textSecondary = Color(red: 0.55, green: 0.54, blue: 0.52)
-    static let accent = Color(red: 0.79, green: 0.66, blue: 0.38)
-    static let accentSoft = Color(red: 0.79, green: 0.66, blue: 0.38).opacity(0.25)
-    static let success = Color(red: 0.45, green: 0.78, blue: 0.58)
-
-    static let heroGradient = LinearGradient(
-        colors: [
-            Color(red: 0.12, green: 0.11, blue: 0.20),
-            void
-        ],
-        startPoint: .top,
-        endPoint: .bottom
-    )
+    static let void = Color.black
+    static let textPrimary = Color.white.opacity(0.92)
+    static let textSecondary = Color.white.opacity(0.38)
+    static let textWhisper = Color.white.opacity(0.22)
+    static let ringActive = Color.white.opacity(0.85)
+    static let ringIdle = Color.white.opacity(0.12)
+    static let ringFill = Color.white.opacity(0.04)
 }
 
 struct VANASIBackground: View {
     var body: some View {
-        ZStack {
-            VANASITheme.heroGradient.ignoresSafeArea()
-            Circle()
-                .fill(VANASITheme.accentSoft)
-                .frame(width: 280, height: 280)
-                .blur(radius: 80)
-                .offset(y: -120)
-        }
+        VANASITheme.void.ignoresSafeArea()
     }
 }
+
+// MARK: - Lock ring (home hero)
+
+struct VANASILockRing: View {
+    let isLocked: Bool
+    var diameter: CGFloat = 200
+    var lineWidth: CGFloat = 1.5
+
+    @State private var pulse = false
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(isLocked ? VANASITheme.ringActive : VANASITheme.ringIdle, lineWidth: lineWidth)
+                .frame(width: diameter, height: diameter)
+                .scaleEffect(isLocked && pulse ? 1.02 : 1)
+                .animation(
+                    isLocked
+                        ? .easeInOut(duration: 4).repeatForever(autoreverses: true)
+                        : .default,
+                    value: pulse
+                )
+
+            Circle()
+                .fill(VANASITheme.ringFill)
+                .frame(width: diameter - 28, height: diameter - 28)
+
+            Image(systemName: isLocked ? "lock.fill" : "lock.open")
+                .font(.system(size: diameter * 0.14, weight: .ultraLight))
+                .foregroundStyle(isLocked ? VANASITheme.textPrimary : VANASITheme.textSecondary)
+        }
+        .onAppear { if isLocked { pulse = true } }
+        .onChange(of: isLocked) { _, locked in pulse = locked }
+    }
+}
+
+// MARK: - Buttons
 
 struct VANASIPrimaryButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.headline.weight(.semibold))
-            .frame(maxWidth: .infinity, minHeight: 54)
-            .background(VANASITheme.textPrimary.opacity(configuration.isPressed ? 0.85 : 1))
-            .foregroundStyle(VANASITheme.void)
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .font(.subheadline.weight(.medium))
+            .frame(maxWidth: .infinity, minHeight: 52)
+            .background(VANASITheme.textPrimary.opacity(configuration.isPressed ? 0.75 : 1))
+            .foregroundStyle(Color.black)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 }
 
-struct VANASISecondaryButton: ButtonStyle {
+struct VANASITextButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.subheadline.weight(.medium))
-            .frame(maxWidth: .infinity, minHeight: 48)
-            .background(VANASITheme.surfaceElevated)
-            .foregroundStyle(VANASITheme.textPrimary)
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .strokeBorder(Color.white.opacity(0.08), lineWidth: 1)
-            )
+            .font(.footnote)
+            .foregroundStyle(VANASITheme.textSecondary.opacity(configuration.isPressed ? 0.6 : 1))
     }
 }
 
-struct VANASICard<Content: View>: View {
-    @ViewBuilder var content: Content
+struct VANASIMinimalRow: View {
+    let title: String
+    var subtitle: String? = nil
+    var destructive = false
 
     var body: some View {
-        content
-            .padding(20)
-            .background(.ultraThinMaterial.opacity(0.5))
-            .background(VANASITheme.surface.opacity(0.6))
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .strokeBorder(Color.white.opacity(0.06), lineWidth: 1)
-            )
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.body)
+                .foregroundStyle(destructive ? Color.red.opacity(0.85) : VANASITheme.textPrimary)
+            if let subtitle {
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundStyle(VANASITheme.textSecondary)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 14)
     }
 }
 
@@ -83,6 +101,10 @@ enum VANASIHaptics {
 
     static func medium() {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+    }
+
+    static func success() {
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
 }
 

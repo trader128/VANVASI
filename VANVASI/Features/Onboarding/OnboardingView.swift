@@ -1,5 +1,6 @@
 import SwiftUI
 import FamilyControls
+import SwiftData
 
 struct OnboardingView: View {
     let onComplete: () -> Void
@@ -8,6 +9,7 @@ struct OnboardingView: View {
     @State private var authError: String?
     @State private var lockError: String?
     @EnvironmentObject private var lockManager: MonkLockManager
+    @Environment(\.modelContext) private var context
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
@@ -15,8 +17,7 @@ struct OnboardingView: View {
             VANASIBackground()
 
             VStack(alignment: .leading, spacing: 0) {
-                header
-                    .padding(.bottom, 32)
+                Spacer()
 
                 Group {
                     switch step {
@@ -27,8 +28,11 @@ struct OnboardingView: View {
                 }
 
                 Spacer()
+
+                stepIndicator
+                    .padding(.bottom, 40)
             }
-            .padding(24)
+            .padding(.horizontal, 32)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active, step == 1,
@@ -38,31 +42,30 @@ struct OnboardingView: View {
         }
     }
 
-    private var header: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text("VANVASI")
-                .font(.caption.weight(.semibold))
-                .tracking(4)
-                .foregroundStyle(VANASITheme.accent)
-            Text("Monk mode\nfor your mind")
-                .font(.system(size: 36, weight: .light, design: .serif))
-                .foregroundStyle(VANASITheme.textPrimary)
-                .lineSpacing(4)
+    private var stepIndicator: some View {
+        HStack(spacing: 6) {
+            ForEach(0..<3, id: \.self) { i in
+                Circle()
+                    .fill(i == step ? VANASITheme.textPrimary : VANASITheme.textWhisper)
+                    .frame(width: 4, height: 4)
+            }
         }
+        .frame(maxWidth: .infinity)
     }
 
     private var introStep: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            Text("Lock everything except calls and messages. Unlock with intention — not impulse.")
-                .font(.body)
+        VStack(alignment: .leading, spacing: 32) {
+            Text("Monk mode\nfor your mind")
+                .font(.system(size: 36, weight: .ultraLight))
+                .foregroundStyle(VANASITheme.textPrimary)
+                .lineSpacing(6)
+
+            Text("Calls and messages stay open.\nEverything else waits.")
+                .font(.body.weight(.light))
                 .foregroundStyle(VANASITheme.textSecondary)
-                .lineSpacing(4)
+                .lineSpacing(6)
 
-            featureRow(icon: "phone.fill", text: "Phone & Messages always free")
-            featureRow(icon: "lock.shield", text: "Everything else paused")
-            featureRow(icon: "wind", text: "Breathing pause before you unlock")
-
-            Button("Begin setup") {
+            Button("Continue") {
                 VANASIHaptics.light()
                 step = 1
             }
@@ -71,15 +74,15 @@ struct OnboardingView: View {
     }
 
     private var permissionStep: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            Text("Screen Time access")
-                .font(.title3.weight(.semibold))
+        VStack(alignment: .leading, spacing: 32) {
+            Text("Screen Time")
+                .font(.system(size: 28, weight: .ultraLight))
                 .foregroundStyle(VANASITheme.textPrimary)
 
-            Text("Apple will ask for your passcode once. This protects your focus settings — the same way Opal and One Sec work.")
-                .font(.subheadline)
+            Text("Apple will ask for your passcode once. Required to shield apps.")
+                .font(.subheadline.weight(.light))
                 .foregroundStyle(VANASITheme.textSecondary)
-                .lineSpacing(3)
+                .lineSpacing(4)
 
             if let authError {
                 Text(authError).font(.footnote).foregroundStyle(.orange)
@@ -92,42 +95,35 @@ struct OnboardingView: View {
 
             if AuthorizationCenter.shared.authorizationStatus == .approved {
                 Button("Continue") { step = 2 }
-                    .buttonStyle(VANASISecondaryButton())
+                    .buttonStyle(VANASITextButton())
             }
         }
     }
 
     private var allowlistStep: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Apps that stay free")
-                .font(.title3.weight(.semibold))
+        VStack(alignment: .leading, spacing: 20) {
+            Text("Free apps")
+                .font(.system(size: 28, weight: .ultraLight))
                 .foregroundStyle(VANASITheme.textPrimary)
 
-            Text("Select Phone, Messages, and VANVASI. Without VANVASI selected, you lock yourself out.")
+            Text("Phone, Messages, and VANVASI.")
                 .font(.footnote)
                 .foregroundStyle(VANASITheme.textSecondary)
 
-            HStack {
-                Circle()
-                    .fill(lockManager.allowedSelection.allowedAppCount >= 3 ? VANASITheme.success : VANASITheme.accent)
-                    .frame(width: 8, height: 8)
-                Text("\(lockManager.allowedSelection.allowedAppCount) selected · need 3+")
-                    .font(.caption)
-                    .foregroundStyle(VANASITheme.textSecondary)
-            }
-
             FamilyActivityPicker(selection: $lockManager.allowedSelection)
-                .frame(height: 260)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .frame(height: 240)
 
             if let lockError {
                 Text(lockError).font(.footnote).foregroundStyle(.orange)
             }
 
-            Button("Enable VANVASI Lock") {
+            Button("Enable lock") {
                 VANASIHaptics.medium()
                 lockManager.persistSelection()
                 if lockManager.enableLock() {
+                    context.insert(LockEvent(action: LockEventAction.enabled))
+                    try? context.save()
+                    ScheduledLockManager.applySchedule()
                     onComplete()
                 } else {
                     lockError = lockManager.lastError
@@ -137,24 +133,11 @@ struct OnboardingView: View {
             .disabled(enableButtonDisabled)
 
             #if targetEnvironment(simulator)
-            Button("Demo (Simulator)") {
+            Button("Demo") {
                 if lockManager.enableLock() { onComplete() }
             }
-            .font(.caption)
-            .foregroundStyle(VANASITheme.textSecondary)
+            .buttonStyle(VANASITextButton())
             #endif
-        }
-    }
-
-    private func featureRow(icon: String, text: String) -> some View {
-        HStack(spacing: 14) {
-            Image(systemName: icon)
-                .font(.body)
-                .foregroundStyle(VANASITheme.accent)
-                .frame(width: 28)
-            Text(text)
-                .font(.subheadline)
-                .foregroundStyle(VANASITheme.textPrimary)
         }
     }
 

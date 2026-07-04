@@ -5,6 +5,12 @@ enum VANVASIConfig {
     static let unlockAllMinutes = 30
     static let urlScheme = "vanasi"
 
+    // StoreKit product IDs (Phase 5 — enable in Settings)
+    static let productIDSingleApp = "com.vanasi.unlock.app"
+    static let productIDUnlockAll = "com.vanasi.unlock.all"
+    static let singleAppPriceLabel = "$0.99"
+    static let unlockAllPriceLabel = "$2.99"
+
     static func unlockURL(scope: UnlockScope, label: String = "App") -> URL {
         var c = URLComponents()
         c.scheme = urlScheme
@@ -20,4 +26,13 @@ enum VANVASIConfig {
 enum UnlockScope: String {
     case singleApp = "app"
     case unlockAll = "all"
+}
+
+enum LockEventAction {
+    static let enabled = "lock_enabled"
+    static let disabled = "lock_disabled"
+    static let emergencyExit = "emergency_exit"
+    static let scheduledEnable = "scheduled_enable"
+    static let scheduledDisable = "scheduled_disable"
+    static let focusSyncEnable = "focus_sync_enable"
 }

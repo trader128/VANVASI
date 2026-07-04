@@ -8,7 +8,7 @@ struct VANVASIApp: App {
     @StateObject private var lockManager = MonkLockManager.shared
 
     var sharedModelContainer: ModelContainer = {
-        let schema = Schema([UnlockSession.self, LockEvent.self])
+        let schema = Schema([UnlockSession.self, LockEvent.self, PaymentRecord.self])
         let config = ModelConfiguration(isStoredInMemoryOnly: false)
         return try! ModelContainer(for: schema, configurations: [config])
     }()
@@ -20,10 +20,11 @@ struct VANVASIApp: App {
                 .modelContainer(sharedModelContainer)
                 .preferredColorScheme(.dark)
                 .onOpenURL { url in
-                    SharedStore.store.set(url.absoluteString, forKey: "pendingUnlockURL")
+                    SharedStore.store.set(url.absoluteString, forKey: SharedKeys.pendingUnlockURL)
                 }
                 .task {
                     await NotificationPermission.requestIfNeeded()
+                    ScheduledLockManager.applySchedule()
                 }
         }
     }
@@ -57,9 +58,9 @@ struct RootView: View {
     }
 
     private func checkPendingUnlock() {
-        if let urlString = SharedStore.store.string(forKey: "pendingUnlockURL"),
+        if let urlString = SharedStore.store.string(forKey: SharedKeys.pendingUnlockURL),
            let url = URL(string: urlString) {
-            SharedStore.store.removeObject(forKey: "pendingUnlockURL")
+            SharedStore.store.removeObject(forKey: SharedKeys.pendingUnlockURL)
             pendingUnlock = UnlockDeepLinkHandler.request(from: url)
             return
         }

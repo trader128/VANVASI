@@ -6,3 +6,5 @@ build/
 *.ipa
 *.dSYM.zip
 Config/Signing.xcconfig
+.venv-icon-tmp/
+.venv/

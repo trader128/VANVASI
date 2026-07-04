@@ -5,105 +5,49 @@
 **Platform:** iPhone first (iOS 17+)  
 **Model:** Hard block + intentional unlock (breathing pause → timed access → auto re-lock)
 
----
-
-## 1. Product definition
-
-### What VANVASI is
-
-VANVASI is a self-imposed phone lock. When **VANVASI Lock** is on:
-
-- **Free forever:** Phone app, Messages (calls + SMS/iMessage), VANVASI itself
-- **Blocked:** Every other app and website
-- **Unlock:** Breathing pause → confirm → 15 min (one app) or 30 min (full access) → auto re-lock
-
-The hook: **your phone defaults to monk mode.** Unlocking is a conscious choice, not a reflex.
-
-### What VANVASI is not
-
-- Not parental spyware (v1: user locks their own device only)
-- Not a paywall / coin economy (removed from v1)
-- Not Android (until iOS validates)
-
-See [docs/PRODUCT.md](docs/PRODUCT.md) for competitor research and App Store positioning.
+See **[STATUS.md](STATUS.md)** for what's shipped vs. manual steps.
 
 ---
 
-## 2. Core user experience
+## Shipped (all 5 phases)
 
-### States
-
-| State | Phone | Messages | Other apps | Web |
-|-------|-------|----------|------------|-----|
-| Lock OFF | Open | Open | Open | Open |
-| Lock ON | Open | Open | Shielded | Shielded |
-| Temp unlock (single app) | Open | Open | That app open 15 min | Shielded |
-| Temp unlock (everything) | Open | Open | All open 30 min | Open 30 min |
-
-### Primary flows
-
-**Enable lock**
-1. Onboarding → grant Screen Time permission
-2. User selects Phone + Messages + VANVASI as free apps
-3. Toggle VANVASI Lock ON
-
-**Open blocked app**
-1. User taps Instagram → system shield appears
-2. Shield: "Unlock with intention"
-3. Tap → VANVASI opens → breathing pause → confirm unlock
-4. App unshielded for 15 min → auto re-lock
-
-**Emergency**
-- Settings → End VANVASI Lock
-- All shields removed immediately
+| Phase | Features |
+|-------|----------|
+| **1 — Validate** | Shield token fix, widget refresh, lock events, device checklist |
+| **2 — Polish** | Focus score/streak, session history, launch screen, app icon slot, haptics |
+| **3 — Features** | Scheduled lock, PIN, Shortcuts intents, Focus via Shortcuts |
+| **4 — App Store** | Privacy policy, privacy manifest, listing draft, TestFlight checklist |
+| **5 — Payments** | StoreKit 2 (optional toggle in Settings, off by default) |
 
 ---
 
-## 3. Technology
+## Core experience
 
-| Component | Apple API |
-|-----------|-----------|
-| Authorization | FamilyControls |
-| Shields | ManagedSettings + ManagedSettingsUI |
-| Re-lock timer | DeviceActivity |
-| UI | SwiftUI |
-| Storage | SwiftData + App Groups |
+When **VANVASI Lock** is on: Phone + Messages + VANVASI stay free; everything else shielded.
 
-All processing on-device. No backend in v1.
+Unlock: breathing pause → confirm → 15 min (app) / 30 min (all) → auto re-lock.
 
 ---
 
-## 4. Visual design
+## Tech stack
 
-Premium dark aesthetic inspired by Opal / One Sec:
-
-- Void background (#0A0A0D), warm cream text, gold accent
-- Serif headlines, glass cards, subtle glow
-- Breathing animation on unlock confirm
-- Haptic feedback on primary actions
-
-Theme: `VANVASI/Design/VANASITheme.swift`
+SwiftUI · FamilyControls · ManagedSettings · DeviceActivity · SwiftData · WidgetKit · App Intents · StoreKit 2 (optional)
 
 ---
 
-## 5. Project structure
+## Manual steps before App Store
 
-```
-VANVASI/              Main app
-Shared/               Config, models, shield policy
-VANVASIMonitor/       DeviceActivity re-lock
-VANVASIShield/        Shield UI
-VANVASIShieldAction/  Shield button → open app
-VANVASIWidget/        Lock status widget
-```
-
-Generate: `./scripts/generate-xcodeproj.sh`
+1. Test on physical iPhone (`./scripts/device-test-checklist.sh`)
+2. Add 1024×1024 PNG to `VANVASI/Resources/Assets.xcassets/AppIcon.appiconset/`
+3. Request Family Controls entitlement from Apple
+4. Archive → TestFlight → App Store Connect
+5. Create IAP products if enabling paid unlocks
 
 ---
 
-## 6. Roadmap
+## Future (post-launch)
 
-**v1 (current):** Lock, shields, intentional unlock, widget, onboarding  
-**v1.1:** Focus streak / session stats  
-**v2:** Scheduled lock windows, optional PIN  
-**Later:** StoreKit monetization (if desired)
+- Android port
+- Social focus sessions
+- Soundscapes during lock
+- Apple Watch complication

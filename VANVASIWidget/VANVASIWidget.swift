@@ -29,35 +29,19 @@ struct VANVASIWidgetProvider: TimelineProvider {
 struct VANVASIWidgetView: View {
     let entry: VANVASIWidgetEntry
 
-    private let accent = Color(red: 0.79, green: 0.66, blue: 0.38)
-    private let void = Color(red: 0.04, green: 0.04, blue: 0.05)
-
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Image(systemName: entry.lockEnabled ? "lock.fill" : "lock.open")
-                    .foregroundStyle(accent)
-                Text("VANVASI")
-                    .font(.caption2.weight(.semibold))
-                    .tracking(2)
-                    .foregroundStyle(.secondary)
-            }
-
-            Text(entry.lockEnabled ? "Monk mode" : "Unlocked")
-                .font(.title3.weight(.light))
-                .foregroundStyle(.primary)
-
-            Text(entry.lockEnabled ? "Calls & messages only" : "Lock is off")
+        VStack(alignment: .leading, spacing: 6) {
+            Image(systemName: entry.lockEnabled ? "lock.fill" : "lock.open")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.white.opacity(0.5))
+
+            Text(entry.lockEnabled ? "Monk mode" : "Off")
+                .font(.headline.weight(.ultraLight))
+                .foregroundStyle(.white.opacity(0.9))
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .containerBackground(for: .widget) {
-            LinearGradient(
-                colors: [Color(red: 0.12, green: 0.11, blue: 0.20), void],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            Color.black
         }
     }
 }
@@ -71,7 +55,7 @@ struct VANVASIWidget: Widget {
             VANVASIWidgetView(entry: entry)
         }
         .configurationDisplayName("VANVASI")
-        .description("Your focus lock status.")
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .description("Lock status")
+        .supportedFamilies([.systemSmall])
     }
 }

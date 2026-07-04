@@ -15,8 +15,8 @@ enum UnlockDeepLinkHandler {
     }
 
     static func pendingFromShield() -> UnlockRequest? {
-        guard let scope = SharedStore.store.string(forKey: "pendingUnlockScope") else { return nil }
-        SharedStore.store.removeObject(forKey: "pendingUnlockScope")
+        guard let scope = SharedStore.store.string(forKey: SharedKeys.pendingUnlockScope) else { return nil }
+        SharedStore.store.removeObject(forKey: SharedKeys.pendingUnlockScope)
         switch scope {
         case UnlockScope.singleApp.rawValue: return .singleApp(label: "App")
         case UnlockScope.unlockAll.rawValue: return .unlockAll

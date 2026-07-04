@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import FamilyControls
 
 @MainActor
 final class UnlockService {
@@ -11,7 +12,7 @@ final class UnlockService {
         self.context = context
     }
 
-    func grantUnlock(request: UnlockRequest) -> UnlockSession {
+    func grantUnlock(request: UnlockRequest, wasPaid: Bool = false) -> UnlockSession {
         let pricing = request.pricing
         let expires = Date().addingTimeInterval(TimeInterval(pricing.minutes * 60))
 
@@ -22,7 +23,12 @@ final class UnlockService {
         case .singleApp(let appLabel):
             label = appLabel
             scope = .singleApp
-            lockManager.temporarilyUnlockAll(until: expires)
+            if let token = lockManager.pendingUnlockAppToken() {
+                lockManager.temporarilyAllow(app: token, until: expires)
+                lockManager.clearPendingUnlockAppToken()
+            } else {
+                lockManager.temporarilyUnlockAll(until: expires)
+            }
         case .unlockAll:
             label = "Everything"
             scope = .unlockAll
@@ -34,11 +40,12 @@ final class UnlockService {
         let session = UnlockSession(
             expiresAt: expires,
             scope: scope.rawValue,
-            coinCost: 0,
-            label: label
+            label: label,
+            wasPaid: wasPaid
         )
         context.insert(session)
         try? context.save()
+        VANASIHaptics.success()
         return session
     }
 }

@@ -1,19 +1,30 @@
 import SwiftUI
 import FamilyControls
 import Combine
+import SwiftData
 
 struct HomeView: View {
     @EnvironmentObject private var lockManager: MonkLockManager
+    @Environment(\.modelContext) private var context
+    @Query(sort: \UnlockSession.startedAt, order: .reverse) private var sessions: [UnlockSession]
+    @Query(sort: \LockEvent.date, order: .reverse) private var events: [LockEvent]
+
     @State private var showUnlockConfirm = false
     @State private var showSettings = false
     @State private var showAllowlistEditor = false
     @State private var showLockError = false
+    @State private var showPINDisable = false
+    @State private var ringScale: CGFloat = 1
     @State private var now = Date()
+
+    private var stats: FocusStats {
+        FocusStatsCalculator.compute(sessions: sessions, events: events)
+    }
 
     private var unlockUntil: Date? {
         let ts = max(
-            SharedStore.store.double(forKey: "tempUnlockAllUntil"),
-            SharedStore.store.double(forKey: "tempUnlockUntil")
+            SharedStore.store.double(forKey: SharedKeys.tempUnlockAllUntil),
+            SharedStore.store.double(forKey: SharedKeys.tempUnlockUntil)
         )
         guard ts > now.timeIntervalSince1970 else { return nil }
         return Date(timeIntervalSince1970: ts)
@@ -23,26 +34,75 @@ struct HomeView: View {
         ZStack {
             VANASIBackground()
 
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
-                    topBar
-                    lockHero
-                    if let until = unlockUntil {
-                        unlockActiveCard(until: until)
+            VStack(spacing: 0) {
+                HStack {
+                    Spacer()
+                    Button { showSettings = true } label: {
+                        Image(systemName: "ellipsis")
+                            .font(.body.weight(.light))
+                            .foregroundStyle(VANASITheme.textWhisper)
+                            .padding(20)
                     }
-                    statsRow
-                    lockCard
-                    if !lockManager.allowedSelection.isValidAllowlist {
-                        allowlistWarning
-                    }
-                    actionButtons
                 }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 40)
+
+                Spacer()
+
+                VStack(spacing: 28) {
+                    Button { toggleLock() } label: {
+                        VANASILockRing(isLocked: lockManager.isLockEnabled)
+                            .scaleEffect(ringScale)
+                    }
+                    .buttonStyle(.plain)
+
+                    VStack(spacing: 8) {
+                        Text(lockManager.isLockEnabled ? "Monk mode" : "Unlocked")
+                            .font(.system(size: 22, weight: .light))
+                            .foregroundStyle(VANASITheme.textPrimary)
+
+                        Text(subtitleLine)
+                            .font(.subheadline.weight(.light))
+                            .foregroundStyle(VANASITheme.textSecondary)
+                            .multilineTextAlignment(.center)
+                    }
+                }
+
+                Spacer()
+
+                VStack(spacing: 16) {
+                    if lockManager.isLockEnabled {
+                        Button("Request access · \(VANVASIConfig.unlockAllMinutes)m") {
+                            showUnlockConfirm = true
+                        }
+                        .buttonStyle(VANASITextButton())
+                    }
+
+                    if !lockManager.allowedSelection.isValidAllowlist {
+                        Button("Set free apps") { showAllowlistEditor = true }
+                            .buttonStyle(VANASITextButton())
+                    }
+
+                    if stats.streakDays > 0 || stats.focusScore > 0 {
+                        Text("\(stats.focusScore) focus · \(stats.streakDays)d streak")
+                            .font(.caption2)
+                            .foregroundStyle(VANASITheme.textWhisper)
+                    }
+                }
+                .padding(.bottom, 48)
             }
         }
         .sheet(isPresented: $showSettings) { SettingsView() }
         .sheet(isPresented: $showAllowlistEditor) { AllowlistEditorView() }
+        .sheet(isPresented: $showPINDisable) {
+            PINEntryView(
+                title: "PIN to disable",
+                onSubmit: { pin in
+                    if lockManager.disableLock(requirePIN: true, pin: pin, context: context) {
+                        showPINDisable = false
+                    }
+                },
+                onCancel: { showPINDisable = false }
+            )
+        }
         .fullScreenCover(isPresented: $showUnlockConfirm) {
             UnlockConfirmView(
                 request: .unlockAll,
@@ -52,39 +112,25 @@ struct HomeView: View {
             .environmentObject(lockManager)
         }
         .alert("Could not enable lock", isPresented: $showLockError) {
-            Button("Edit free apps") { showAllowlistEditor = true }
+            Button("Free apps") { showAllowlistEditor = true }
             Button("OK", role: .cancel) {}
         } message: {
             Text(lockManager.lastError ?? "Select Phone, Messages, and VANVASI.")
         }
-        .onAppear {
-            lockManager.restoreLockIfNeeded()
-            if SharedStore.store.string(forKey: "pendingUnlockScope") != nil {
-                showUnlockConfirm = true
-            }
-        }
-        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { tick in
-            now = tick
+        .onAppear(perform: onAppearActions)
+        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
+            now = Date()
             lockManager.restoreLockIfNeeded()
         }
     }
 
-    private func unlockActiveCard(until: Date) -> some View {
-        VANASICard {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Temporary access")
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(VANASITheme.textPrimary)
-                    Text("Re-locks in \(remaining(until: until))")
-                        .font(.caption)
-                        .foregroundStyle(VANASITheme.accent)
-                }
-                Spacer()
-                Image(systemName: "hourglass")
-                    .foregroundStyle(VANASITheme.accent.opacity(0.8))
-            }
+    private var subtitleLine: String {
+        if let until = unlockUntil {
+            return "Re-locks in \(remaining(until: until))"
         }
+        return lockManager.isLockEnabled
+            ? "Calls & messages only"
+            : "Tap the ring to enable"
     }
 
     private func remaining(until: Date) -> String {
@@ -94,132 +140,36 @@ struct HomeView: View {
         return m > 0 ? "\(m)m \(sec)s" : "\(sec)s"
     }
 
-    private var topBar: some View {
-        HStack {
-            Text("VANVASI")
-                .font(.caption.weight(.semibold))
-                .tracking(3)
-                .foregroundStyle(VANASITheme.accent)
-            Spacer()
-            Button { showSettings = true } label: {
-                Image(systemName: "gearshape")
-                    .foregroundStyle(VANASITheme.textSecondary)
+    private func toggleLock() {
+        VANASIHaptics.medium()
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+            ringScale = 0.94
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.65)) {
+                ringScale = 1
             }
         }
-        .padding(.top, 8)
-    }
 
-    private var lockHero: some View {
-        VStack(spacing: 16) {
-            ZStack {
-                Circle()
-                    .stroke(
-                        lockManager.isLockEnabled ? VANASITheme.accent : Color.white.opacity(0.1),
-                        lineWidth: 2
-                    )
-                    .frame(width: 120, height: 120)
-
-                Circle()
-                    .fill(lockManager.isLockEnabled ? VANASITheme.accentSoft : Color.white.opacity(0.04))
-                    .frame(width: 96, height: 96)
-
-                Image(systemName: lockManager.isLockEnabled ? "lock.fill" : "lock.open")
-                    .font(.system(size: 32, weight: .light))
-                    .foregroundStyle(lockManager.isLockEnabled ? VANASITheme.accent : VANASITheme.textSecondary)
+        if lockManager.isLockEnabled {
+            if SharedStore.pinEnabled {
+                showPINDisable = true
+            } else {
+                _ = lockManager.disableLock(requirePIN: false, context: context)
             }
-
-            Text(lockManager.isLockEnabled ? "Monk mode active" : "Monk mode off")
-                .font(.title2.weight(.light))
-                .foregroundStyle(VANASITheme.textPrimary)
-
-            Text("Calls & messages stay open")
-                .font(.caption)
-                .foregroundStyle(VANASITheme.textSecondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
-    }
-
-    private var statsRow: some View {
-        HStack(spacing: 12) {
-            statPill(value: "\(lockManager.allowedSelection.allowedAppCount)", label: "Free apps")
-            statPill(value: "\(VANVASIConfig.singleAppMinutes)m", label: "Unlock window")
-            statPill(value: lockManager.isLockEnabled ? "ON" : "OFF", label: "Shield")
+        } else if lockManager.enableLock() {
+            context.insert(LockEvent(action: LockEventAction.enabled))
+            try? context.save()
+        } else {
+            showLockError = true
         }
     }
 
-    private func statPill(value: String, label: String) -> some View {
-        VANASICard {
-            VStack(spacing: 4) {
-                Text(value)
-                    .font(.headline.weight(.semibold))
-                    .foregroundStyle(VANASITheme.textPrimary)
-                Text(label)
-                    .font(.caption2)
-                    .foregroundStyle(VANASITheme.textSecondary)
-            }
-            .frame(maxWidth: .infinity)
-        }
-    }
-
-    private var lockCard: some View {
-        VANASICard {
-            HStack {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("VANVASI Lock")
-                        .font(.headline)
-                        .foregroundStyle(VANASITheme.textPrimary)
-                    Text(lockManager.isLockEnabled ? "Distractions shielded" : "Tap to protect focus")
-                        .font(.caption)
-                        .foregroundStyle(VANASITheme.textSecondary)
-                }
-                Spacer()
-                Toggle("", isOn: Binding(
-                    get: { lockManager.isLockEnabled },
-                    set: { enabled in
-                        VANASIHaptics.light()
-                        if enabled {
-                            if !lockManager.enableLock() { showLockError = true }
-                        } else {
-                            lockManager.disableLock()
-                        }
-                    }
-                ))
-                .labelsHidden()
-                .tint(VANASITheme.accent)
-            }
-        }
-    }
-
-    private var allowlistWarning: some View {
-        Button { showAllowlistEditor = true } label: {
-            Text("Set free apps: Phone, Messages, VANVASI")
-                .font(.footnote)
-                .foregroundStyle(VANASITheme.accent)
-        }
-    }
-
-    private var actionButtons: some View {
-        VStack(spacing: 12) {
-            Button {
-                showUnlockConfirm = true
-            } label: {
-                HStack {
-                    Text("Request full access")
-                    Spacer()
-                    Text("\(VANVASIConfig.unlockAllMinutes) min")
-                        .foregroundStyle(VANASITheme.textSecondary)
-                }
-            }
-            .buttonStyle(VANASISecondaryButton())
-            .disabled(!lockManager.isLockEnabled)
-            .opacity(lockManager.isLockEnabled ? 1 : 0.45)
-
-            Button { showAllowlistEditor = true } label: {
-                Text("Edit free apps")
-            }
-            .font(.footnote)
-            .foregroundStyle(VANASITheme.textSecondary)
+    private func onAppearActions() {
+        lockManager.restoreLockIfNeeded()
+        ScheduledLockManager.applySchedule()
+        if SharedStore.store.string(forKey: SharedKeys.pendingUnlockScope) != nil {
+            showUnlockConfirm = true
         }
     }
 }
@@ -231,21 +181,23 @@ struct AllowlistEditorView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                VANASITheme.void.ignoresSafeArea()
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Phone · Messages · VANVASI must stay free.")
+                VANASIBackground()
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Phone · Messages · VANVASI")
                         .font(.footnote)
                         .foregroundStyle(VANASITheme.textSecondary)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 8)
                     FamilyActivityPicker(selection: $lockManager.allowedSelection)
                     Spacer()
                 }
-                .padding()
             }
             .navigationTitle("Free apps")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
+                        .foregroundStyle(VANASITheme.textSecondary)
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
@@ -253,8 +205,10 @@ struct AllowlistEditorView: View {
                         if lockManager.isLockEnabled { _ = lockManager.enableLock() }
                         dismiss()
                     }
+                    .foregroundStyle(VANASITheme.textPrimary)
                 }
             }
+            .toolbarBackground(VANASITheme.void, for: .navigationBar)
         }
         .preferredColorScheme(.dark)
     }
