@@ -4,7 +4,9 @@
 
 ## Start here
 
-- **[docs/SUBMISSION.md](docs/SUBMISSION.md)** — **App Store Connect submission guide**
+- **[GitHub repo](https://github.com/trader128/VANVASI)** — source code
+- **[Privacy](https://trader128.github.io/VANVASI/privacy.html)** · **[Support](https://trader128.github.io/VANVASI/support.html)** — App Store URLs
+- **[docs/SUBMISSION.md](docs/SUBMISSION.md)** — App Store Connect submission guide
 - **[STATUS.md](STATUS.md)** — what's done across all 5 phases
 - **[SETUP.md](SETUP.md)** — Xcode, signing, device testing
 - **[PLAN.md](PLAN.md)** — product plan
