@@ -662,7 +662,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vanasi.app.shieldaction;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -679,7 +679,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vanasi.app.monitor;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -691,10 +691,13 @@
 				CODE_SIGN_ENTITLEMENTS = VANVASI/VANVASI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VANVASI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VANVASI;
 				INFOPLIST_KEY_CFBundleShortVersionString = "$(MARKETING_VERSION)";
-				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLSchemes\": [\"vanasi\"], \"CFBundleURLName\": \"com.vanasi.app\"]]";
+				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLName\": \"com.vanasi.app\", \"CFBundleURLSchemes\": [\"vanasi\"]]]";
 				INFOPLIST_KEY_CFBundleVersion = "$(CURRENT_PROJECT_VERSION)";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "VANVASI sends a notification when you tap Unlock on a blocked app so you can complete the intentional unlock flow.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_BackgroundColor = LaunchBackground;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -704,7 +707,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vanasi.app;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -744,7 +747,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 259R8YNA9M;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -813,7 +816,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 259R8YNA9M;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -847,10 +850,13 @@
 				CODE_SIGN_ENTITLEMENTS = VANVASI/VANVASI.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VANVASI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VANVASI;
 				INFOPLIST_KEY_CFBundleShortVersionString = "$(MARKETING_VERSION)";
-				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLSchemes\": [\"vanasi\"], \"CFBundleURLName\": \"com.vanasi.app\"]]";
+				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLName\": \"com.vanasi.app\", \"CFBundleURLSchemes\": [\"vanasi\"]]]";
 				INFOPLIST_KEY_CFBundleVersion = "$(CURRENT_PROJECT_VERSION)";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "VANVASI sends a notification when you tap Unlock on a blocked app so you can complete the intentional unlock flow.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_BackgroundColor = LaunchBackground;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -860,7 +866,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vanasi.app;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -877,7 +883,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vanasi.app.shield;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -894,7 +900,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vanasi.app.widget;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -911,7 +917,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vanasi.app.shield;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -928,7 +934,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vanasi.app.shieldaction;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -945,7 +951,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vanasi.app.monitor;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -962,7 +968,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vanasi.app.widget;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};

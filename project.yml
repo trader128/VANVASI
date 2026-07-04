@@ -12,7 +12,7 @@ settings:
     TARGETED_DEVICE_FAMILY: "1"
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     MARKETING_VERSION: "1.0.0"
-    CURRENT_PROJECT_VERSION: "1"
+    CURRENT_PROJECT_VERSION: "3"
     CODE_SIGN_STYLE: Automatic
     DEVELOPMENT_TEAM: "259R8YNA9M"
 
@@ -26,6 +26,8 @@ targets:
     platform: iOS
     sources:
       - path: VANVASI
+        excludes:
+          - Info.plist
       - path: Shared
     resources:
       - path: VANVASI/Resources
@@ -42,6 +44,8 @@ targets:
       INFOPLIST_KEY_UILaunchScreen_BackgroundColor: LaunchBackground
       INFOPLIST_KEY_NSUserNotificationsUsageDescription: "VANVASI sends a notification when you tap Unlock on a blocked app so you can complete the intentional unlock flow."
       INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: false
+      INFOPLIST_FILE: VANVASI/Info.plist
+      TARGETED_DEVICE_FAMILY: "1"
       INFOPLIST_KEY_CFBundleURLTypes:
         - CFBundleURLName: com.vanasi.app
           CFBundleURLSchemes:
@@ -70,6 +74,7 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: com.vanasi.app.monitor
       INFOPLIST_FILE: VANVASIMonitor/Info.plist
       GENERATE_INFOPLIST_FILE: NO
+      TARGETED_DEVICE_FAMILY: "1"
       CODE_SIGN_ENTITLEMENTS: VANVASIMonitor/VANVASIMonitor.entitlements
 
   VANVASIShield:
@@ -84,6 +89,7 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: com.vanasi.app.shield
       INFOPLIST_FILE: VANVASIShield/Info.plist
       GENERATE_INFOPLIST_FILE: NO
+      TARGETED_DEVICE_FAMILY: "1"
       CODE_SIGN_ENTITLEMENTS: VANVASIShield/VANVASIShield.entitlements
 
   VANVASIShieldAction:
@@ -98,6 +104,7 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: com.vanasi.app.shieldaction
       INFOPLIST_FILE: VANVASIShieldAction/Info.plist
       GENERATE_INFOPLIST_FILE: NO
+      TARGETED_DEVICE_FAMILY: "1"
       CODE_SIGN_ENTITLEMENTS: VANVASIShieldAction/VANVASIShieldAction.entitlements
 
   VANVASIWidget:
@@ -112,6 +119,7 @@ targets:
       PRODUCT_BUNDLE_IDENTIFIER: com.vanasi.app.widget
       INFOPLIST_FILE: VANVASIWidget/Info.plist
       GENERATE_INFOPLIST_FILE: NO
+      TARGETED_DEVICE_FAMILY: "1"
       CODE_SIGN_ENTITLEMENTS: VANVASIWidget/VANVASIWidget.entitlements
 
 schemes:
