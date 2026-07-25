@@ -2,9 +2,11 @@ import SwiftUI
 import SwiftData
 import FamilyControls
 import UIKit
+import UserNotifications
 
 @main
 struct VANVASIApp: App {
+    @UIApplicationDelegateAdaptor(VANVASIAppDelegate.self) private var appDelegate
     @StateObject private var lockManager = MonkLockManager.shared
 
     var sharedModelContainer: ModelContainer = {
@@ -52,8 +54,15 @@ struct RootView: View {
             .environmentObject(lockManager)
         }
         .onAppear(perform: checkPendingUnlock)
+        .onAppear {
+            FocusPointsService.shared.consumePendingExtensionMerit()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .vanasiOpenPendingUnlock)) { _ in
+            checkPendingUnlock()
+        }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             checkPendingUnlock()
+            FocusPointsService.shared.consumePendingExtensionMerit()
         }
     }
 

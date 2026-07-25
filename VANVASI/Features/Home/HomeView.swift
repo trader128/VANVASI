@@ -195,6 +195,21 @@ struct HomeView: View {
                     .buttonStyle(VANASITextButton())
             }
 
+            if ScheduledLockManager.isEnabled {
+                Text("Auto monk mode · \(ScheduledLockManager.formattedWindow())")
+                    .font(.caption2)
+                    .foregroundStyle(VANASITheme.textWhisper)
+            } else if !lockManager.isLockEnabled {
+                Button {
+                    showSettings = true
+                } label: {
+                    Text("Schedule daily monk mode")
+                        .font(.caption)
+                        .foregroundStyle(VANASITheme.textSecondary)
+                }
+                .buttonStyle(.plain)
+            }
+
             if stats.streakDays > 0 || stats.focusScore > 0 {
                 Text("\(stats.focusScore) focus score today")
                     .font(.caption2)
@@ -262,6 +277,7 @@ struct HomeView: View {
         ScheduledLockManager.applySchedule()
         points.syncLockedTimeRewards()
         points.syncStreakBonus(streakDays: stats.streakDays)
+        points.consumePendingExtensionMerit()
         LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
         if SharedStore.store.string(forKey: SharedKeys.pendingUnlockScope) != nil {
             showUnlockConfirm = true

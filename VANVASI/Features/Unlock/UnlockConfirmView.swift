@@ -52,6 +52,12 @@ struct UnlockConfirmView: View {
                     .padding(.horizontal, 40)
                     .vanasiAppear(delay: 0.2)
 
+                Text("You already paused at the shield.")
+                    .font(.caption)
+                    .foregroundStyle(VANASITheme.textWhisper)
+                    .padding(.top, 8)
+                    .vanasiAppear(delay: 0.22)
+
                 Text("\(pricing.minutes) minutes · then lock returns")
                     .font(.caption)
                     .foregroundStyle(VANASITheme.textWhisper)
@@ -114,8 +120,8 @@ struct UnlockConfirmView: View {
 
     private var headerSubtitle: String {
         switch request {
-        case .singleApp(let label): return "Do you still need \(label)?"
-        case .unlockAll: return "Do you still need your phone?"
+        case .singleApp(let label): return "Still need \(label)?"
+        case .unlockAll: return "Still need full access?"
         }
     }
 

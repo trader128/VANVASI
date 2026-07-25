@@ -90,4 +90,11 @@ final class FocusPointsService: ObservableObject {
     func clearRecentGain() {
         recentGain = nil
     }
+
+    /// Shield "Stay focused" and other extension awards.
+    func consumePendingExtensionMerit() {
+        guard let pending = MeritAwardBridge.consumePendingGain() else { return }
+        total = SharedStore.store.integer(forKey: SharedKeys.focusPointsTotal)
+        recentGain = PointGain(amount: pending.amount, reason: pending.reason)
+    }
 }

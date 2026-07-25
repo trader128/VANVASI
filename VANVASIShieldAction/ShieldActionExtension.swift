@@ -49,6 +49,7 @@ class VANVASIShieldActionHandler: ShieldActionDelegate {
             postOpenAppNotification(scope: unlockScope)
             completionHandler(.close)
         case .secondaryButtonPressed:
+            MeritAwardBridge.recordStayFocusedFromShield()
             completionHandler(.close)
         case .firstSecondarySubmenuItemPressed,
              .secondSecondarySubmenuItemPressed,
@@ -61,8 +62,11 @@ class VANVASIShieldActionHandler: ShieldActionDelegate {
 
     private func postOpenAppNotification(scope: String) {
         let content = UNMutableNotificationContent()
-        content.title = "VANVASI"
-        content.body = "Tap to unlock with intention"
+        let minutes = scope == UnlockScope.unlockAll.rawValue
+            ? VANVASIConfig.unlockAllMinutes
+            : VANVASIConfig.singleAppMinutes
+        content.title = "Pause in VANVASI"
+        content.body = "One breath · then choose your \(minutes)-minute window"
         content.sound = .default
         content.userInfo = ["scope": scope, "url": VANVASIConfig.unlockURL(
             scope: scope == UnlockScope.unlockAll.rawValue ? .unlockAll : .singleApp
