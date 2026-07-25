@@ -1,21 +1,24 @@
-VANVASI 1.1 — Notes for App Review
+VANVASI 1.2 — Notes for App Review
 ===================================
 
 VANVASI is a self-imposed digital wellbeing app for adults (not parental monitoring).
 
-WHAT'S NEW IN 1.1:
-- Expanded onboarding and in-app "How it works" guide
-- Clearer Settings with descriptions
-- Improved block screen (shield) branding
+WHAT'S NEW IN 1.2:
+- Merit points: gentle rewards for enabling monk mode, staying focused, and daily streaks
+- In-app Merit guide (Settings → Merit points)
+- Live Activity on Lock Screen / Dynamic Island during monk mode and temporary unlock windows
+- Expanded onboarding and in-app "How it works" guide (from 1.1)
+- Improved home UI, haptics, and block screen (shield) branding
 
 HOW TO TEST:
 1. Complete onboarding — grant Screen Time when prompted.
 2. On "Free apps", select Phone, Messages, and VANVASI.
-3. Tap the lock ring → monk mode ON.
-4. Open Safari or another app → shield with Pause / Unlock.
-5. Tap Unlock → complete pause flow in VANVASI.
-6. Settings (⋯) → How it works for full guide.
-7. End lock: Settings → End lock.
+3. Tap the lock ring → monk mode ON (merit toast may appear).
+4. Optional: allow Live Activities when prompted — status shows on Lock Screen.
+5. Open Safari or another app → shield with Pause / Unlock.
+6. Tap Unlock → complete pause flow in VANVASI (Live Activity may show countdown).
+7. Settings → How it works / Merit points for guides.
+8. End lock: Settings → End lock.
 
 PRICING: App is free. No payment required for core features.
 

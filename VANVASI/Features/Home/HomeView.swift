@@ -36,89 +36,16 @@ struct HomeView: View {
             VANASIBackground()
 
             VStack(spacing: 0) {
-                HStack {
-                    VANASIStatusChip(isLocked: lockManager.isLockEnabled)
-                        .vanasiAppear(delay: 0.05)
-                    Spacer()
-                    Button { showSettings = true } label: {
-                        Image(systemName: "gearshape")
-                            .font(.body.weight(.light))
-                            .foregroundStyle(VANASITheme.textSecondary)
+                headerBar
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        Spacer(minLength: 24)
+                        heroSection
+                        Spacer(minLength: 24)
+                        bottomSection
                     }
-                    .buttonStyle(VANASIIconButton())
-                    .vanasiAppear(delay: 0.08)
+                    .frame(minHeight: 520)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 8)
-
-                Spacer()
-
-                VStack(spacing: 28) {
-                    Button { toggleLock() } label: {
-                        VANASILockRing(isLocked: lockManager.isLockEnabled)
-                            .scaleEffect(ringScale)
-                    }
-                    .buttonStyle(.plain)
-                    .vanasiAppear(delay: 0.12)
-
-                    VStack(spacing: 10) {
-                        Text(lockManager.isLockEnabled ? "Monk mode" : "Unlocked")
-                            .font(.system(size: 26, weight: .light))
-                            .foregroundStyle(VANASITheme.textPrimary)
-                            .animation(VANASITheme.springSnappy, value: lockManager.isLockEnabled)
-
-                        Text(subtitleLine)
-                            .font(.subheadline.weight(.light))
-                            .foregroundStyle(VANASITheme.textSecondary)
-                            .multilineTextAlignment(.center)
-                            .animation(VANASITheme.springSoft, value: subtitleLine)
-                    }
-                    .vanasiAppear(delay: 0.2)
-
-                    VANASIMeritCard(
-                        total: points.total,
-                        level: points.level,
-                        levelTitle: points.levelTitle,
-                        progress: points.progressInLevel,
-                        streakDays: stats.streakDays
-                    )
-                    .padding(.horizontal, 28)
-                    .vanasiAppear(delay: 0.24)
-                }
-
-                Spacer()
-
-                VStack(spacing: 16) {
-                    if lockManager.isLockEnabled {
-                        Button("Request access · \(VANVASIConfig.unlockAllMinutes)m") {
-                            VANASIHaptics.light()
-                            showUnlockConfirm = true
-                        }
-                        .buttonStyle(VANASISecondaryButton())
-                        .padding(.horizontal, 32)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                    }
-
-                    if !lockManager.allowedSelection.isValidAllowlist {
-                        Button("Set free apps") { showAllowlistEditor = true }
-                            .buttonStyle(VANASITextButton())
-                    }
-
-                    if stats.streakDays > 0 || stats.focusScore > 0 {
-                        Text("\(stats.focusScore) focus score today")
-                            .font(.caption2)
-                            .foregroundStyle(VANASITheme.textWhisper)
-                    }
-
-                    Text("Self-imposed focus · Not parental controls")
-                        .font(.caption2)
-                        .foregroundStyle(VANASITheme.textWhisper.opacity(0.75))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 32)
-                }
-                .padding(.bottom, 48)
-                .animation(VANASITheme.springSoft, value: lockManager.isLockEnabled)
-                .vanasiAppear(delay: 0.28)
             }
 
             if let gain = points.recentGain {
@@ -178,14 +105,111 @@ struct HomeView: View {
             lockManager.restoreLockIfNeeded()
             if lockManager.isLockEnabled {
                 points.syncLockedTimeRewards()
+                LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
             }
         }
         .onChange(of: lockManager.isLockEnabled) { wasLocked, isLocked in
             points.resetSessionBucketsIfNeeded(wasLocked: wasLocked, isLocked: isLocked)
+            if isLocked {
+                LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
+            } else {
+                LiveActivityManager.endAll()
+            }
+        }
+        .onChange(of: points.total) { _, total in
+            if lockManager.isLockEnabled {
+                LiveActivityManager.syncMonkModeLocked(meritPoints: total)
+            }
         }
         .onChange(of: stats.streakDays) { _, streak in
             points.syncStreakBonus(streakDays: streak)
         }
+    }
+
+    private var headerBar: some View {
+        HStack {
+            VANASIStatusChip(isLocked: lockManager.isLockEnabled)
+                .vanasiAppear(delay: 0.05)
+            Spacer()
+            Button { showSettings = true } label: {
+                Image(systemName: "gearshape")
+                    .font(.body.weight(.light))
+                    .foregroundStyle(VANASITheme.textSecondary)
+            }
+            .buttonStyle(VANASIIconButton())
+            .vanasiAppear(delay: 0.08)
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 8)
+    }
+
+    private var heroSection: some View {
+        VStack(spacing: 28) {
+            Button { toggleLock() } label: {
+                VANASILockRing(isLocked: lockManager.isLockEnabled)
+                    .scaleEffect(ringScale)
+            }
+            .buttonStyle(.plain)
+            .vanasiAppear(delay: 0.12)
+
+            VStack(spacing: 10) {
+                Text(lockManager.isLockEnabled ? "Monk mode" : "Unlocked")
+                    .font(.system(size: 26, weight: .light))
+                    .foregroundStyle(VANASITheme.textPrimary)
+                    .animation(VANASITheme.springSnappy, value: lockManager.isLockEnabled)
+
+                Text(subtitleLine)
+                    .font(.subheadline.weight(.light))
+                    .foregroundStyle(VANASITheme.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .animation(VANASITheme.springSoft, value: subtitleLine)
+            }
+            .vanasiAppear(delay: 0.2)
+
+            VANASIMeritCard(
+                total: points.total,
+                level: points.level,
+                levelTitle: points.levelTitle,
+                progress: points.progressInLevel,
+                streakDays: stats.streakDays
+            )
+            .padding(.horizontal, 28)
+            .vanasiAppear(delay: 0.24)
+        }
+    }
+
+    private var bottomSection: some View {
+        VStack(spacing: 16) {
+            if lockManager.isLockEnabled {
+                Button("Request access · \(VANVASIConfig.unlockAllMinutes)m") {
+                    VANASIHaptics.light()
+                    showUnlockConfirm = true
+                }
+                .buttonStyle(VANASISecondaryButton())
+                .padding(.horizontal, 32)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+
+            if !lockManager.allowedSelection.isValidAllowlist {
+                Button("Set free apps") { showAllowlistEditor = true }
+                    .buttonStyle(VANASITextButton())
+            }
+
+            if stats.streakDays > 0 || stats.focusScore > 0 {
+                Text("\(stats.focusScore) focus score today")
+                    .font(.caption2)
+                    .foregroundStyle(VANASITheme.textWhisper)
+            }
+
+            Text("Self-imposed focus · Not parental controls")
+                .font(.caption2)
+                .foregroundStyle(VANASITheme.textWhisper.opacity(0.75))
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32)
+        }
+        .padding(.bottom, 48)
+        .animation(VANASITheme.springSoft, value: lockManager.isLockEnabled)
+        .vanasiAppear(delay: 0.28)
     }
 
     private var subtitleLine: String {
@@ -224,6 +248,7 @@ struct HomeView: View {
         } else if lockManager.enableLock() {
             VANASIHaptics.lockEngaged()
             points.recordLockEngaged()
+            LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
             context.insert(LockEvent(action: LockEventAction.enabled))
             try? context.save()
         } else {
@@ -237,6 +262,7 @@ struct HomeView: View {
         ScheduledLockManager.applySchedule()
         points.syncLockedTimeRewards()
         points.syncStreakBonus(streakDays: stats.streakDays)
+        LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
         if SharedStore.store.string(forKey: SharedKeys.pendingUnlockScope) != nil {
             showUnlockConfirm = true
         }

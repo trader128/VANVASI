@@ -17,6 +17,9 @@ struct SettingsView: View {
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 8) {
                         sectionHeader("Focus")
+                        settingsLink("Merit", subtitle: "How points and levels work") {
+                            MeritGuideView()
+                        }
                         settingsLink("How it works", subtitle: "Setup, shields, and unlock flow") {
                             HowItWorksView()
                         }

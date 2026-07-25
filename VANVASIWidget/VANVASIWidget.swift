@@ -1,6 +1,14 @@
 import WidgetKit
 import SwiftUI
 
+@main
+struct VANVASIWidgetBundle: WidgetBundle {
+    var body: some Widget {
+        VANVASIWidget()
+        MonkModeLiveActivity()
+    }
+}
+
 struct VANVASIWidgetEntry: TimelineEntry {
     let date: Date
     let lockEnabled: Bool
@@ -78,7 +86,6 @@ struct VANVASIWidgetView: View {
     }
 }
 
-@main
 struct VANVASIWidget: Widget {
     let kind = "VANVASIWidget"
 

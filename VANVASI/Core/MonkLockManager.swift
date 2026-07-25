@@ -64,6 +64,7 @@ final class MonkLockManager: ObservableObject {
         SharedStore.clearTempUnlockKeys()
         lastError = nil
         WidgetReloader.reloadLockWidget()
+        LiveActivityManager.endAll()
 
         if let context {
             context.insert(LockEvent(action: LockEventAction.disabled))

@@ -46,6 +46,11 @@ final class UnlockService {
         context.insert(session)
         try? context.save()
         VANASIHaptics.success()
+        LiveActivityManager.showUnlockWindow(
+            until: expires,
+            meritPoints: SharedStore.store.integer(forKey: SharedKeys.focusPointsTotal),
+            label: label
+        )
         return session
     }
 }
