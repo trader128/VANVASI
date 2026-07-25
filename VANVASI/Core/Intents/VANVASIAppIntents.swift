@@ -23,7 +23,7 @@ struct DisableVANVASILockIntent: AppIntent {
 
     @MainActor
     func perform() async throws -> some IntentResult {
-        if !SharedStore.pinEnabled {
+        if !EndLockProtectionStore.isRequired {
             MonkLockManager.shared.disableLock(requirePIN: false)
         }
         return .result()
@@ -39,7 +39,7 @@ struct ToggleVANVASILockIntent: AppIntent {
     func perform() async throws -> some IntentResult {
         let manager = MonkLockManager.shared
         if manager.isLockEnabled {
-            if !SharedStore.pinEnabled {
+            if !EndLockProtectionStore.isRequired {
                 manager.disableLock(requirePIN: false)
             }
         } else {

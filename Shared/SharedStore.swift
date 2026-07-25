@@ -15,6 +15,7 @@ enum SharedKeys {
     static let tempUnlockAllUntil = "tempUnlockAllUntil"
     static let lockSessionStartedAt = "lockSessionStartedAt"
     static let pinEnabled = "pinEnabled"
+    static let endLockProtectionMode = "endLockProtectionMode"
     static let scheduledLockEnabled = "scheduledLockEnabled"
     static let scheduledLockStartMinutes = "scheduledLockStartMinutes"
     static let scheduledLockEndMinutes = "scheduledLockEndMinutes"

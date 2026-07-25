@@ -12,7 +12,7 @@ settings:
     TARGETED_DEVICE_FAMILY: "1"
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     MARKETING_VERSION: "1.2.0"
-    CURRENT_PROJECT_VERSION: "7"
+    CURRENT_PROJECT_VERSION: "8"
     CODE_SIGN_STYLE: Automatic
     DEVELOPMENT_TEAM: "259R8YNA9M"
 
@@ -43,6 +43,7 @@ targets:
       INFOPLIST_KEY_UILaunchScreen_Generation: YES
       INFOPLIST_KEY_UILaunchScreen_BackgroundColor: LaunchBackground
       INFOPLIST_KEY_NSUserNotificationsUsageDescription: "VANVASI sends a notification when you tap Unlock on a blocked app so you can complete the intentional unlock flow."
+      INFOPLIST_KEY_NSFaceIDUsageDescription: "VANVASI uses Face ID or Touch ID when you choose it to confirm turning off monk mode."
       INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: false
       INFOPLIST_KEY_NSSupportsLiveActivities: YES
       INFOPLIST_FILE: VANVASI/Info.plist

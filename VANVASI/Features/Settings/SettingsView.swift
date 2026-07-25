@@ -29,7 +29,10 @@ struct SettingsView: View {
                         divider
 
                         sectionHeader("Security")
-                        settingsLink("PIN", subtitle: "Protect ending monk mode") {
+                        settingsLink(
+                            "End lock security",
+                            subtitle: EndLockProtectionStore.mode.title
+                        ) {
                             PINSetupView()
                         }
                         settingsLink("Schedule", subtitle: "Auto-enable lock daily") {
@@ -56,8 +59,7 @@ struct SettingsView: View {
                         divider
 
                         Button {
-                            if SharedStore.pinEnabled { showPINEndLock = true }
-                            else { confirmEndLock = true }
+                            requestEndLock()
                         } label: {
                             VANASIMinimalRow(
                                 title: "End lock",
@@ -88,18 +90,44 @@ struct SettingsView: View {
                 PINEntryView(
                     title: "PIN to end lock",
                     onSubmit: { pin in
-                        if lockManager.disableLock(requirePIN: true, pin: pin, context: context) {
-                            context.insert(LockEvent(action: LockEventAction.emergencyExit))
-                            try? context.save()
-                            showPINEndLock = false
-                            dismiss()
+                        guard lockManager.disableLock(requirePIN: true, pin: pin, context: context) else {
+                            return false
                         }
+                        finishEndLock()
+                        return true
                     },
                     onCancel: { showPINEndLock = false }
                 )
             }
         }
         .preferredColorScheme(.dark)
+    }
+
+    private func requestEndLock() {
+        guard EndLockProtectionStore.isRequired else {
+            confirmEndLock = true
+            return
+        }
+        switch EndLockProtectionStore.mode {
+        case .fourDigitPIN:
+            showPINEndLock = true
+        case .faceID, .devicePasscode:
+            Task {
+                if await EndLockProtection.authenticateSystem(),
+                   lockManager.disableLock(systemAuthOK: true, context: context) {
+                    await MainActor.run { finishEndLock() }
+                }
+            }
+        case .none:
+            confirmEndLock = true
+        }
+    }
+
+    private func finishEndLock() {
+        context.insert(LockEvent(action: LockEventAction.emergencyExit))
+        try? context.save()
+        showPINEndLock = false
+        dismiss()
     }
 
     private func sectionHeader(_ title: String) -> some View {
@@ -143,9 +171,7 @@ struct SettingsView: View {
 
     private func endLock() {
         lockManager.disableLock(requirePIN: false, context: context)
-        context.insert(LockEvent(action: LockEventAction.emergencyExit))
-        try? context.save()
-        dismiss()
+        finishEndLock()
     }
 }
 

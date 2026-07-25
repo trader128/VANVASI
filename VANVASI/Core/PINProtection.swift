@@ -10,7 +10,7 @@ enum PINProtection {
         guard pin.count >= 4, pin.allSatisfy(\.isNumber) else { return false }
         let hash = sha256(pin)
         KeychainHelper.save(key: account, service: service, data: Data(hash.utf8))
-        SharedStore.pinEnabled = true
+        EndLockProtectionStore.mode = .fourDigitPIN
         return true
     }
 
@@ -22,12 +22,19 @@ enum PINProtection {
 
     static func removePIN(currentPIN: String) -> Bool {
         guard verify(pin: currentPIN) else { return false }
-        KeychainHelper.delete(key: account, service: service)
-        SharedStore.pinEnabled = false
+        clearPINWithoutVerification()
         return true
     }
 
-    static var isEnabled: Bool { SharedStore.pinEnabled }
+    static func clearPINWithoutVerification() {
+        KeychainHelper.delete(key: account, service: service)
+        if EndLockProtectionStore.mode == .fourDigitPIN {
+            EndLockProtectionStore.mode = .none
+        }
+        SharedStore.pinEnabled = false
+    }
+
+    static var isEnabled: Bool { EndLockProtectionStore.mode == .fourDigitPIN }
 
     private static func sha256(_ value: String) -> String {
         let digest = SHA256.hash(data: Data(value.utf8))

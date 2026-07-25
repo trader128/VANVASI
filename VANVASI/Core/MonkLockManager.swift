@@ -45,11 +45,21 @@ final class MonkLockManager: ObservableObject {
         #endif
     }
 
-    func disableLock(requirePIN: Bool = true, pin: String? = nil, context: ModelContext? = nil) -> Bool {
-        if requirePIN && SharedStore.pinEnabled {
-            guard let pin, PINProtection.verify(pin: pin) else {
-                lastError = "Incorrect PIN."
-                return false
+    func disableLock(requirePIN: Bool = true, pin: String? = nil, systemAuthOK: Bool = false, context: ModelContext? = nil) -> Bool {
+        if requirePIN && EndLockProtectionStore.isRequired {
+            switch EndLockProtectionStore.mode {
+            case .none:
+                break
+            case .fourDigitPIN:
+                guard let pin, PINProtection.verify(pin: pin) else {
+                    lastError = "Incorrect PIN."
+                    return false
+                }
+            case .faceID, .devicePasscode:
+                guard systemAuthOK else {
+                    lastError = "Authentication required."
+                    return false
+                }
             }
         }
 

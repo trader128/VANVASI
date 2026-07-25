@@ -77,9 +77,7 @@ struct HomeView: View {
             PINEntryView(
                 title: "PIN to disable",
                 onSubmit: { pin in
-                    if lockManager.disableLock(requirePIN: true, pin: pin, context: context) {
-                        showPINDisable = false
-                    }
+                    lockManager.disableLock(requirePIN: true, pin: pin, context: context)
                 },
                 onCancel: { showPINDisable = false }
             )
@@ -257,11 +255,7 @@ struct HomeView: View {
 
         if lockManager.isLockEnabled {
             VANASIHaptics.light()
-            if SharedStore.pinEnabled {
-                showPINDisable = true
-            } else {
-                _ = lockManager.disableLock(requirePIN: false, context: context)
-            }
+            requestDisableMonkMode()
         } else if lockManager.enableLock() {
             VANASIHaptics.lockEngaged()
             points.recordLockEngaged()
@@ -271,6 +265,25 @@ struct HomeView: View {
         } else {
             VANASIHaptics.medium()
             showLockError = true
+        }
+    }
+
+    private func requestDisableMonkMode() {
+        guard EndLockProtectionStore.isRequired else {
+            _ = lockManager.disableLock(requirePIN: false, context: context)
+            return
+        }
+        switch EndLockProtectionStore.mode {
+        case .fourDigitPIN:
+            showPINDisable = true
+        case .faceID, .devicePasscode:
+            Task {
+                if await EndLockProtection.authenticateSystem() {
+                    _ = lockManager.disableLock(systemAuthOK: true, context: context)
+                }
+            }
+        case .none:
+            _ = lockManager.disableLock(requirePIN: false, context: context)
         }
     }
 

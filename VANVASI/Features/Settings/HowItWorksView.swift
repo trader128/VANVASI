@@ -17,7 +17,7 @@ struct HowItWorksView: View {
 
                 step(4, "Unlock with intention", "Complete the pause in VANVASI, then get timed access. Monk mode returns when the timer ends.")
 
-                step(5, "End lock anytime", "Settings → End lock. Optional PIN protects turning monk mode off.")
+                step(5, "End lock anytime", "Settings → End lock. Optional: Off, 4-digit PIN, Face ID, or iPhone passcode.")
 
                 step(6, "Earn merit", "Points for monk mode, protected minutes, streaks, and Stay focused on the shield or pause screen.")
 
