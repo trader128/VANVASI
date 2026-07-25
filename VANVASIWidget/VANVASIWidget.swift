@@ -29,19 +29,42 @@ struct VANVASIWidgetProvider: TimelineProvider {
 struct VANVASIWidgetView: View {
     let entry: VANVASIWidgetEntry
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Image(systemName: entry.lockEnabled ? "lock.fill" : "lock.open")
-                .font(.caption)
-                .foregroundStyle(.white.opacity(0.5))
+    private var accent: Color {
+        entry.lockEnabled ? Color(red: 0.83, green: 0.69, blue: 0.22) : .white.opacity(0.4) // gold when locked
+    }
 
-            Text(entry.lockEnabled ? "Monk mode" : "Off")
-                .font(.headline.weight(.ultraLight))
-                .foregroundStyle(.white.opacity(0.9))
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Image(systemName: entry.lockEnabled ? "lock.fill" : "lock.open")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(accent)
+                Spacer()
+                Circle()
+                    .fill(accent)
+                    .frame(width: 6, height: 6)
+                    .opacity(entry.lockEnabled ? 1 : 0.3)
+            }
+
+            Spacer(minLength: 0)
+
+            Text(entry.lockEnabled ? "MONK MODE" : "OFF")
+                .font(.system(size: 13, weight: .semibold, design: .rounded))
+                .tracking(1.2)
+                .foregroundStyle(.white.opacity(entry.lockEnabled ? 0.95 : 0.5))
+
+            Text(entry.lockEnabled ? "Focus locked" : "Unlocked")
+                .font(.system(size: 11, weight: .regular))
+                .foregroundStyle(.white.opacity(0.4))
         }
+        .padding(14)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .containerBackground(for: .widget) {
-            Color.black
+            LinearGradient(
+                colors: [Color.black, Color(red: 0.08, green: 0.07, blue: 0.05)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
         }
     }
 }

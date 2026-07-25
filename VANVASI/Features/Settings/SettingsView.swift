@@ -15,36 +15,60 @@ struct SettingsView: View {
                 VANASIBackground()
 
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        settingsLink("History") { SessionHistoryView() }
+                    VStack(alignment: .leading, spacing: 8) {
+                        sectionHeader("Focus")
+                        settingsLink("How it works", subtitle: "Setup, shields, and unlock flow") {
+                            HowItWorksView()
+                        }
+                        settingsLink("History", subtitle: "Unlocks and lock events") {
+                            SessionHistoryView()
+                        }
                         divider
 
-                        settingsLink("PIN") { PINSetupView() }
-                        settingsLink("Schedule") { ScheduledLockView() }
-                        settingsLink("Free apps") { AllowlistEditorView() }
+                        sectionHeader("Security")
+                        settingsLink("PIN", subtitle: "Protect ending monk mode") {
+                            PINSetupView()
+                        }
+                        settingsLink("Schedule", subtitle: "Auto-enable lock daily") {
+                            ScheduledLockView()
+                        }
+                        settingsLink("Free apps", subtitle: "Phone, Messages, VANVASI") {
+                            AllowlistEditorView()
+                        }
                         divider
 
-                        toggleRow("Pay to unlock", isOn: $paymentsEnabled)
-                            .onChange(of: paymentsEnabled) { _, v in
-                                SharedStore.paymentsEnabled = v
-                            }
+                        sectionHeader("About")
+                        settingsLink("Privacy", subtitle: "On-device data only") {
+                            PrivacyPolicyView()
+                        }
+
+                        if VANVASIConfig.showPaymentsInSettings {
+                            divider
+                            toggleRow("Pay to unlock", isOn: $paymentsEnabled)
+                                .onChange(of: paymentsEnabled) { _, v in
+                                    SharedStore.paymentsEnabled = v
+                                }
+                        }
 
                         divider
-
-                        settingsLink("Privacy") { PrivacyPolicyView() }
 
                         Button {
                             if SharedStore.pinEnabled { showPINEndLock = true }
                             else { confirmEndLock = true }
                         } label: {
-                            VANASIMinimalRow(title: "End lock", destructive: true)
+                            VANASIMinimalRow(
+                                title: "End lock",
+                                subtitle: "Turn off monk mode now",
+                                destructive: true
+                            )
+                            .padding(.horizontal, 24)
                         }
-                        .padding(.horizontal, 24)
                     }
                     .padding(.top, 8)
+                    .padding(.bottom, 24)
                 }
             }
-            .navigationTitle("")
+            .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -75,6 +99,15 @@ struct SettingsView: View {
         .preferredColorScheme(.dark)
     }
 
+    private func sectionHeader(_ title: String) -> some View {
+        Text(title.uppercased())
+            .font(.caption2)
+            .tracking(2)
+            .foregroundStyle(VANASITheme.textWhisper)
+            .padding(.horizontal, 24)
+            .padding(.top, 12)
+    }
+
     private var divider: some View {
         Rectangle()
             .fill(VANASITheme.textWhisper.opacity(0.5))
@@ -82,9 +115,13 @@ struct SettingsView: View {
             .padding(.horizontal, 24)
     }
 
-    private func settingsLink<D: View>(_ title: String, @ViewBuilder destination: () -> D) -> some View {
+    private func settingsLink<D: View>(
+        _ title: String,
+        subtitle: String? = nil,
+        @ViewBuilder destination: () -> D
+    ) -> some View {
         NavigationLink(destination: destination()) {
-            VANASIMinimalRow(title: title)
+            VANASIMinimalRow(title: title, subtitle: subtitle)
                 .padding(.horizontal, 24)
         }
         .buttonStyle(.plain)

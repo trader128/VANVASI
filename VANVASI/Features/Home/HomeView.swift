@@ -86,6 +86,12 @@ struct HomeView: View {
                             .font(.caption2)
                             .foregroundStyle(VANASITheme.textWhisper)
                     }
+
+                    Text("Self-imposed focus lock · Not parental controls")
+                        .font(.caption2)
+                        .foregroundStyle(VANASITheme.textWhisper.opacity(0.7))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
                 }
                 .padding(.bottom, 48)
             }

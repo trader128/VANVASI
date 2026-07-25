@@ -14,7 +14,7 @@ struct UnlockConfirmView: View {
     @State private var purchaseError: String?
 
     private var pricing: UnlockPricing { request.pricing }
-    private var paymentsOn: Bool { SharedStore.paymentsEnabled }
+    private var paymentsOn: Bool { VANVASIConfig.showPaymentsInSettings && SharedStore.paymentsEnabled }
 
     var body: some View {
         ZStack {
