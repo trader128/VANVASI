@@ -12,7 +12,11 @@ struct VANVASIApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([UnlockSession.self, LockEvent.self, PaymentRecord.self])
         let config = ModelConfiguration(isStoredInMemoryOnly: false)
-        return try! ModelContainer(for: schema, configurations: [config])
+        if let container = try? ModelContainer(for: schema, configurations: [config]) {
+            return container
+        }
+        let fallback = ModelConfiguration(isStoredInMemoryOnly: true)
+        return try! ModelContainer(for: schema, configurations: [fallback])
     }()
 
     var body: some Scene {
@@ -23,6 +27,7 @@ struct VANVASIApp: App {
                 .preferredColorScheme(.dark)
                 .onOpenURL { url in
                     SharedStore.store.set(url.absoluteString, forKey: SharedKeys.pendingUnlockURL)
+                    PendingUnlockRouter.signalPendingUnlockAvailable()
                 }
                 .task {
                     await NotificationPermission.requestIfNeeded()
@@ -55,27 +60,24 @@ struct RootView: View {
         }
         .onAppear(perform: checkPendingUnlock)
         .onAppear {
-            FocusPointsService.shared.consumePendingExtensionMerit()
+            Task { @MainActor in
+                FocusPointsService.shared.consumePendingExtensionMerit()
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .vanasiOpenPendingUnlock)) { _ in
             checkPendingUnlock()
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             checkPendingUnlock()
-            FocusPointsService.shared.consumePendingExtensionMerit()
+            Task { @MainActor in
+                FocusPointsService.shared.consumePendingExtensionMerit()
+            }
         }
     }
 
     private func checkPendingUnlock() {
-        if let urlString = SharedStore.store.string(forKey: SharedKeys.pendingUnlockURL),
-           let url = URL(string: urlString) {
-            SharedStore.store.removeObject(forKey: SharedKeys.pendingUnlockURL)
-            pendingUnlock = UnlockDeepLinkHandler.request(from: url)
-            return
-        }
-        if let pending = UnlockDeepLinkHandler.pendingFromShield() {
-            pendingUnlock = pending
-        }
+        guard pendingUnlock == nil else { return }
+        pendingUnlock = PendingUnlockRouter.consumePendingRequest()
     }
 }
 

@@ -26,6 +26,8 @@ enum SharedKeys {
     /// Set by shield extension when user taps Stay focused.
     static let pendingMeritGainAmount = "pendingMeritGainAmount"
     static let pendingMeritGainReason = "pendingMeritGainReason"
+    static let pendingRelockScope = "pendingRelockScope"
+    static let pendingRelockAt = "pendingRelockAt"
 }
 
 struct SharedStore {

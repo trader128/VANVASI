@@ -51,6 +51,7 @@ final class UnlockService {
             meritPoints: SharedStore.store.integer(forKey: SharedKeys.focusPointsTotal),
             label: label
         )
+        WidgetReloader.reloadLockWidget()
         return session
     }
 }

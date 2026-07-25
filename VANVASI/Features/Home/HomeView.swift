@@ -10,7 +10,7 @@ struct HomeView: View {
     @Query(sort: \UnlockSession.startedAt, order: .reverse) private var sessions: [UnlockSession]
     @Query(sort: \LockEvent.date, order: .reverse) private var events: [LockEvent]
 
-    @State private var showUnlockConfirm = false
+    @State private var homeUnlockRequest: UnlockRequest?
     @State private var showSettings = false
     @State private var showAllowlistEditor = false
     @State private var showLockError = false
@@ -85,11 +85,11 @@ struct HomeView: View {
             )
             .presentationDragIndicator(.visible)
         }
-        .fullScreenCover(isPresented: $showUnlockConfirm) {
+        .fullScreenCover(item: $homeUnlockRequest) { request in
             UnlockConfirmView(
-                request: .unlockAll,
-                onUnlocked: { showUnlockConfirm = false },
-                onCancel: { showUnlockConfirm = false }
+                request: request,
+                onUnlocked: { homeUnlockRequest = nil },
+                onCancel: { homeUnlockRequest = nil }
             )
             .environmentObject(lockManager)
         }
@@ -105,6 +105,8 @@ struct HomeView: View {
             lockManager.restoreLockIfNeeded()
             if lockManager.isLockEnabled {
                 points.syncLockedTimeRewards()
+                LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
+            } else if unlockUntil != nil {
                 LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
             }
         }
@@ -183,7 +185,7 @@ struct HomeView: View {
             if lockManager.isLockEnabled {
                 Button("Request access · \(VANVASIConfig.unlockAllMinutes)m") {
                     VANASIHaptics.light()
-                    showUnlockConfirm = true
+                    homeUnlockRequest = .unlockAll
                 }
                 .buttonStyle(VANASISecondaryButton())
                 .padding(.horizontal, 32)
@@ -279,9 +281,6 @@ struct HomeView: View {
         points.syncStreakBonus(streakDays: stats.streakDays)
         points.consumePendingExtensionMerit()
         LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
-        if SharedStore.store.string(forKey: SharedKeys.pendingUnlockScope) != nil {
-            showUnlockConfirm = true
-        }
     }
 }
 

@@ -17,8 +17,8 @@ enum DeviceActivityScheduler {
             repeats: false
         )
 
-        SharedStore.store.set(scope.rawValue, forKey: "pendingRelockScope")
-        SharedStore.store.set(end.timeIntervalSince1970, forKey: "pendingRelockAt")
+        SharedStore.store.set(scope.rawValue, forKey: SharedKeys.pendingRelockScope)
+        SharedStore.store.set(end.timeIntervalSince1970, forKey: SharedKeys.pendingRelockAt)
 
         do {
             try center.startMonitoring(unlockActivity, during: schedule)

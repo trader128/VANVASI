@@ -68,9 +68,13 @@ class VANVASIShieldActionHandler: ShieldActionDelegate {
         content.title = "Pause in VANVASI"
         content.body = "One breath · then choose your \(minutes)-minute window"
         content.sound = .default
-        content.userInfo = ["scope": scope, "url": VANVASIConfig.unlockURL(
-            scope: scope == UnlockScope.unlockAll.rawValue ? .unlockAll : .singleApp
-        ).absoluteString]
+        content.userInfo = [
+            "scope": scope,
+            "url": VANVASIConfig.unlockURL(
+                scope: scope == UnlockScope.unlockAll.rawValue ? .unlockAll : .singleApp,
+                label: "This app"
+            ).absoluteString
+        ]
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
             content: content,

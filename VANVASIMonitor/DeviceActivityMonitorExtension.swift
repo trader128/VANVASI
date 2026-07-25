@@ -28,8 +28,8 @@ class VANVASIDeviceActivityMonitor: DeviceActivityMonitor {
         }
 
         SharedStore.clearTempUnlockKeys()
-        SharedStore.store.removeObject(forKey: "pendingRelockScope")
-        SharedStore.store.removeObject(forKey: "pendingRelockAt")
+        SharedStore.store.removeObject(forKey: SharedKeys.pendingRelockScope)
+        SharedStore.store.removeObject(forKey: SharedKeys.pendingRelockAt)
 
         guard SharedStore.monkLockEnabled else {
             store.clearAllSettings()

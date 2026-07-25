@@ -20,10 +20,6 @@ final class VANVASINotificationDelegate: NSObject, UNUserNotificationCenterDeleg
         } else if let scope = info["scope"] as? String {
             SharedStore.store.set(scope, forKey: SharedKeys.pendingUnlockScope)
         }
-        NotificationCenter.default.post(name: .vanasiOpenPendingUnlock, object: nil)
+        PendingUnlockRouter.signalPendingUnlockAvailable()
     }
-}
-
-extension Notification.Name {
-    static let vanasiOpenPendingUnlock = Notification.Name("vanasiOpenPendingUnlock")
 }

@@ -13,13 +13,13 @@ struct HowItWorksView: View {
 
                 step(2, "Choose free apps", "In Settings → Free apps, select Phone, Messages, and VANVASI so you are never locked out.")
 
-                step(3, "Blocked apps show a shield", "When you open another app, Apple’s Screen Time shield appears with Pause and Unlock.")
+                step(3, "Blocked apps show a shield", "You see Pause. Tap Open VANVASI to continue with intention, or Stay focused for merit.")
 
-                step(4, "Unlock with intention", "Complete the breathing pause in VANVASI, then get timed access. Monk mode returns automatically when the timer ends.")
+                step(4, "Unlock with intention", "Complete the pause in VANVASI, then get timed access. Monk mode returns when the timer ends.")
 
-                step(5, "End lock anytime", "Tap ⋯ → End lock. Optional PIN adds extra protection against turning lock off.")
+                step(5, "End lock anytime", "Settings → End lock. Optional PIN protects turning monk mode off.")
 
-                step(5, "Earn merit", "Gain points for monk mode, protected minutes, streaks, and choosing Stay focused on the pause screen.")
+                step(6, "Earn merit", "Points for monk mode, protected minutes, streaks, and Stay focused on the shield or pause screen.")
 
                 Text("VANVASI is for adults who choose to limit their own device. It is not parental monitoring.")
                     .font(.caption)

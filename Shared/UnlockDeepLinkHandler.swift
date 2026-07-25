@@ -7,20 +7,10 @@ enum UnlockDeepLinkHandler {
         guard host == "unlock" || host == "paywall" else { return nil }
         let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []
         let scope = items.first(where: { $0.name == "scope" })?.value ?? UnlockScope.unlockAll.rawValue
-        let label = items.first(where: { $0.name == "label" })?.value ?? "App"
+        let label = items.first(where: { $0.name == "label" })?.value ?? "This app"
         switch scope {
         case UnlockScope.singleApp.rawValue: return .singleApp(label: label)
         default: return .unlockAll
-        }
-    }
-
-    static func pendingFromShield() -> UnlockRequest? {
-        guard let scope = SharedStore.store.string(forKey: SharedKeys.pendingUnlockScope) else { return nil }
-        SharedStore.store.removeObject(forKey: SharedKeys.pendingUnlockScope)
-        switch scope {
-        case UnlockScope.singleApp.rawValue: return .singleApp(label: "App")
-        case UnlockScope.unlockAll.rawValue: return .unlockAll
-        default: return nil
         }
     }
 }
