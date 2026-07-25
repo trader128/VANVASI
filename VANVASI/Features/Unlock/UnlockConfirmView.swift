@@ -87,7 +87,10 @@ struct UnlockConfirmView: View {
                     }
                     .buttonStyle(VANASIPrimaryButton())
 
-                    Button("Stay focused", action: onCancel)
+                    Button("Stay focused") {
+                        FocusPointsService.shared.recordStayFocused()
+                        onCancel()
+                    }
                         .buttonStyle(VANASITextButton())
                 }
                 .padding(.horizontal, 32)

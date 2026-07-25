@@ -8,6 +8,13 @@ enum VANVASIConfig {
     /// Off for App Store v1.1 — avoids half-finished monetization during review.
     static let showPaymentsInSettings = false
 
+    // MARK: - Focus Points (merit)
+    static let pointsLockEngaged = 15
+    static let pointsPerFiveMinutesLocked = 12
+    static let pointsStayFocused = 30
+    static let pointsStreakDayBonus = 25
+    static let pointsPerLevel = 100
+
     // StoreKit product IDs (enable when IAP is live in App Store Connect)
     static let productIDSingleApp = "com.vanasi.unlock.app"
     static let productIDUnlockAll = "com.vanasi.unlock.all"

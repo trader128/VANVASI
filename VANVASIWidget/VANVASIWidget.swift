@@ -4,11 +4,12 @@ import SwiftUI
 struct VANVASIWidgetEntry: TimelineEntry {
     let date: Date
     let lockEnabled: Bool
+    let meritPoints: Int
 }
 
 struct VANVASIWidgetProvider: TimelineProvider {
     func placeholder(in context: Context) -> VANVASIWidgetEntry {
-        VANVASIWidgetEntry(date: .now, lockEnabled: true)
+        VANVASIWidgetEntry(date: .now, lockEnabled: true, meritPoints: 120)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (VANVASIWidgetEntry) -> Void) {
@@ -22,7 +23,11 @@ struct VANVASIWidgetProvider: TimelineProvider {
     }
 
     private func currentEntry() -> VANVASIWidgetEntry {
-        VANVASIWidgetEntry(date: .now, lockEnabled: SharedStore.monkLockEnabled)
+        VANVASIWidgetEntry(
+            date: .now,
+            lockEnabled: SharedStore.monkLockEnabled,
+            meritPoints: SharedStore.store.integer(forKey: SharedKeys.focusPointsTotal)
+        )
     }
 }
 
@@ -56,6 +61,10 @@ struct VANVASIWidgetView: View {
             Text(entry.lockEnabled ? "Focus locked" : "Unlocked")
                 .font(.system(size: 11, weight: .regular))
                 .foregroundStyle(.white.opacity(0.4))
+
+            Text("\(entry.meritPoints) merit")
+                .font(.system(size: 10, weight: .medium, design: .rounded))
+                .foregroundStyle(.white.opacity(0.35))
         }
         .padding(14)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)

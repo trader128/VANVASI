@@ -19,6 +19,8 @@ struct HowItWorksView: View {
 
                 step(5, "End lock anytime", "Tap ⋯ → End lock. Optional PIN adds extra protection against turning lock off.")
 
+                step(5, "Earn merit", "Gain points for monk mode, protected minutes, streaks, and choosing Stay focused on the pause screen.")
+
                 Text("VANVASI is for adults who choose to limit their own device. It is not parental monitoring.")
                     .font(.caption)
                     .foregroundStyle(VANASITheme.textWhisper)

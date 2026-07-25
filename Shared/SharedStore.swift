@@ -20,6 +20,9 @@ enum SharedKeys {
     static let scheduledLockEndMinutes = "scheduledLockEndMinutes"
     static let focusModeSyncEnabled = "focusModeSyncEnabled"
     static let paymentsEnabled = "paymentsEnabled"
+    static let focusPointsTotal = "focusPointsTotal"
+    static let focusPointsFiveMinuteBuckets = "focusPointsFiveMinuteBuckets"
+    static let focusPointsLastStreakBonusDay = "focusPointsLastStreakBonusDay"
 }
 
 struct SharedStore {

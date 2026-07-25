@@ -179,6 +179,7 @@ struct OnboardingView: View {
                     context.insert(LockEvent(action: LockEventAction.enabled))
                     try? context.save()
                     ScheduledLockManager.applySchedule()
+                    FocusPointsService.shared.recordLockEngaged()
                     onComplete()
                 } else {
                     lockError = lockManager.lastError

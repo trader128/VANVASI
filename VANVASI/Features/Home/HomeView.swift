@@ -6,6 +6,7 @@ import SwiftData
 struct HomeView: View {
     @EnvironmentObject private var lockManager: MonkLockManager
     @Environment(\.modelContext) private var context
+    @ObservedObject private var points = FocusPointsService.shared
     @Query(sort: \UnlockSession.startedAt, order: .reverse) private var sessions: [UnlockSession]
     @Query(sort: \LockEvent.date, order: .reverse) private var events: [LockEvent]
 
@@ -73,6 +74,16 @@ struct HomeView: View {
                             .animation(VANASITheme.springSoft, value: subtitleLine)
                     }
                     .vanasiAppear(delay: 0.2)
+
+                    VANASIMeritCard(
+                        total: points.total,
+                        level: points.level,
+                        levelTitle: points.levelTitle,
+                        progress: points.progressInLevel,
+                        streakDays: stats.streakDays
+                    )
+                    .padding(.horizontal, 28)
+                    .vanasiAppear(delay: 0.24)
                 }
 
                 Spacer()
@@ -94,7 +105,7 @@ struct HomeView: View {
                     }
 
                     if stats.streakDays > 0 || stats.focusScore > 0 {
-                        Text("\(stats.focusScore) focus · \(stats.streakDays)d streak")
+                        Text("\(stats.focusScore) focus score today")
                             .font(.caption2)
                             .foregroundStyle(VANASITheme.textWhisper)
                     }
@@ -109,7 +120,22 @@ struct HomeView: View {
                 .animation(VANASITheme.springSoft, value: lockManager.isLockEnabled)
                 .vanasiAppear(delay: 0.28)
             }
+
+            if let gain = points.recentGain {
+                VANASIPointsToast(gain: gain)
+                    .padding(.bottom, 120)
+                    .transition(.scale.combined(with: .opacity))
+                    .onAppear {
+                        VANASIHaptics.success()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
+                            withAnimation(VANASITheme.easeAppear) {
+                                points.clearRecentGain()
+                            }
+                        }
+                    }
+            }
         }
+        .animation(VANASITheme.springSoft, value: points.recentGain?.id)
         .sheet(isPresented: $showSettings) {
             SettingsView()
                 .presentationDragIndicator(.visible)
@@ -150,6 +176,15 @@ struct HomeView: View {
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
             now = Date()
             lockManager.restoreLockIfNeeded()
+            if lockManager.isLockEnabled {
+                points.syncLockedTimeRewards()
+            }
+        }
+        .onChange(of: lockManager.isLockEnabled) { wasLocked, isLocked in
+            points.resetSessionBucketsIfNeeded(wasLocked: wasLocked, isLocked: isLocked)
+        }
+        .onChange(of: stats.streakDays) { _, streak in
+            points.syncStreakBonus(streakDays: streak)
         }
     }
 
@@ -188,6 +223,7 @@ struct HomeView: View {
             }
         } else if lockManager.enableLock() {
             VANASIHaptics.lockEngaged()
+            points.recordLockEngaged()
             context.insert(LockEvent(action: LockEventAction.enabled))
             try? context.save()
         } else {
@@ -199,6 +235,8 @@ struct HomeView: View {
     private func onAppearActions() {
         lockManager.restoreLockIfNeeded()
         ScheduledLockManager.applySchedule()
+        points.syncLockedTimeRewards()
+        points.syncStreakBonus(streakDays: stats.streakDays)
         if SharedStore.store.string(forKey: SharedKeys.pendingUnlockScope) != nil {
             showUnlockConfirm = true
         }
