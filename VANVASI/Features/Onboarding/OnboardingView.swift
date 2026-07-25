@@ -12,6 +12,8 @@ struct OnboardingView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.scenePhase) private var scenePhase
 
+    private let stepCount = 4
+
     var body: some View {
         ZStack {
             VANASIBackground()
@@ -22,7 +24,8 @@ struct OnboardingView: View {
                 Group {
                     switch step {
                     case 0: introStep
-                    case 1: permissionStep
+                    case 1: howItWorksStep
+                    case 2: permissionStep
                     default: allowlistStep
                     }
                 }
@@ -35,16 +38,16 @@ struct OnboardingView: View {
             .padding(.horizontal, 32)
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active, step == 1,
+            if phase == .active, step == 2,
                AuthorizationCenter.shared.authorizationStatus == .approved {
-                step = 2
+                step = 3
             }
         }
     }
 
     private var stepIndicator: some View {
         HStack(spacing: 6) {
-            ForEach(0..<3, id: \.self) { i in
+            ForEach(0..<stepCount, id: \.self) { i in
                 Circle()
                     .fill(i == step ? VANASITheme.textPrimary : VANASITheme.textWhisper)
                     .frame(width: 4, height: 4)
@@ -60,7 +63,7 @@ struct OnboardingView: View {
                 .foregroundStyle(VANASITheme.textPrimary)
                 .lineSpacing(6)
 
-            Text("Calls and messages stay open.\nEverything else waits.")
+            Text("VANVASI locks your iPhone to calls and messages. Everything else waits until you unlock with intention.")
                 .font(.body.weight(.light))
                 .foregroundStyle(VANASITheme.textSecondary)
                 .lineSpacing(6)
@@ -73,13 +76,49 @@ struct OnboardingView: View {
         }
     }
 
+    private var howItWorksStep: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            Text("How it works")
+                .font(.system(size: 28, weight: .ultraLight))
+                .foregroundStyle(VANASITheme.textPrimary)
+
+            VStack(alignment: .leading, spacing: 14) {
+                bullet("Turn on the lock ring on the home screen.")
+                bullet("Open a blocked app → shield appears.")
+                bullet("Unlock in VANVASI after a short pause.")
+                bullet("Access ends automatically; monk mode returns.")
+            }
+
+            Text("You can end lock anytime from Settings.")
+                .font(.footnote)
+                .foregroundStyle(VANASITheme.textWhisper)
+
+            Button("Continue") {
+                VANASIHaptics.light()
+                step = 2
+            }
+            .buttonStyle(VANASIPrimaryButton())
+        }
+    }
+
+    private func bullet(_ text: String) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            Text("·")
+                .foregroundStyle(VANASITheme.textSecondary)
+            Text(text)
+                .font(.subheadline.weight(.light))
+                .foregroundStyle(VANASITheme.textSecondary)
+                .lineSpacing(3)
+        }
+    }
+
     private var permissionStep: some View {
         VStack(alignment: .leading, spacing: 32) {
             Text("Screen Time")
                 .font(.system(size: 28, weight: .ultraLight))
                 .foregroundStyle(VANASITheme.textPrimary)
 
-            Text("Apple will ask for your passcode once. Required to shield apps.")
+            Text("Apple asks for your device passcode once. VANVASI uses Screen Time to shield apps — the same API trusted by leading focus apps.")
                 .font(.subheadline.weight(.light))
                 .foregroundStyle(VANASITheme.textSecondary)
                 .lineSpacing(4)
@@ -94,7 +133,7 @@ struct OnboardingView: View {
             .buttonStyle(VANASIPrimaryButton())
 
             if AuthorizationCenter.shared.authorizationStatus == .approved {
-                Button("Continue") { step = 2 }
+                Button("Continue") { step = 3 }
                     .buttonStyle(VANASITextButton())
             }
         }
@@ -106,9 +145,10 @@ struct OnboardingView: View {
                 .font(.system(size: 28, weight: .ultraLight))
                 .foregroundStyle(VANASITheme.textPrimary)
 
-            Text("Phone, Messages, and VANVASI.")
+            Text("Select Phone, Messages, and VANVASI so you can always call, text, and turn lock off.")
                 .font(.footnote)
                 .foregroundStyle(VANASITheme.textSecondary)
+                .lineSpacing(3)
 
             FamilyActivityPicker(selection: $lockManager.allowedSelection)
                 .frame(height: 240)
@@ -117,7 +157,7 @@ struct OnboardingView: View {
                 Text(lockError).font(.footnote).foregroundStyle(.orange)
             }
 
-            Button("Enable lock") {
+            Button("Enable monk mode") {
                 VANASIHaptics.medium()
                 lockManager.persistSelection()
                 if lockManager.enableLock() {
@@ -133,8 +173,8 @@ struct OnboardingView: View {
             .disabled(enableButtonDisabled)
 
             #if targetEnvironment(simulator)
-            Button("Demo") {
-                if lockManager.enableLock() { onComplete() }
+            Button("Continue without lock") {
+                onComplete()
             }
             .buttonStyle(VANASITextButton())
             #endif
@@ -152,15 +192,15 @@ struct OnboardingView: View {
     private func requestAuthorization() async {
         authError = nil
         if AuthorizationCenter.shared.authorizationStatus == .approved {
-            step = 2
+            step = 3
             return
         }
         #if targetEnvironment(simulator)
-        step = 2
+        step = 3
         #else
         do {
             try await AuthorizationCenter.shared.requestAuthorization(for: .individual)
-            step = 2
+            step = 3
         } catch {
             authError = error.localizedDescription
         }

@@ -16,10 +16,14 @@ class VANVASIShieldConfigurationProvider: ShieldConfigurationDataSource {
     }
 
     private func shieldConfig(subtitle: String) -> ShieldConfiguration {
-        ShieldConfiguration(
+        let icon = UIImage(systemName: "lock.fill")?
+            .withConfiguration(UIImage.SymbolConfiguration(pointSize: 28, weight: .light))
+            .withTintColor(.white, renderingMode: .alwaysOriginal)
+
+        return ShieldConfiguration(
             backgroundBlurStyle: .systemUltraThinMaterialDark,
             backgroundColor: .black,
-            icon: nil,
+            icon: icon,
             title: ShieldConfiguration.Label(text: "Pause.", color: .white),
             subtitle: ShieldConfiguration.Label(text: subtitle, color: UIColor(white: 1, alpha: 0.4)),
             primaryButtonLabel: ShieldConfiguration.Label(text: "Unlock", color: .black),

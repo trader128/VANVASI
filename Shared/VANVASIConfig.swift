@@ -5,7 +5,10 @@ enum VANVASIConfig {
     static let unlockAllMinutes = 30
     static let urlScheme = "vanasi"
 
-    // StoreKit product IDs (Phase 5 — enable in Settings)
+    /// Off for App Store v1.1 — avoids half-finished monetization during review.
+    static let showPaymentsInSettings = false
+
+    // StoreKit product IDs (enable when IAP is live in App Store Connect)
     static let productIDSingleApp = "com.vanasi.unlock.app"
     static let productIDUnlockAll = "com.vanasi.unlock.all"
     static let singleAppPriceLabel = "$0.99"
