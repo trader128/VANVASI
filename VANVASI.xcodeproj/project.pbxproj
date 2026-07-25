@@ -698,7 +698,7 @@
 				INFOPLIST_FILE = VANVASI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VANVASI;
 				INFOPLIST_KEY_CFBundleShortVersionString = "$(MARKETING_VERSION)";
-				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLSchemes\": [\"vanasi\"], \"CFBundleURLName\": \"com.vanasi.app\"]]";
+				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLName\": \"com.vanasi.app\", \"CFBundleURLSchemes\": [\"vanasi\"]]]";
 				INFOPLIST_KEY_CFBundleVersion = "$(CURRENT_PROJECT_VERSION)";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "VANVASI sends a notification when you tap Unlock on a blocked app so you can complete the intentional unlock flow.";
@@ -857,7 +857,7 @@
 				INFOPLIST_FILE = VANVASI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VANVASI;
 				INFOPLIST_KEY_CFBundleShortVersionString = "$(MARKETING_VERSION)";
-				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLSchemes\": [\"vanasi\"], \"CFBundleURLName\": \"com.vanasi.app\"]]";
+				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLName\": \"com.vanasi.app\", \"CFBundleURLSchemes\": [\"vanasi\"]]]";
 				INFOPLIST_KEY_CFBundleVersion = "$(CURRENT_PROJECT_VERSION)";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "VANVASI sends a notification when you tap Unlock on a blocked app so you can complete the intentional unlock flow.";
