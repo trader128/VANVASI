@@ -78,7 +78,7 @@ struct OnboardingView: View {
                 .foregroundStyle(VANASITheme.textPrimary)
                 .lineSpacing(6)
 
-            Text("VANVASI locks your iPhone to calls and messages. Everything else waits until you unlock with intention.")
+            Text("VANVASI locks your iPhone to calls, messages, and the free apps you choose. Most other apps wait until you unlock with intention.")
                 .font(.body.weight(.light))
                 .foregroundStyle(VANASITheme.textSecondary)
                 .lineSpacing(6)
@@ -104,6 +104,8 @@ struct OnboardingView: View {
                 bullet("Access ends automatically; monk mode returns.")
             }
 
+            shieldLimitsCallout
+
             Text("You can end lock anytime from Settings.")
                 .font(.footnote)
                 .foregroundStyle(VANASITheme.textWhisper)
@@ -125,6 +127,22 @@ struct OnboardingView: View {
                 .foregroundStyle(VANASITheme.textSecondary)
                 .lineSpacing(3)
         }
+    }
+
+    private var shieldLimitsCallout: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(VANVASIShieldCopy.iosMayStayAvailableTitle)
+                .font(.caption.weight(.medium))
+                .foregroundStyle(VANASITheme.textPrimary)
+            Text(VANVASIShieldCopy.iosMayStayAvailableShort)
+                .font(.caption2.weight(.light))
+                .foregroundStyle(VANASITheme.textWhisper)
+                .lineSpacing(3)
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(VANASITheme.ringFill.opacity(0.6))
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 
     private var permissionStep: some View {
@@ -160,10 +178,12 @@ struct OnboardingView: View {
                 .font(.system(size: 28, weight: .ultraLight))
                 .foregroundStyle(VANASITheme.textPrimary)
 
-            Text("Select Phone, Messages, and VANVASI so you can always call, text, and turn lock off.")
+            Text(VANVASIShieldCopy.freeAppsReminder)
                 .font(.footnote)
                 .foregroundStyle(VANASITheme.textSecondary)
                 .lineSpacing(3)
+
+            shieldLimitsCallout
 
             FamilyActivityPicker(selection: $lockManager.allowedSelection)
                 .frame(height: 240)

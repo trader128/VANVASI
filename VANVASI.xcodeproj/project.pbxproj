@@ -18,8 +18,10 @@
 		1E5D41BEC21D95BE59F41A6A /* PaymentGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FCEA6072FBEB6973A344A0 /* PaymentGateway.swift */; };
 		1FB5F3637F25E063CA74E36D /* ScheduledLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */; };
 		1FB7B70E1165515356703920 /* ShieldPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD531661848C770FE9EDCE3 /* ShieldPolicy.swift */; };
+		2114AEF81612149E84C7C421 /* VANVASIShieldCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9910DEFC89A06CAE27B427E6 /* VANVASIShieldCopy.swift */; };
 		2142EA8E08A680EBE2F1B065 /* DeviceActivityScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */; };
 		228543461BBCF8B4E850597A /* EndLockProtectionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31484C9CAC60BD9AA9E7B8F2 /* EndLockProtectionMode.swift */; };
+		22BB8039FA53E65D1FF7FA06 /* VANVASIShieldCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9910DEFC89A06CAE27B427E6 /* VANVASIShieldCopy.swift */; };
 		2367A831DA7E47DB31520B01 /* VANVASIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33210F33C06C00FB64AA154F /* VANVASIConfig.swift */; };
 		2431E41A8447C3C081F15D64 /* UnlockPricing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB38917534DA0973B4BF0D /* UnlockPricing.swift */; };
 		274850ABC5E69CDFEA87E438 /* VANVASIShieldAction.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3BFD6A6DAB04A8FE131C03B1 /* VANVASIShieldAction.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -34,6 +36,7 @@
 		4E6342EC599E1D10E17E6EE0 /* VANVASIMonitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 790CFE7DE40C1A745E498652 /* VANVASIMonitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		51D4911B3B876F4A89696C62 /* MonkModeLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040D721F747547D420AE240 /* MonkModeLiveActivity.swift */; };
 		539F3386B23061245548B135 /* VANVASIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33210F33C06C00FB64AA154F /* VANVASIConfig.swift */; };
+		549B2E6C44D5982109169128 /* VANVASIShieldCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9910DEFC89A06CAE27B427E6 /* VANVASIShieldCopy.swift */; };
 		55329A336EDD66494E0E992D /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ADAF212F91E17268ED7E62 /* Models.swift */; };
 		569EBFAB2D9158C0257F0F84 /* VANVASIAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C757CCEE828A49AF26C2233 /* VANVASIAppIntents.swift */; };
 		5B060F0371FAC09BC8653C84 /* PendingUnlockRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6243C0426BCA296A6D25926 /* PendingUnlockRouter.swift */; };
@@ -42,6 +45,7 @@
 		5FEDFD69F2456A098696D32E /* PINSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665E8C1A469787E8D33DD0D7 /* PINSetupView.swift */; };
 		650E8B174F82F73E42632F76 /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E523EB99504942AF3FA10955 /* SharedStore.swift */; };
 		662102A523F5F34EA9EE540D /* PendingUnlockRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6243C0426BCA296A6D25926 /* PendingUnlockRouter.swift */; };
+		68813DD596456A6E4713C89E /* VANVASIShieldCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9910DEFC89A06CAE27B427E6 /* VANVASIShieldCopy.swift */; };
 		6940333E305B0B41B7EB7389 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407B646452490A936D3E16FF /* LiveActivityManager.swift */; };
 		6AA02E626B1A83429F582FE0 /* EndLockProtection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1DCBEED939599B68FDF64D /* EndLockProtection.swift */; };
 		6D30C19C24BE5CBCBAA7866C /* UnlockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDF4A6838D2F6CD70C8DC81 /* UnlockService.swift */; };
@@ -54,6 +58,7 @@
 		7C161EAB302AB52A129C894E /* EndLockProtectionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31484C9CAC60BD9AA9E7B8F2 /* EndLockProtectionMode.swift */; };
 		7EF3CC5792E771C6EBFCCE19 /* MeritGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9173A5EAB16AC89BFE40C7B /* MeritGuideView.swift */; };
 		7FD2B1FDB79AD8B20BD1F0E9 /* MonkModeActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FFA2E57236429E6DC97949 /* MonkModeActivityAttributes.swift */; };
+		855617D44158183933ECB8B6 /* VANVASIShieldCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9910DEFC89A06CAE27B427E6 /* VANVASIShieldCopy.swift */; };
 		8984B79D606EEFF44106C8CF /* VANASITheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4EB58A0F249E702C08BBF8 /* VANASITheme.swift */; };
 		8B6744055CD0C297EB26439E /* ShieldPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD531661848C770FE9EDCE3 /* ShieldPolicy.swift */; };
 		8F1B676DA1D830E4DBC029FF /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E523EB99504942AF3FA10955 /* SharedStore.swift */; };
@@ -195,6 +200,7 @@
 		86FFA2E57236429E6DC97949 /* MonkModeActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonkModeActivityAttributes.swift; sourceTree = "<group>"; };
 		8E1DCBEED939599B68FDF64D /* EndLockProtection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndLockProtection.swift; sourceTree = "<group>"; };
 		95A37A6B5B4B517104305660 /* VANVASIShield.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = VANVASIShield.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9910DEFC89A06CAE27B427E6 /* VANVASIShieldCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANVASIShieldCopy.swift; sourceTree = "<group>"; };
 		99C895DA12A618A3007BB7B1 /* MeritAwardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeritAwardBridge.swift; sourceTree = "<group>"; };
 		A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityScheduler.swift; sourceTree = "<group>"; };
 		A6243C0426BCA296A6D25926 /* PendingUnlockRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingUnlockRouter.swift; sourceTree = "<group>"; };
@@ -411,6 +417,7 @@
 				09FABA050D80C08E33210676 /* UnlockDeepLinkHandler.swift */,
 				6DFB38917534DA0973B4BF0D /* UnlockPricing.swift */,
 				33210F33C06C00FB64AA154F /* VANVASIConfig.swift */,
+				9910DEFC89A06CAE27B427E6 /* VANVASIShieldCopy.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -603,6 +610,7 @@
 				B3E5BD00981A4D28E34B0A41 /* UnlockDeepLinkHandler.swift in Sources */,
 				5FACF29422F51CADCE5C0E79 /* UnlockPricing.swift in Sources */,
 				B82E9628F41C16C5B9310905 /* VANVASIConfig.swift in Sources */,
+				855617D44158183933ECB8B6 /* VANVASIShieldCopy.swift in Sources */,
 				9C55684CE047BD5B185EF163 /* VANVASIWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -649,6 +657,7 @@
 				569EBFAB2D9158C0257F0F84 /* VANVASIAppIntents.swift in Sources */,
 				FC33262616404F0B6479A632 /* VANVASIConfig.swift in Sources */,
 				C344DE9EA05F7DE539B527E7 /* VANVASINotificationDelegate.swift in Sources */,
+				549B2E6C44D5982109169128 /* VANVASIShieldCopy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,6 +679,7 @@
 				D7C5A108A85E93A7B50FA618 /* UnlockDeepLinkHandler.swift in Sources */,
 				DAC85E3B4B0137E43994F3E7 /* UnlockPricing.swift in Sources */,
 				539F3386B23061245548B135 /* VANVASIConfig.swift in Sources */,
+				68813DD596456A6E4713C89E /* VANVASIShieldCopy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -691,6 +701,7 @@
 				E84CD92D8C0CC8BC296C2643 /* UnlockDeepLinkHandler.swift in Sources */,
 				2431E41A8447C3C081F15D64 /* UnlockPricing.swift in Sources */,
 				6ED997B0BFD68DC80550778B /* VANVASIConfig.swift in Sources */,
+				22BB8039FA53E65D1FF7FA06 /* VANVASIShieldCopy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,6 +723,7 @@
 				9FED1A6C268C3CF3208A406F /* UnlockDeepLinkHandler.swift in Sources */,
 				FEC00AF3183EBB5D936945E7 /* UnlockPricing.swift in Sources */,
 				2367A831DA7E47DB31520B01 /* VANVASIConfig.swift in Sources */,
+				2114AEF81612149E84C7C421 /* VANVASIShieldCopy.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

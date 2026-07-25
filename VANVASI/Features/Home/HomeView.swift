@@ -311,6 +311,10 @@ struct AllowlistEditorView: View {
                         .foregroundStyle(VANASITheme.textSecondary)
                         .padding(.horizontal, 20)
                         .padding(.top, 8)
+                    Text(VANVASIShieldCopy.iosMayStayAvailableShort)
+                        .font(.caption2)
+                        .foregroundStyle(VANASITheme.textWhisper)
+                        .padding(.horizontal, 20)
                     FamilyActivityPicker(selection: $lockManager.allowedSelection)
                     Spacer()
                 }
