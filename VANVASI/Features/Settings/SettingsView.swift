@@ -121,10 +121,10 @@ struct SettingsView: View {
         @ViewBuilder destination: () -> D
     ) -> some View {
         NavigationLink(destination: destination()) {
-            VANASIMinimalRow(title: title, subtitle: subtitle)
+            VANASIMinimalRow(title: title, subtitle: subtitle, showChevron: true)
                 .padding(.horizontal, 24)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(VANASISettingsRowButtonStyle())
     }
 
     private func toggleRow(_ title: String, isOn: Binding<Bool>) -> some View {
@@ -143,5 +143,15 @@ struct SettingsView: View {
         context.insert(LockEvent(action: LockEventAction.emergencyExit))
         try? context.save()
         dismiss()
+    }
+}
+
+struct VANASISettingsRowButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .background(
+                Color.white.opacity(configuration.isPressed ? 0.05 : 0)
+            )
+            .animation(VANASITheme.springSnappy, value: configuration.isPressed)
     }
 }

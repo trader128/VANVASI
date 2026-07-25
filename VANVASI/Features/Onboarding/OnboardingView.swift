@@ -29,6 +29,13 @@ struct OnboardingView: View {
                     default: allowlistStep
                     }
                 }
+                .id(step)
+                .transition(
+                    .asymmetric(
+                        insertion: .move(edge: .trailing).combined(with: .opacity),
+                        removal: .move(edge: .leading).combined(with: .opacity)
+                    )
+                )
 
                 Spacer()
 
@@ -36,21 +43,29 @@ struct OnboardingView: View {
                     .padding(.bottom, 40)
             }
             .padding(.horizontal, 32)
+            .animation(VANASITheme.springSnappy, value: step)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active, step == 2,
                AuthorizationCenter.shared.authorizationStatus == .approved {
-                step = 3
+                advance(to: 3)
             }
         }
     }
 
+    private func advance(to newStep: Int) {
+        withAnimation(VANASITheme.springSnappy) {
+            step = newStep
+        }
+    }
+
     private var stepIndicator: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 8) {
             ForEach(0..<stepCount, id: \.self) { i in
-                Circle()
+                Capsule(style: .continuous)
                     .fill(i == step ? VANASITheme.textPrimary : VANASITheme.textWhisper)
-                    .frame(width: 4, height: 4)
+                    .frame(width: i == step ? 18 : 4, height: 4)
+                    .animation(VANASITheme.springSoft, value: step)
             }
         }
         .frame(maxWidth: .infinity)
@@ -70,7 +85,7 @@ struct OnboardingView: View {
 
             Button("Continue") {
                 VANASIHaptics.light()
-                step = 1
+                advance(to: 1)
             }
             .buttonStyle(VANASIPrimaryButton())
         }
@@ -95,7 +110,7 @@ struct OnboardingView: View {
 
             Button("Continue") {
                 VANASIHaptics.light()
-                step = 2
+                advance(to: 2)
             }
             .buttonStyle(VANASIPrimaryButton())
         }
@@ -133,7 +148,7 @@ struct OnboardingView: View {
             .buttonStyle(VANASIPrimaryButton())
 
             if AuthorizationCenter.shared.authorizationStatus == .approved {
-                Button("Continue") { step = 3 }
+                Button("Continue") { advance(to: 3) }
                     .buttonStyle(VANASITextButton())
             }
         }
@@ -158,7 +173,7 @@ struct OnboardingView: View {
             }
 
             Button("Enable monk mode") {
-                VANASIHaptics.medium()
+                VANASIHaptics.lockEngaged()
                 lockManager.persistSelection()
                 if lockManager.enableLock() {
                     context.insert(LockEvent(action: LockEventAction.enabled))
@@ -192,15 +207,15 @@ struct OnboardingView: View {
     private func requestAuthorization() async {
         authError = nil
         if AuthorizationCenter.shared.authorizationStatus == .approved {
-            step = 3
+            advance(to: 3)
             return
         }
         #if targetEnvironment(simulator)
-        step = 3
+        advance(to: 3)
         #else
         do {
             try await AuthorizationCenter.shared.requestAuthorization(for: .individual)
-            step = 3
+            advance(to: 3)
         } catch {
             authError = error.localizedDescription
         }

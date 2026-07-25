@@ -8,8 +8,6 @@ struct UnlockConfirmView: View {
 
     @EnvironmentObject private var lockManager: MonkLockManager
     @Environment(\.modelContext) private var context
-    @State private var breathScale: CGFloat = 0.94
-    @State private var appeared = false
     @State private var isPurchasing = false
     @State private var purchaseError: String?
 
@@ -21,29 +19,30 @@ struct UnlockConfirmView: View {
             VANASIBackground()
 
             VStack(spacing: 0) {
+                HStack {
+                    Spacer()
+                    Button(action: onCancel) {
+                        Image(systemName: "xmark")
+                            .font(.footnote.weight(.medium))
+                            .foregroundStyle(VANASITheme.textSecondary)
+                    }
+                    .buttonStyle(VANASIIconButton())
+                }
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+                .vanasiAppear()
+
                 Spacer()
 
-                ZStack {
-                    Circle()
-                        .stroke(VANASITheme.ringIdle, lineWidth: 1)
-                        .frame(width: 160, height: 160)
-                        .scaleEffect(breathScale)
+                VANASIBreathRing()
+                    .vanasiAppear(delay: 0.08)
 
-                    Circle()
-                        .fill(VANASITheme.ringFill)
-                        .frame(width: 130, height: 130)
-                }
-                .onAppear {
-                    withAnimation(.easeInOut(duration: 4).repeatForever(autoreverses: true)) {
-                        breathScale = 1.06
-                    }
-                }
-
-                Spacer().frame(height: 48)
+                Spacer().frame(height: 44)
 
                 Text("Pause.")
-                    .font(.system(size: 40, weight: .ultraLight))
+                    .font(.system(size: 44, weight: .ultraLight))
                     .foregroundStyle(VANASITheme.textPrimary)
+                    .vanasiAppear(delay: 0.14)
 
                 Text(headerSubtitle)
                     .font(.subheadline.weight(.light))
@@ -51,11 +50,13 @@ struct UnlockConfirmView: View {
                     .multilineTextAlignment(.center)
                     .padding(.top, 12)
                     .padding(.horizontal, 40)
+                    .vanasiAppear(delay: 0.2)
 
                 Text("\(pricing.minutes) minutes · then lock returns")
                     .font(.caption)
                     .foregroundStyle(VANASITheme.textWhisper)
                     .padding(.top, 20)
+                    .vanasiAppear(delay: 0.26)
 
                 if paymentsOn {
                     Text(priceLabel)
@@ -69,11 +70,12 @@ struct UnlockConfirmView: View {
                         .font(.footnote)
                         .foregroundStyle(.orange)
                         .padding(.top, 12)
+                        .transition(.opacity.combined(with: .move(edge: .top)))
                 }
 
                 Spacer()
 
-                VStack(spacing: 20) {
+                VStack(spacing: 16) {
                     Button { performUnlock() } label: {
                         Group {
                             if isPurchasing {
@@ -90,11 +92,8 @@ struct UnlockConfirmView: View {
                 }
                 .padding(.horizontal, 32)
                 .padding(.bottom, 56)
+                .vanasiAppear(delay: 0.32)
             }
-        }
-        .opacity(appeared ? 1 : 0)
-        .onAppear {
-            withAnimation(.easeOut(duration: 0.5)) { appeared = true }
         }
     }
 
@@ -107,7 +106,7 @@ struct UnlockConfirmView: View {
 
     private var unlockButtonTitle: String {
         if paymentsOn { return "Pay \(priceLabel)" }
-        return "Unlock"
+        return "Unlock for \(pricing.minutes) min"
     }
 
     private var headerSubtitle: String {
@@ -140,13 +139,16 @@ struct UnlockConfirmView: View {
                 } catch PaymentError.userCancelled {
                     return
                 } catch {
-                    purchaseError = error.localizedDescription
+                    withAnimation(VANASITheme.springSoft) {
+                        purchaseError = error.localizedDescription
+                    }
                     return
                 }
             }
 
             let service = UnlockService(lockManager: lockManager, context: context)
             _ = service.grantUnlock(request: request, wasPaid: wasPaid)
+            VANASIHaptics.success()
             onUnlocked()
         }
     }

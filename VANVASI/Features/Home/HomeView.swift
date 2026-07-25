@@ -36,14 +36,19 @@ struct HomeView: View {
 
             VStack(spacing: 0) {
                 HStack {
+                    VANASIStatusChip(isLocked: lockManager.isLockEnabled)
+                        .vanasiAppear(delay: 0.05)
                     Spacer()
                     Button { showSettings = true } label: {
-                        Image(systemName: "ellipsis")
+                        Image(systemName: "gearshape")
                             .font(.body.weight(.light))
-                            .foregroundStyle(VANASITheme.textWhisper)
-                            .padding(20)
+                            .foregroundStyle(VANASITheme.textSecondary)
                     }
+                    .buttonStyle(VANASIIconButton())
+                    .vanasiAppear(delay: 0.08)
                 }
+                .padding(.horizontal, 20)
+                .padding(.top, 8)
 
                 Spacer()
 
@@ -53,17 +58,21 @@ struct HomeView: View {
                             .scaleEffect(ringScale)
                     }
                     .buttonStyle(.plain)
+                    .vanasiAppear(delay: 0.12)
 
-                    VStack(spacing: 8) {
+                    VStack(spacing: 10) {
                         Text(lockManager.isLockEnabled ? "Monk mode" : "Unlocked")
-                            .font(.system(size: 22, weight: .light))
+                            .font(.system(size: 26, weight: .light))
                             .foregroundStyle(VANASITheme.textPrimary)
+                            .animation(VANASITheme.springSnappy, value: lockManager.isLockEnabled)
 
                         Text(subtitleLine)
                             .font(.subheadline.weight(.light))
                             .foregroundStyle(VANASITheme.textSecondary)
                             .multilineTextAlignment(.center)
+                            .animation(VANASITheme.springSoft, value: subtitleLine)
                     }
+                    .vanasiAppear(delay: 0.2)
                 }
 
                 Spacer()
@@ -71,9 +80,12 @@ struct HomeView: View {
                 VStack(spacing: 16) {
                     if lockManager.isLockEnabled {
                         Button("Request access · \(VANVASIConfig.unlockAllMinutes)m") {
+                            VANASIHaptics.light()
                             showUnlockConfirm = true
                         }
-                        .buttonStyle(VANASITextButton())
+                        .buttonStyle(VANASISecondaryButton())
+                        .padding(.horizontal, 32)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
 
                     if !lockManager.allowedSelection.isValidAllowlist {
@@ -87,17 +99,27 @@ struct HomeView: View {
                             .foregroundStyle(VANASITheme.textWhisper)
                     }
 
-                    Text("Self-imposed focus lock · Not parental controls")
+                    Text("Self-imposed focus · Not parental controls")
                         .font(.caption2)
-                        .foregroundStyle(VANASITheme.textWhisper.opacity(0.7))
+                        .foregroundStyle(VANASITheme.textWhisper.opacity(0.75))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
                 }
                 .padding(.bottom, 48)
+                .animation(VANASITheme.springSoft, value: lockManager.isLockEnabled)
+                .vanasiAppear(delay: 0.28)
             }
         }
-        .sheet(isPresented: $showSettings) { SettingsView() }
-        .sheet(isPresented: $showAllowlistEditor) { AllowlistEditorView() }
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+                .presentationDragIndicator(.visible)
+                .presentationCornerRadius(20)
+        }
+        .sheet(isPresented: $showAllowlistEditor) {
+            AllowlistEditorView()
+                .presentationDragIndicator(.visible)
+                .presentationCornerRadius(20)
+        }
         .sheet(isPresented: $showPINDisable) {
             PINEntryView(
                 title: "PIN to disable",
@@ -108,6 +130,7 @@ struct HomeView: View {
                 },
                 onCancel: { showPINDisable = false }
             )
+            .presentationDragIndicator(.visible)
         }
         .fullScreenCover(isPresented: $showUnlockConfirm) {
             UnlockConfirmView(
@@ -147,26 +170,28 @@ struct HomeView: View {
     }
 
     private func toggleLock() {
-        VANASIHaptics.medium()
-        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-            ringScale = 0.94
+        withAnimation(VANASITheme.springSnappy) {
+            ringScale = 0.92
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) {
-            withAnimation(.spring(response: 0.4, dampingFraction: 0.65)) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(VANASITheme.springSoft) {
                 ringScale = 1
             }
         }
 
         if lockManager.isLockEnabled {
+            VANASIHaptics.light()
             if SharedStore.pinEnabled {
                 showPINDisable = true
             } else {
                 _ = lockManager.disableLock(requirePIN: false, context: context)
             }
         } else if lockManager.enableLock() {
+            VANASIHaptics.lockEngaged()
             context.insert(LockEvent(action: LockEventAction.enabled))
             try? context.save()
         } else {
+            VANASIHaptics.medium()
             showLockError = true
         }
     }
@@ -207,6 +232,7 @@ struct AllowlistEditorView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
+                        VANASIHaptics.success()
                         lockManager.persistSelection()
                         if lockManager.isLockEnabled { _ = lockManager.enableLock() }
                         dismiss()
