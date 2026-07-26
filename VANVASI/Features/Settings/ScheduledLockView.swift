@@ -70,37 +70,3 @@ struct ScheduledLockView: View {
         String(format: "%d:%02d", minutes / 60, minutes % 60)
     }
 }
-
-struct PrivacyPolicyView: View {
-    var body: some View {
-        ScrollView(showsIndicators: false) {
-            Text(PrivacyPolicy.text)
-                .font(.footnote.weight(.light))
-                .foregroundStyle(VANASITheme.textSecondary)
-                .lineSpacing(6)
-                .padding(32)
-        }
-        .background(VANASIBackground())
-        .navigationTitle("")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(VANASITheme.void, for: .navigationBar)
-    }
-}
-
-enum PrivacyPolicy {
-    static let text = """
-    VANVASI Privacy Policy
-
-    Last updated: July 2026
-
-    VANVASI works on your device only. No account. No cloud.
-
-    We store: allowlist, lock state, session history, optional PIN (Keychain).
-
-    We do not collect analytics or read content in other apps.
-
-    Payments, if enabled, are processed by Apple.
-
-    Contact: support@vanasi.app
-    """
-}

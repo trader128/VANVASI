@@ -44,7 +44,10 @@ struct SettingsView: View {
                         divider
 
                         sectionHeader("About")
-                        settingsLink("Privacy", subtitle: "On-device data only") {
+                        settingsLink("Support", subtitle: VANVASILegal.supportEmail) {
+                            SupportContactView()
+                        }
+                        settingsLink("Privacy", subtitle: "savarun.com · VANVASI policy") {
                             PrivacyPolicyView()
                         }
 
@@ -67,7 +70,9 @@ struct SettingsView: View {
                                 destructive: true
                             )
                             .padding(.horizontal, 24)
+                            .contentShape(Rectangle())
                         }
+                        .buttonStyle(.plain)
                     }
                     .padding(.top, 8)
                     .padding(.bottom, 24)
@@ -151,11 +156,14 @@ struct SettingsView: View {
         subtitle: String? = nil,
         @ViewBuilder destination: () -> D
     ) -> some View {
-        NavigationLink(destination: destination()) {
+        NavigationLink {
+            destination()
+        } label: {
             VANASIMinimalRow(title: title, subtitle: subtitle, showChevron: true)
                 .padding(.horizontal, 24)
+                .contentShape(Rectangle())
         }
-        .buttonStyle(VANASISettingsRowButtonStyle())
+        .buttonStyle(.plain)
     }
 
     private func toggleRow(_ title: String, isOn: Binding<Bool>) -> some View {
@@ -163,6 +171,7 @@ struct SettingsView: View {
             Text(title)
                 .font(.body)
                 .foregroundStyle(VANASITheme.textPrimary)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
         .tint(VANASITheme.textPrimary)
         .padding(.horizontal, 24)
@@ -172,15 +181,5 @@ struct SettingsView: View {
     private func endLock() {
         _ = lockManager.disableLock(requirePIN: false, context: context)
         finishEndLock()
-    }
-}
-
-struct VANASISettingsRowButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .background(
-                Color.white.opacity(configuration.isPressed ? 0.05 : 0)
-            )
-            .animation(VANASITheme.springSnappy, value: configuration.isPressed)
     }
 }

@@ -1,0 +1,73 @@
+VANVASI 1.2 — App Store Review Notes (paste into App Store Connect)
+====================================================================
+
+App name: VANVASI
+Bundle ID: com.vanasi.app
+Version: 1.2.0
+
+WHAT VANVASI IS
+---------------
+VANVASI is a self-imposed digital wellbeing app for adults. Users voluntarily enable "monk mode" to shield most apps using Apple's Screen Time / Family Controls API. Phone and Messages (and VANVASI itself) remain accessible. It is NOT parental monitoring software.
+
+WHAT'S NEW IN 1.2
+-----------------
+• End-lock security: optional 4-digit PIN, Face ID, or iPhone passcode to turn off monk mode
+• Monk session length: 15m / 30m / 1h / 2h from lock-on (auto end session)
+• Merit points, levels, and in-app Merit guide
+• Live Activity on Lock Screen during monk mode and timed unlock breaks
+• Shield flow: Pause / Unlock → in-app confirmation; "Stay focused" awards merit
+• Onboarding copy explaining iOS limits (Watch, Files, Safari may stay available)
+• Home UI polish, session countdown, merit toast fixes
+
+HOW TO TEST (physical iPhone required)
+--------------------------------------
+1. Install build. Complete onboarding → grant Screen Time when iOS prompts.
+2. Free apps: select Phone, Messages, and VANVASI.
+3. Choose session length (e.g. 30m) → tap lock ring → monk mode ACTIVE.
+4. Open a blocked app (e.g. Instagram/Safari) → system shield appears.
+5. Tap Unlock → VANVASI opens unlock confirmation; or Stay focused for merit.
+6. Settings → End lock security → try PIN / Face ID / passcode / Off.
+7. Settings → Schedule, History, Merit, How it works, Support, Privacy.
+8. Optional: allow Live Activities when prompted.
+
+PRICING
+-------
+Free. Core features do not require payment. (In-app purchases are disabled in this build.)
+
+EMERGENCY / END LOCK
+--------------------
+Settings → End lock. User can also use iOS Settings → Screen Time if needed.
+
+PRIVACY & SUPPORT URLS (required — VANVASI-only paths on SavARun)
+-----------------------------------------------------------------
+Privacy Policy: https://www.savarun.com/apps/vanvasi/privacy.html
+Support:        https://www.savarun.com/apps/vanvasi/support.html
+Terms:          https://www.savarun.com/apps/vanvasi/terms.html
+App / Marketing: https://www.savarun.com/apps/vanvasi/
+Publisher home: https://www.savarun.com/
+
+CONTACT (review / support)
+--------------------------
+Lekhraj Dagur
+Email: monudagur1@gmail.com
+Phone: +91 8401024176
+
+Made in India with love.
+© 2026 VANVASI App. All rights reserved.
+
+APP PRIVACY (nutrition label guidance)
+--------------------------------------
+• Data linked to user: None collected on our servers (no account).
+• On-device only: allowlist, lock state, history, merit, optional PIN in Keychain.
+• No tracking. No third-party analytics SDKs.
+• Screen Time permission required for core functionality.
+• Notifications optional (unlock flow).
+• Face ID / passcode optional (end-lock only).
+
+NOTES FOR GUIDELINE 5.6 (if resubmitting)
+------------------------------------------
+This 1.2 submission includes substantial new functionality (security, sessions, merit, Live Activities, per-app legal pages at savarun.com/apps/vanvasi/) beyond the prior rejected build.
+
+Demo account: Not applicable (no login).
+
+Thank you for reviewing VANVASI.

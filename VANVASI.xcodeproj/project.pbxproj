@@ -16,6 +16,7 @@
 		0D06837CE86087258059349D /* VANASIMeritViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BCBD3818E01F0E75094CA0 /* VANASIMeritViews.swift */; };
 		152D90FE1E86E08396283058 /* HomeMonkStatusSubtitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C10E33208D06DB898E902C /* HomeMonkStatusSubtitle.swift */; };
 		167B8C75FFA76D687F4D3AF5 /* MonkLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B9D053C8E04016AD00834A /* MonkLockManager.swift */; };
+		1A10F27DEC85B947379742B7 /* LegalSupportViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9076C1CC918726F1D573FD /* LegalSupportViews.swift */; };
 		1E5D41BEC21D95BE59F41A6A /* PaymentGateway.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FCEA6072FBEB6973A344A0 /* PaymentGateway.swift */; };
 		1FB5F3637F25E063CA74E36D /* ScheduledLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */; };
 		1FB7B70E1165515356703920 /* ShieldPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CD531661848C770FE9EDCE3 /* ShieldPolicy.swift */; };
@@ -56,6 +57,7 @@
 		7551FCBB5FB0C0041A0223DA /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E523EB99504942AF3FA10955 /* SharedStore.swift */; };
 		7692219EAB111640DE864916 /* FocusPointsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25241A29277CCBB475CF2906 /* FocusPointsService.swift */; };
 		77205757B832A0751C0B51E1 /* MonkSessionUntilManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C14DAE1D55D83188FA94B3 /* MonkSessionUntilManager.swift */; };
+		7951FE83D8E08E405B0F87FB /* VANVASILegal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6CC6302AE906A2238E5F5C /* VANVASILegal.swift */; };
 		79BB8E664B77F2EA084E7890 /* MeritAwardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C895DA12A618A3007BB7B1 /* MeritAwardBridge.swift */; };
 		7C161EAB302AB52A129C894E /* EndLockProtectionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31484C9CAC60BD9AA9E7B8F2 /* EndLockProtectionMode.swift */; };
 		7EF3CC5792E771C6EBFCCE19 /* MeritGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9173A5EAB16AC89BFE40C7B /* MeritGuideView.swift */; };
@@ -180,6 +182,7 @@
 		1689B23C6902CC23002256B7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1A9CA23E7087F1744CB7DA14 /* VANVASIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANVASIApp.swift; sourceTree = "<group>"; };
 		1CD531661848C770FE9EDCE3 /* ShieldPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldPolicy.swift; sourceTree = "<group>"; };
+		1D6CC6302AE906A2238E5F5C /* VANVASILegal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANVASILegal.swift; sourceTree = "<group>"; };
 		25241A29277CCBB475CF2906 /* FocusPointsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusPointsService.swift; sourceTree = "<group>"; };
 		2BBD4C3F07B7A375833044C4 /* VANVASIShieldAction.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VANVASIShieldAction.entitlements; sourceTree = "<group>"; };
 		2C757CCEE828A49AF26C2233 /* VANVASIAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANVASIAppIntents.swift; sourceTree = "<group>"; };
@@ -209,6 +212,7 @@
 		95A37A6B5B4B517104305660 /* VANVASIShield.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = VANVASIShield.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9910DEFC89A06CAE27B427E6 /* VANVASIShieldCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANVASIShieldCopy.swift; sourceTree = "<group>"; };
 		99C895DA12A618A3007BB7B1 /* MeritAwardBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeritAwardBridge.swift; sourceTree = "<group>"; };
+		9B9076C1CC918726F1D573FD /* LegalSupportViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalSupportViews.swift; sourceTree = "<group>"; };
 		A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityScheduler.swift; sourceTree = "<group>"; };
 		A6243C0426BCA296A6D25926 /* PendingUnlockRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingUnlockRouter.swift; sourceTree = "<group>"; };
 		A865E88E60B395DAC3A814CD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -263,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				D0E1A056DB3806A404909B3C /* HowItWorksView.swift */,
+				9B9076C1CC918726F1D573FD /* LegalSupportViews.swift */,
 				F9173A5EAB16AC89BFE40C7B /* MeritGuideView.swift */,
 				665E8C1A469787E8D33DD0D7 /* PINSetupView.swift */,
 				46726112FD1676CDEEAC6734 /* ScheduledLockView.swift */,
@@ -303,6 +308,7 @@
 				07727A59DFE9B3159C127719 /* PINProtection.swift */,
 				AFDF4A6838D2F6CD70C8DC81 /* UnlockService.swift */,
 				7D580E17D786D8440B21CE36 /* VANVASIAppDelegate.swift */,
+				1D6CC6302AE906A2238E5F5C /* VANVASILegal.swift */,
 				7FE1200F0816E55651A34DB4 /* VANVASINotificationDelegate.swift */,
 				DF7536C2E413413F5868085A /* Intents */,
 				CD87758ED65D9D9B63A26CE6 /* Payment */,
@@ -639,6 +645,7 @@
 				152D90FE1E86E08396283058 /* HomeMonkStatusSubtitle.swift in Sources */,
 				4A41C893ACDDA54ABBCAE833 /* HomeView.swift in Sources */,
 				C0D3AF6B7AAF3AD11F43BF04 /* HowItWorksView.swift in Sources */,
+				1A10F27DEC85B947379742B7 /* LegalSupportViews.swift in Sources */,
 				6940333E305B0B41B7EB7389 /* LiveActivityManager.swift in Sources */,
 				ECD81A0C7F4BBAEF3E5D4F42 /* MeritAwardBridge.swift in Sources */,
 				7EF3CC5792E771C6EBFCCE19 /* MeritGuideView.swift in Sources */,
@@ -669,6 +676,7 @@
 				BB0A3A007EA8DDEFC43CF5E3 /* VANVASIAppDelegate.swift in Sources */,
 				569EBFAB2D9158C0257F0F84 /* VANVASIAppIntents.swift in Sources */,
 				FC33262616404F0B6479A632 /* VANVASIConfig.swift in Sources */,
+				7951FE83D8E08E405B0F87FB /* VANVASILegal.swift in Sources */,
 				C344DE9EA05F7DE539B527E7 /* VANVASINotificationDelegate.swift in Sources */,
 				549B2E6C44D5982109169128 /* VANVASIShieldCopy.swift in Sources */,
 			);

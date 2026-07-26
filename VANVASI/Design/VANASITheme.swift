@@ -255,6 +255,7 @@ struct VANASIMinimalRow: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 14)
+        .contentShape(Rectangle())
     }
 }
 
