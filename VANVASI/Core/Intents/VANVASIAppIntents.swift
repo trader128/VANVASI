@@ -10,7 +10,7 @@ struct EnableVANVASILockIntent: AppIntent {
     func perform() async throws -> some IntentResult {
         let manager = MonkLockManager.shared
         if !manager.isLockEnabled {
-            _ = manager.enableLock(logEvent: false)
+            _ = manager.enableLock()
         }
         return .result()
     }
@@ -43,7 +43,7 @@ struct ToggleVANVASILockIntent: AppIntent {
                 _ = manager.disableLock(requirePIN: false)
             }
         } else {
-            _ = manager.enableLock(logEvent: false)
+            _ = manager.enableLock()
         }
         return .result()
     }

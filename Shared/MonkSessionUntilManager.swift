@@ -9,17 +9,13 @@ enum MonkSessionUntilManager {
         get {
             let v = SharedStore.store.integer(forKey: SharedKeys.monkSessionUntilPreferenceMinutes)
             if durationOptions.contains(v) { return v }
-            if v == 0 || v > 180 { return defaultDurationMinutes }
             return defaultDurationMinutes
         }
         set {
             let clamped = durationOptions.contains(newValue) ? newValue : defaultDurationMinutes
             SharedStore.store.set(clamped, forKey: SharedKeys.monkSessionUntilPreferenceMinutes)
-            SharedStore.store.set(true, forKey: SharedKeys.monkSessionUntilPreferenceEnabled)
         }
     }
-
-    static var preferenceEnabled: Bool { true }
 
     static var activeUntil: Date? {
         guard SharedStore.store.bool(forKey: SharedKeys.monkSessionUntilActive) else { return nil }

@@ -3,10 +3,6 @@ import ActivityKit
 
 @MainActor
 enum LiveActivityManager {
-    static var isSupported: Bool {
-        ActivityAuthorizationInfo().areActivitiesEnabled
-    }
-
     static func syncMonkModeLocked(meritPoints: Int) {
         guard SharedStore.monkLockEnabled else {
             endAll()

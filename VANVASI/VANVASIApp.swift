@@ -1,8 +1,6 @@
 import SwiftUI
 import SwiftData
-import FamilyControls
 import UIKit
-import UserNotifications
 
 @main
 struct VANVASIApp: App {
@@ -59,11 +57,6 @@ struct RootView: View {
             .environmentObject(lockManager)
         }
         .onAppear(perform: checkPendingUnlock)
-        .onAppear {
-            Task { @MainActor in
-                FocusPointsService.shared.consumePendingExtensionMerit()
-            }
-        }
         .onReceive(NotificationCenter.default.publisher(for: .vanasiOpenPendingUnlock)) { _ in
             checkPendingUnlock()
         }

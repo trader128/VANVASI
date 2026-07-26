@@ -19,12 +19,12 @@ final class MonkLockManager: ObservableObject {
     }
 
     @discardableResult
-    func enableLock(logEvent: Bool = true) -> Bool {
+    func enableLock() -> Bool {
         lastError = nil
 
         #if targetEnvironment(simulator)
         persistSelection()
-        applyEnabledState(logEvent: logEvent)
+        applyEnabledState()
         return true
         #else
 
@@ -40,7 +40,7 @@ final class MonkLockManager: ObservableObject {
 
         persistSelection()
         ShieldPolicy.applyFullLock(to: store, selection: allowedSelection)
-        applyEnabledState(logEvent: logEvent)
+        applyEnabledState()
         return true
         #endif
     }
@@ -145,15 +145,12 @@ final class MonkLockManager: ObservableObject {
         SharedStore.store.removeObject(forKey: SharedKeys.pendingUnlockAppToken)
     }
 
-    private func applyEnabledState(logEvent: Bool) {
+    private func applyEnabledState() {
         isLockEnabled = true
         SharedStore.monkLockEnabled = true
         SharedStore.store.set(Date().timeIntervalSince1970, forKey: SharedKeys.lockSessionStartedAt)
         MonkSessionUntilManager.activateForCurrentSession()
         WidgetReloader.reloadLockWidget()
-        if logEvent {
-            // LockEvent inserted by caller when ModelContext available
-        }
     }
 
     private func loadSelection() {

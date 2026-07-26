@@ -131,7 +131,6 @@ struct HomeView: View {
 
             homeFooterBlock
         }
-        .padding(.horizontal, 0)
     }
 
     private var lockHeroBlock: some View {
