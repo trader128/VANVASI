@@ -30,30 +30,12 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 headerBar
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        heroSection
-                        bottomSection
-                    }
-                    .padding(.top, 16)
-                    .padding(.bottom, 32)
+                    homeScrollContent
+                        .padding(.top, 16)
+                        .padding(.bottom, 40)
                 }
             }
-
-            if let gain = points.recentGain {
-                VANASIPointsToast(gain: gain)
-                    .padding(.bottom, 120)
-                    .transition(.scale.combined(with: .opacity))
-                    .onAppear {
-                        VANASIHaptics.success()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
-                            withAnimation(VANASITheme.easeAppear) {
-                                points.clearRecentGain()
-                            }
-                        }
-                    }
-            }
         }
-        .animation(VANASITheme.springSoft, value: points.recentGain?.id)
         .sheet(isPresented: $showSettings) {
             SettingsView()
                 .presentationDragIndicator(.visible)
@@ -93,6 +75,7 @@ struct HomeView: View {
             homeTick += 1
             processMonkSessionUntilExpiry()
             if homeTick.isMultiple(of: 5) {
+                lockManager.reconcileSharedLockState()
                 lockManager.restoreLockIfNeeded()
                 if lockManager.isLockEnabled {
                     points.syncLockedTimeRewards()
@@ -110,12 +93,11 @@ struct HomeView: View {
                 LiveActivityManager.endAll()
             }
         }
-        .onChange(of: points.total) { _, total in
-            guard lockManager.isLockEnabled, homeTick.isMultiple(of: 15) else { return }
-            LiveActivityManager.syncMonkModeLocked(meritPoints: total)
-        }
         .onChange(of: stats.streakDays) { _, streak in
             points.syncStreakBonus(streakDays: streak)
+        }
+        .onChange(of: points.recentGain?.id) { _, id in
+            if id != nil { VANASIHaptics.success() }
         }
     }
 
@@ -136,7 +118,23 @@ struct HomeView: View {
         .padding(.top, 8)
     }
 
-    private var heroSection: some View {
+    @ViewBuilder
+    private var homeScrollContent: some View {
+        VStack(spacing: 24) {
+            lockHeroBlock
+
+            if lockManager.isLockEnabled {
+                lockedActionsBlock
+            } else {
+                sessionDurationSection
+            }
+
+            homeFooterBlock
+        }
+        .padding(.horizontal, 0)
+    }
+
+    private var lockHeroBlock: some View {
         VStack(spacing: 28) {
             Button { toggleLock() } label: {
                 VANASILockRing(isLocked: lockManager.isLockEnabled)
@@ -155,6 +153,9 @@ struct HomeView: View {
             }
             .vanasiAppear(delay: 0.2)
 
+            meritPointsToastSlot
+                .animation(.easeInOut(duration: 0.28), value: points.recentGain?.id)
+
             VANASIMeritCard(
                 total: points.total,
                 level: points.level,
@@ -163,32 +164,32 @@ struct HomeView: View {
                 streakDays: stats.streakDays
             )
             .padding(.horizontal, 28)
-            .vanasiAppear(delay: 0.24)
+            .padding(.bottom, 2)
         }
     }
 
-    private var bottomSection: some View {
-        VStack(spacing: 16) {
-            if lockManager.isLockEnabled {
-                Button("Request access · \(VANVASIConfig.unlockAllMinutes)m break") {
-                    VANASIHaptics.light()
-                    homeUnlockRequest = .unlockAll
-                }
-                .buttonStyle(VANASISecondaryButton())
-                .padding(.horizontal, 32)
-                .transition(.move(edge: .bottom).combined(with: .opacity))
-
-                if MonkSessionUntilManager.activeUntil != nil {
-                    Text("App breaks · up to \(VANVASIConfig.unlockAllMinutes)m")
-                        .font(.caption2)
-                        .foregroundStyle(VANASITheme.textWhisper)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 28)
-                }
-            } else {
-                sessionDurationSection
+    private var lockedActionsBlock: some View {
+        VStack(spacing: 12) {
+            Button("Request access · \(VANVASIConfig.unlockAllMinutes)m break") {
+                VANASIHaptics.light()
+                homeUnlockRequest = .unlockAll
             }
+            .buttonStyle(VANASISecondaryButton())
+            .padding(.horizontal, 32)
 
+            if MonkSessionUntilManager.activeUntil != nil {
+                Text("App breaks · up to \(VANVASIConfig.unlockAllMinutes)m")
+                    .font(.caption2)
+                    .foregroundStyle(VANASITheme.textWhisper)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 28)
+            }
+        }
+        .padding(.top, 8)
+    }
+
+    private var homeFooterBlock: some View {
+        VStack(spacing: 14) {
             if !lockManager.allowedSelection.isValidAllowlist {
                 Button("Set free apps") { showAllowlistEditor = true }
                     .buttonStyle(VANASITextButton())
@@ -209,8 +210,8 @@ struct HomeView: View {
                 .buttonStyle(.plain)
             }
 
-            if stats.streakDays > 0 || stats.focusScore > 0 {
-                Text("\(stats.focusScore) focus score today")
+            if stats.focusScore > 0, !lockManager.isLockEnabled {
+                Text("Focus habit · \(stats.focusScore)/100")
                     .font(.caption2)
                     .foregroundStyle(VANASITheme.textWhisper)
             }
@@ -221,7 +222,23 @@ struct HomeView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
         }
-        .padding(.bottom, 48)
+        .padding(.top, lockManager.isLockEnabled ? 8 : 0)
+        .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    private var meritPointsToastSlot: some View {
+        if let gain = points.recentGain {
+            VANASIPointsToast(gain: gain) {
+                points.clearRecentGain()
+            }
+            .padding(.horizontal, 28)
+            .padding(.top, 8)
+            .padding(.bottom, 4)
+            .id(gain.id)
+        } else {
+            Color.clear.frame(height: 0)
+        }
     }
 
     private var sessionDurationSection: some View {
@@ -280,7 +297,6 @@ struct HomeView: View {
         } else if lockManager.enableLock() {
             VANASIHaptics.lockEngaged()
             MonkSessionUntilManager.preferenceDurationMinutes = sessionDurationMinutes
-            MonkSessionUntilManager.activateForCurrentSession()
             points.recordLockEngaged()
             LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
             context.insert(LockEvent(action: LockEventAction.enabled))
@@ -311,6 +327,7 @@ struct HomeView: View {
     }
 
     private func onAppearActions() {
+        lockManager.reconcileSharedLockState()
         lockManager.restoreLockIfNeeded()
         ScheduledLockManager.applySchedule()
         points.syncLockedTimeRewards()
@@ -324,6 +341,7 @@ struct HomeView: View {
     private func processMonkSessionUntilExpiry() {
         if SharedStore.store.bool(forKey: SharedKeys.pendingMonkSessionEnded) {
             SharedStore.store.set(false, forKey: SharedKeys.pendingMonkSessionEnded)
+            lockManager.reconcileSharedLockState()
             context.insert(LockEvent(action: LockEventAction.scheduledDisable))
             try? context.save()
         }

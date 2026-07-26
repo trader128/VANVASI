@@ -69,6 +69,7 @@ struct RootView: View {
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             checkPendingUnlock()
+            lockManager.reconcileSharedLockState()
             Task { @MainActor in
                 FocusPointsService.shared.consumePendingExtensionMerit()
             }

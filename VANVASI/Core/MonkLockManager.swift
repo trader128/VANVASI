@@ -112,6 +112,21 @@ final class MonkLockManager: ObservableObject {
         applyShieldPolicy()
     }
 
+    /// Extension, widget, or session timer may change App Group lock state while the app runs.
+    func reconcileSharedLockState() {
+        let sharedEnabled = SharedStore.monkLockEnabled
+        guard isLockEnabled != sharedEnabled else { return }
+
+        isLockEnabled = sharedEnabled
+        if sharedEnabled {
+            restoreLockIfNeeded()
+            WidgetReloader.reloadLockWidget()
+        } else {
+            lastError = nil
+            LiveActivityManager.endAll()
+        }
+    }
+
     func persistSelection() {
         if let data = try? JSONEncoder().encode(allowedSelection) {
             SharedStore.store.set(data, forKey: SharedKeys.allowedSelectionData)
@@ -134,6 +149,7 @@ final class MonkLockManager: ObservableObject {
         isLockEnabled = true
         SharedStore.monkLockEnabled = true
         SharedStore.store.set(Date().timeIntervalSince1970, forKey: SharedKeys.lockSessionStartedAt)
+        MonkSessionUntilManager.activateForCurrentSession()
         WidgetReloader.reloadLockWidget()
         if logEvent {
             // LockEvent inserted by caller when ModelContext available

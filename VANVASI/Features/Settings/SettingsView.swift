@@ -170,7 +170,7 @@ struct SettingsView: View {
     }
 
     private func endLock() {
-        lockManager.disableLock(requirePIN: false, context: context)
+        _ = lockManager.disableLock(requirePIN: false, context: context)
         finishEndLock()
     }
 }

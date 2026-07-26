@@ -16,6 +16,7 @@ class VANVASIDeviceActivityMonitor: DeviceActivityMonitor {
             ShieldPolicy.applyFullLock(to: store, selection: selection)
         }
         SharedStore.store.set(Date().timeIntervalSince1970, forKey: SharedKeys.lockSessionStartedAt)
+        MonkSessionUntilManager.activateForCurrentSession()
         WidgetReloader.reloadLockWidget()
     }
 

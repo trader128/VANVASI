@@ -63,14 +63,16 @@ struct VANASIMeritCard: View {
             RoundedRectangle(cornerRadius: 18, style: .continuous)
                 .strokeBorder(Color.white.opacity(0.1), lineWidth: 0.5)
         )
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
     }
 }
 
 struct VANASIPointsToast: View {
     let gain: FocusPointsService.PointGain
+    var onFinished: () -> Void
 
-    @State private var visible = false
-    @State private var floatUp = false
+    @State private var show = false
+    @State private var exit = false
 
     var body: some View {
         VStack(spacing: 4) {
@@ -86,14 +88,24 @@ struct VANASIPointsToast: View {
         .background(
             Capsule(style: .continuous)
                 .fill(Color.white.opacity(0.12))
-                .shadow(color: .white.opacity(0.15), radius: 20)
+                .shadow(color: .white.opacity(0.12), radius: 12, y: 4)
         )
-        .scaleEffect(visible ? 1 : 0.6)
-        .opacity(visible ? 1 : 0)
-        .offset(y: floatUp ? -8 : 12)
-        .onAppear {
-            withAnimation(VANASITheme.springSnappy) { visible = true }
-            withAnimation(.easeOut(duration: 1.2).delay(0.15)) { floatUp = true }
+        .scaleEffect(exit ? 0.92 : (show ? 1 : 0.88))
+        .opacity(exit ? 0 : (show ? 1 : 0))
+        .offset(y: exit ? -20 : (show ? 0 : 10))
+        .accessibilityElement(children: .combine)
+        .task(id: gain.id) {
+            show = false
+            exit = false
+            withAnimation(.spring(response: 0.45, dampingFraction: 0.82)) {
+                show = true
+            }
+            try? await Task.sleep(for: .seconds(2.1))
+            withAnimation(.easeIn(duration: 0.45)) {
+                exit = true
+            }
+            try? await Task.sleep(for: .seconds(0.5))
+            onFinished()
         }
     }
 }
