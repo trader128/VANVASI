@@ -17,6 +17,8 @@ struct HomeView: View {
     @State private var showPINDisable = false
     @State private var ringScale: CGFloat = 1
     @State private var now = Date()
+    @State private var sessionDurationMinutes = MonkSessionUntilManager.preferenceDurationMinutes
+    @State private var homeTick = 0
 
     private var stats: FocusStats {
         FocusStatsCalculator.compute(sessions: sessions, events: events)
@@ -39,12 +41,11 @@ struct HomeView: View {
                 headerBar
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 0) {
-                        Spacer(minLength: 24)
                         heroSection
-                        Spacer(minLength: 24)
                         bottomSection
                     }
-                    .frame(minHeight: 520)
+                    .padding(.top, 16)
+                    .padding(.bottom, 32)
                 }
             }
 
@@ -99,12 +100,19 @@ struct HomeView: View {
         }
         .onAppear(perform: onAppearActions)
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
-            now = Date()
-            lockManager.restoreLockIfNeeded()
-            if lockManager.isLockEnabled {
+            homeTick += 1
+            let needsSecondUpdates = unlockUntil != nil || MonkSessionUntilManager.activeUntil != nil
+            if needsSecondUpdates || homeTick.isMultiple(of: 5) {
+                now = Date()
+            }
+            if homeTick.isMultiple(of: 5) {
+                lockManager.restoreLockIfNeeded()
+                processMonkSessionUntilExpiry()
+            }
+            if lockManager.isLockEnabled, homeTick.isMultiple(of: 5) {
                 points.syncLockedTimeRewards()
-                LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
-            } else if unlockUntil != nil {
+            }
+            if homeTick.isMultiple(of: 15), lockManager.isLockEnabled || unlockUntil != nil {
                 LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
             }
         }
@@ -156,13 +164,13 @@ struct HomeView: View {
                 Text(lockManager.isLockEnabled ? "Monk mode" : "Unlocked")
                     .font(.system(size: 26, weight: .light))
                     .foregroundStyle(VANASITheme.textPrimary)
-                    .animation(VANASITheme.springSnappy, value: lockManager.isLockEnabled)
 
                 Text(subtitleLine)
                     .font(.subheadline.weight(.light))
                     .foregroundStyle(VANASITheme.textSecondary)
                     .multilineTextAlignment(.center)
-                    .animation(VANASITheme.springSoft, value: subtitleLine)
+                    .frame(minHeight: 40)
+                    .contentTransition(.numericText())
             }
             .vanasiAppear(delay: 0.2)
 
@@ -181,13 +189,23 @@ struct HomeView: View {
     private var bottomSection: some View {
         VStack(spacing: 16) {
             if lockManager.isLockEnabled {
-                Button("Request access · \(VANVASIConfig.unlockAllMinutes)m") {
+                Button("Request access · \(VANVASIConfig.unlockAllMinutes)m break") {
                     VANASIHaptics.light()
                     homeUnlockRequest = .unlockAll
                 }
                 .buttonStyle(VANASISecondaryButton())
                 .padding(.horizontal, 32)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
+
+                if MonkSessionUntilManager.activeUntil != nil {
+                    Text("Session \(MonkSessionUntilManager.formattedSessionRemaining(now: now) ?? "") · breaks are \(VANVASIConfig.unlockAllMinutes)m max")
+                        .font(.caption2)
+                        .foregroundStyle(VANASITheme.textWhisper)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 28)
+                }
+            } else {
+                sessionDurationSection
             }
 
             if !lockManager.allowedSelection.isValidAllowlist {
@@ -223,13 +241,54 @@ struct HomeView: View {
                 .padding(.horizontal, 32)
         }
         .padding(.bottom, 48)
-        .animation(VANASITheme.springSoft, value: lockManager.isLockEnabled)
-        .vanasiAppear(delay: 0.28)
+    }
+
+    private var sessionDurationSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Monk mode length")
+                .font(.subheadline)
+                .foregroundStyle(VANASITheme.textPrimary)
+            Text("Optional. Short app unlocks (\(VANVASIConfig.singleAppMinutes)/\(VANVASIConfig.unlockAllMinutes) min) are breaks only.")
+                .font(.caption2)
+                .foregroundStyle(VANASITheme.textWhisper)
+                .lineSpacing(3)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(MonkSessionUntilManager.durationOptions, id: \.self) { minutes in
+                        durationChip(minutes)
+                    }
+                }
+            }
+        }
+        .padding(.horizontal, 32)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func durationChip(_ minutes: Int) -> some View {
+        let selected = sessionDurationMinutes == minutes
+        return Button {
+            VANASIHaptics.light()
+            sessionDurationMinutes = minutes
+            MonkSessionUntilManager.preferenceDurationMinutes = minutes
+        } label: {
+            Text(MonkSessionUntilManager.label(for: minutes))
+                .font(.caption.weight(selected ? .semibold : .regular))
+                .foregroundStyle(selected ? Color.black : VANASITheme.textSecondary)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 8)
+                .background(selected ? VANASITheme.textPrimary : VANASITheme.ringFill)
+                .clipShape(Capsule())
+        }
+        .buttonStyle(.plain)
     }
 
     private var subtitleLine: String {
         if let until = unlockUntil {
-            return "Re-locks in \(remaining(until: until))"
+            return "Break ends in \(remaining(until: until))"
+        }
+        if lockManager.isLockEnabled, let remaining = MonkSessionUntilManager.formattedSessionRemaining(now: now) {
+            return "Session · \(remaining)"
         }
         return lockManager.isLockEnabled
             ? "Calls & messages only"
@@ -258,6 +317,8 @@ struct HomeView: View {
             requestDisableMonkMode()
         } else if lockManager.enableLock() {
             VANASIHaptics.lockEngaged()
+            MonkSessionUntilManager.preferenceDurationMinutes = sessionDurationMinutes
+            MonkSessionUntilManager.activateForCurrentSession()
             points.recordLockEngaged()
             LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
             context.insert(LockEvent(action: LockEventAction.enabled))
@@ -294,6 +355,20 @@ struct HomeView: View {
         points.syncStreakBonus(streakDays: stats.streakDays)
         points.consumePendingExtensionMerit()
         LiveActivityManager.syncMonkModeLocked(meritPoints: points.total)
+        processMonkSessionUntilExpiry()
+        sessionDurationMinutes = MonkSessionUntilManager.preferenceDurationMinutes
+    }
+
+    private func processMonkSessionUntilExpiry() {
+        if SharedStore.store.bool(forKey: SharedKeys.pendingMonkSessionEnded) {
+            SharedStore.store.set(false, forKey: SharedKeys.pendingMonkSessionEnded)
+            context.insert(LockEvent(action: LockEventAction.scheduledDisable))
+            try? context.save()
+        }
+        guard lockManager.isLockEnabled, MonkSessionUntilManager.shouldEndSessionNow() else { return }
+        _ = lockManager.disableLock(requirePIN: false, context: context)
+        context.insert(LockEvent(action: LockEventAction.scheduledDisable))
+        try? context.save()
     }
 }
 

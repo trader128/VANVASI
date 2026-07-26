@@ -72,6 +72,7 @@ final class MonkLockManager: ObservableObject {
         SharedStore.monkLockEnabled = false
         SharedStore.store.removeObject(forKey: SharedKeys.lockSessionStartedAt)
         SharedStore.clearTempUnlockKeys()
+        MonkSessionUntilManager.clearActiveSession()
         lastError = nil
         WidgetReloader.reloadLockWidget()
         LiveActivityManager.endAll()

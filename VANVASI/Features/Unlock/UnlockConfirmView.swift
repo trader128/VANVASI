@@ -64,6 +64,16 @@ struct UnlockConfirmView: View {
                     .padding(.top, 20)
                     .vanasiAppear(delay: 0.26)
 
+                if let remaining = MonkSessionUntilManager.formattedSessionRemaining() {
+                    Text("Monk session · \(remaining) — this unlock is only a \(pricing.minutes)-minute break.")
+                        .font(.caption2)
+                        .foregroundStyle(VANASITheme.textWhisper)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 8)
+                        .vanasiAppear(delay: 0.24)
+                }
+
                 if paymentsOn {
                     Text(priceLabel)
                         .font(.caption)

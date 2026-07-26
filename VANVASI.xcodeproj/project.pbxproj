@@ -54,6 +54,7 @@
 		720D0A5383ACB19CD8FAF3B8 /* MonkModeActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FFA2E57236429E6DC97949 /* MonkModeActivityAttributes.swift */; };
 		7551FCBB5FB0C0041A0223DA /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E523EB99504942AF3FA10955 /* SharedStore.swift */; };
 		7692219EAB111640DE864916 /* FocusPointsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25241A29277CCBB475CF2906 /* FocusPointsService.swift */; };
+		77205757B832A0751C0B51E1 /* MonkSessionUntilManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C14DAE1D55D83188FA94B3 /* MonkSessionUntilManager.swift */; };
 		79BB8E664B77F2EA084E7890 /* MeritAwardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C895DA12A618A3007BB7B1 /* MeritAwardBridge.swift */; };
 		7C161EAB302AB52A129C894E /* EndLockProtectionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31484C9CAC60BD9AA9E7B8F2 /* EndLockProtectionMode.swift */; };
 		7EF3CC5792E771C6EBFCCE19 /* MeritGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9173A5EAB16AC89BFE40C7B /* MeritGuideView.swift */; };
@@ -74,6 +75,8 @@
 		A0DD3092329954BA46AB1656 /* UnlockConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0E01CC3626724B9D230928 /* UnlockConfirmView.swift */; };
 		A3ABE4886F4B9112883B8637 /* ScheduledLockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46726112FD1676CDEEAC6734 /* ScheduledLockView.swift */; };
 		A475A14CB1478F2D45364AAA /* VANVASIShield.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 95A37A6B5B4B517104305660 /* VANVASIShield.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A57BCE35113F5C861829CA3B /* MonkSessionUntilManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C14DAE1D55D83188FA94B3 /* MonkSessionUntilManager.swift */; };
+		A79F745ADCAB294642327F28 /* MonkSessionUntilManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C14DAE1D55D83188FA94B3 /* MonkSessionUntilManager.swift */; };
 		AB1F9EAE819DAE962E9921A4 /* MeritAwardBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C895DA12A618A3007BB7B1 /* MeritAwardBridge.swift */; };
 		AB91D71C39E3C30A7096E835 /* DeviceActivityScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */; };
 		ABC425F30FE80D1F99E42EBF /* FamilyActivitySelection+Allowlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90799D7BA0EBCF620D90DBD /* FamilyActivitySelection+Allowlist.swift */; };
@@ -99,6 +102,7 @@
 		DC961B43B0D1F39C068540A0 /* ScheduledLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */; };
 		E00DB323BD6C003522FC4CB9 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31ADAF212F91E17268ED7E62 /* Models.swift */; };
 		E064448866F3E130C31D1BFE /* PendingUnlockRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6243C0426BCA296A6D25926 /* PendingUnlockRouter.swift */; };
+		E0810A52FDD638102473BF83 /* MonkSessionUntilManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C14DAE1D55D83188FA94B3 /* MonkSessionUntilManager.swift */; };
 		E2CC2A27D5AE246DA5061B73 /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E523EB99504942AF3FA10955 /* SharedStore.swift */; };
 		E75D74039819C9EC86332023 /* DeviceActivityScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5BFA9C7FD7656D242F6CD45 /* DeviceActivityScheduler.swift */; };
 		E84CD92D8C0CC8BC296C2643 /* UnlockDeepLinkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09FABA050D80C08E33210676 /* UnlockDeepLinkHandler.swift */; };
@@ -111,6 +115,7 @@
 		F0A3367B68ABE12A368350A4 /* FamilyActivitySelection+Allowlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90799D7BA0EBCF620D90DBD /* FamilyActivitySelection+Allowlist.swift */; };
 		F1877E2DE25C690F9CCF226E /* ScheduledLockManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */; };
 		F6BF56767405F5D06F3A4350 /* MonkModeActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FFA2E57236429E6DC97949 /* MonkModeActivityAttributes.swift */; };
+		F8A41FA216839EF2CF377A75 /* MonkSessionUntilManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C14DAE1D55D83188FA94B3 /* MonkSessionUntilManager.swift */; };
 		FC33262616404F0B6479A632 /* VANVASIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33210F33C06C00FB64AA154F /* VANVASIConfig.swift */; };
 		FEC00AF3183EBB5D936945E7 /* UnlockPricing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DFB38917534DA0973B4BF0D /* UnlockPricing.swift */; };
 /* End PBXBuildFile section */
@@ -211,6 +216,7 @@
 		B224CAC9B2717AD036E7119F /* SessionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionHistoryView.swift; sourceTree = "<group>"; };
 		B4BCBD3818E01F0E75094CA0 /* VANASIMeritViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VANASIMeritViews.swift; sourceTree = "<group>"; };
 		BD4FE3503FD8709BCB316480 /* DeviceActivityMonitorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceActivityMonitorExtension.swift; sourceTree = "<group>"; };
+		C5C14DAE1D55D83188FA94B3 /* MonkSessionUntilManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonkSessionUntilManager.swift; sourceTree = "<group>"; };
 		C5D3583774A8E0D253381981 /* VANVASIWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = VANVASIWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0E1A056DB3806A404909B3C /* HowItWorksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksView.swift; sourceTree = "<group>"; };
 		DD0E01CC3626724B9D230928 /* UnlockConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockConfirmView.swift; sourceTree = "<group>"; };
@@ -410,6 +416,7 @@
 				99C895DA12A618A3007BB7B1 /* MeritAwardBridge.swift */,
 				31ADAF212F91E17268ED7E62 /* Models.swift */,
 				86FFA2E57236429E6DC97949 /* MonkModeActivityAttributes.swift */,
+				C5C14DAE1D55D83188FA94B3 /* MonkSessionUntilManager.swift */,
 				A6243C0426BCA296A6D25926 /* PendingUnlockRouter.swift */,
 				108D15EF2172D4B3764E6296 /* ScheduledLockManager.swift */,
 				E523EB99504942AF3FA10955 /* SharedStore.swift */,
@@ -603,6 +610,7 @@
 				31CA6F892F5C587065C9301B /* Models.swift in Sources */,
 				C3C9050423F759BA774D1247 /* MonkModeActivityAttributes.swift in Sources */,
 				51D4911B3B876F4A89696C62 /* MonkModeLiveActivity.swift in Sources */,
+				A57BCE35113F5C861829CA3B /* MonkSessionUntilManager.swift in Sources */,
 				9D55290DE278472AB0A6522F /* PendingUnlockRouter.swift in Sources */,
 				F1877E2DE25C690F9CCF226E /* ScheduledLockManager.swift in Sources */,
 				966DBA6F812EA1EDD3876ECE /* SharedStore.swift in Sources */,
@@ -633,6 +641,7 @@
 				55329A336EDD66494E0E992D /* Models.swift in Sources */,
 				167B8C75FFA76D687F4D3AF5 /* MonkLockManager.swift in Sources */,
 				720D0A5383ACB19CD8FAF3B8 /* MonkModeActivityAttributes.swift in Sources */,
+				77205757B832A0751C0B51E1 /* MonkSessionUntilManager.swift in Sources */,
 				37233CF6C0E859FA9E14989F /* NotificationPermission.swift in Sources */,
 				9FA5DD0C26B9DE2BF8A3D2E3 /* OnboardingView.swift in Sources */,
 				39C6F40FD50176480FE04968 /* PINProtection.swift in Sources */,
@@ -671,6 +680,7 @@
 				79BB8E664B77F2EA084E7890 /* MeritAwardBridge.swift in Sources */,
 				3773FABE07B556308CB0BF6C /* Models.swift in Sources */,
 				7FD2B1FDB79AD8B20BD1F0E9 /* MonkModeActivityAttributes.swift in Sources */,
+				F8A41FA216839EF2CF377A75 /* MonkSessionUntilManager.swift in Sources */,
 				662102A523F5F34EA9EE540D /* PendingUnlockRouter.swift in Sources */,
 				472C16261987B4BB1C0CC704 /* ScheduledLockManager.swift in Sources */,
 				650E8B174F82F73E42632F76 /* SharedStore.swift in Sources */,
@@ -693,6 +703,7 @@
 				019D0D4EEE129AE0BA802551 /* MeritAwardBridge.swift in Sources */,
 				DA96894AC7969EB70A8A023F /* Models.swift in Sources */,
 				EB8F515562BC2609A668383E /* MonkModeActivityAttributes.swift in Sources */,
+				A79F745ADCAB294642327F28 /* MonkSessionUntilManager.swift in Sources */,
 				5B060F0371FAC09BC8653C84 /* PendingUnlockRouter.swift in Sources */,
 				1FB5F3637F25E063CA74E36D /* ScheduledLockManager.swift in Sources */,
 				8F1B676DA1D830E4DBC029FF /* SharedStore.swift in Sources */,
@@ -716,6 +727,7 @@
 				B894EA1B928861D7091EF396 /* MeritAwardBridge.swift in Sources */,
 				E00DB323BD6C003522FC4CB9 /* Models.swift in Sources */,
 				F6BF56767405F5D06F3A4350 /* MonkModeActivityAttributes.swift in Sources */,
+				E0810A52FDD638102473BF83 /* MonkSessionUntilManager.swift in Sources */,
 				E064448866F3E130C31D1BFE /* PendingUnlockRouter.swift in Sources */,
 				91CA926383172F75D35F8867 /* ScheduledLockManager.swift in Sources */,
 				E2CC2A27D5AE246DA5061B73 /* SharedStore.swift in Sources */,
@@ -798,7 +810,7 @@
 				INFOPLIST_FILE = VANVASI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VANVASI;
 				INFOPLIST_KEY_CFBundleShortVersionString = "$(MARKETING_VERSION)";
-				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLName\": \"com.vanasi.app\", \"CFBundleURLSchemes\": [\"vanasi\"]]]";
+				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLSchemes\": [\"vanasi\"], \"CFBundleURLName\": \"com.vanasi.app\"]]";
 				INFOPLIST_KEY_CFBundleVersion = "$(CURRENT_PROJECT_VERSION)";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "VANVASI uses Face ID or Touch ID when you choose it to confirm turning off monk mode.";
@@ -853,7 +865,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 259R8YNA9M;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -922,7 +934,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 259R8YNA9M;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -959,7 +971,7 @@
 				INFOPLIST_FILE = VANVASI/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VANVASI;
 				INFOPLIST_KEY_CFBundleShortVersionString = "$(MARKETING_VERSION)";
-				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLName\": \"com.vanasi.app\", \"CFBundleURLSchemes\": [\"vanasi\"]]]";
+				INFOPLIST_KEY_CFBundleURLTypes = "[[\"CFBundleURLSchemes\": [\"vanasi\"], \"CFBundleURLName\": \"com.vanasi.app\"]]";
 				INFOPLIST_KEY_CFBundleVersion = "$(CURRENT_PROJECT_VERSION)";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "VANVASI uses Face ID or Touch ID when you choose it to confirm turning off monk mode.";

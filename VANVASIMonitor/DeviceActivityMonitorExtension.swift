@@ -27,6 +27,11 @@ class VANVASIDeviceActivityMonitor: DeviceActivityMonitor {
             return
         }
 
+        if activity == DeviceActivityScheduler.monkSessionUntilActivity {
+            endMonkModeFromSessionUntil()
+            return
+        }
+
         SharedStore.clearTempUnlockKeys()
         SharedStore.store.removeObject(forKey: SharedKeys.pendingRelockScope)
         SharedStore.store.removeObject(forKey: SharedKeys.pendingRelockAt)
@@ -40,6 +45,15 @@ class VANVASIDeviceActivityMonitor: DeviceActivityMonitor {
         if let selection = ShieldPolicy.loadPersistedSelection() {
             ShieldPolicy.applyFullLock(to: store, selection: selection)
         }
+        WidgetReloader.reloadLockWidget()
+    }
+
+    private func endMonkModeFromSessionUntil() {
+        store.clearAllSettings()
+        SharedStore.monkLockEnabled = false
+        SharedStore.clearTempUnlockKeys()
+        MonkSessionUntilManager.clearActiveSession()
+        SharedStore.store.set(true, forKey: SharedKeys.pendingMonkSessionEnded)
         WidgetReloader.reloadLockWidget()
     }
 }

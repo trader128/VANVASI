@@ -5,6 +5,29 @@ enum DeviceActivityScheduler {
     static let center = DeviceActivityCenter()
     static let unlockActivity = DeviceActivityName("com.vanasi.unlock")
     static let scheduleActivity = DeviceActivityName("com.vanasi.schedule")
+    static let monkSessionUntilActivity = DeviceActivityName("com.vanasi.monk-until")
+
+    static func scheduleMonkSessionEnd(at end: Date) {
+        let calendar = Calendar.current
+        let start = Date()
+        guard end > start else { return }
+
+        let schedule = DeviceActivitySchedule(
+            intervalStart: calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: start),
+            intervalEnd: calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: end),
+            repeats: false
+        )
+
+        do {
+            try center.startMonitoring(monkSessionUntilActivity, during: schedule)
+        } catch {
+            // Main-app timer fallback in HomeView.
+        }
+    }
+
+    static func stopMonkSessionUntilMonitoring() {
+        center.stopMonitoring([monkSessionUntilActivity])
+    }
 
     static func scheduleRelock(at end: Date, scope: UnlockScope) {
         let calendar = Calendar.current
@@ -54,6 +77,6 @@ enum DeviceActivityScheduler {
     }
 
     static func stopMonitoring() {
-        center.stopMonitoring([unlockActivity, scheduleActivity])
+        center.stopMonitoring([unlockActivity, scheduleActivity, monkSessionUntilActivity])
     }
 }
