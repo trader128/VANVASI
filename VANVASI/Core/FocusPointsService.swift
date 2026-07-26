@@ -47,6 +47,8 @@ final class FocusPointsService: ObservableObject {
 
     func syncLockedTimeRewards() {
         guard SharedStore.monkLockEnabled else { return }
+        guard !isInAppBreakWindow else { return }
+
         let startTs = SharedStore.store.double(forKey: SharedKeys.lockSessionStartedAt)
         guard startTs > 0 else { return }
 
@@ -58,6 +60,16 @@ final class FocusPointsService: ObservableObject {
         let gained = (buckets - lastBuckets) * VANVASIConfig.pointsPerFiveMinutesLocked
         SharedStore.store.set(buckets, forKey: SharedKeys.focusPointsFiveMinuteBuckets)
         award(gained, reason: "Protected focus")
+    }
+
+    /// True while shields are lifted for a paid/timed app break (monk mode still "on").
+    private var isInAppBreakWindow: Bool {
+        let now = Date().timeIntervalSince1970
+        let breakUntil = max(
+            SharedStore.store.double(forKey: SharedKeys.tempUnlockAllUntil),
+            SharedStore.store.double(forKey: SharedKeys.tempUnlockUntil)
+        )
+        return breakUntil > now
     }
 
     func syncStreakBonus(streakDays: Int) {
