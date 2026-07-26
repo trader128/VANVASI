@@ -67,58 +67,49 @@ extension View {
 
 // MARK: - Lock ring (home hero)
 
-struct VANASILockRing: View {
+struct VANASILockRing: View, Equatable {
     let isLocked: Bool
     var diameter: CGFloat = 200
     var lineWidth: CGFloat = 2
 
-    @State private var pulse = false
-    @State private var glow = false
+    static func == (lhs: VANASILockRing, rhs: VANASILockRing) -> Bool {
+        lhs.isLocked == rhs.isLocked && lhs.diameter == rhs.diameter && lhs.lineWidth == rhs.lineWidth
+    }
 
     var body: some View {
-        ZStack {
-            if isLocked {
+        TimelineView(.animation(minimumInterval: 1.0 / 30.0, paused: !isLocked)) { timeline in
+            let t = timeline.date.timeIntervalSinceReferenceDate
+            let wave = 0.5 + 0.5 * sin(t * 2 * .pi / 3.5)
+            let ringScale = 1 + (isLocked ? 0.025 * wave : 0)
+            let glowOpacity = isLocked ? 0.35 + 0.55 * wave : 0
+
+            ZStack {
+                if isLocked {
+                    Circle()
+                        .fill(VANASITheme.accentGlow)
+                        .frame(width: diameter + 24, height: diameter + 24)
+                        .blur(radius: 28)
+                        .opacity(glowOpacity)
+                }
+
                 Circle()
-                    .fill(VANASITheme.accentGlow)
-                    .frame(width: diameter + 24, height: diameter + 24)
-                    .blur(radius: 28)
-                    .opacity(glow ? 0.9 : 0.35)
-                    .animation(.easeInOut(duration: 3.2).repeatForever(autoreverses: true), value: glow)
+                    .stroke(
+                        isLocked ? VANASITheme.ringActive : VANASITheme.ringIdle,
+                        lineWidth: lineWidth
+                    )
+                    .frame(width: diameter, height: diameter)
+                    .scaleEffect(ringScale)
+
+                Circle()
+                    .fill(VANASITheme.ringFill)
+                    .frame(width: diameter - 32, height: diameter - 32)
+
+                Image(systemName: isLocked ? "lock.fill" : "lock.open")
+                    .font(.system(size: diameter * 0.15, weight: .light))
+                    .foregroundStyle(isLocked ? VANASITheme.textPrimary : VANASITheme.textSecondary)
             }
-
-            Circle()
-                .stroke(
-                    isLocked ? VANASITheme.ringActive : VANASITheme.ringIdle,
-                    lineWidth: lineWidth
-                )
-                .frame(width: diameter, height: diameter)
-                .scaleEffect(isLocked && pulse ? 1.025 : 1)
-                .animation(
-                    isLocked
-                        ? .easeInOut(duration: 3.5).repeatForever(autoreverses: true)
-                        : VANASITheme.springSoft,
-                    value: pulse
-                )
-
-            Circle()
-                .fill(VANASITheme.ringFill)
-                .frame(width: diameter - 32, height: diameter - 32)
-
-            Image(systemName: isLocked ? "lock.fill" : "lock.open")
-                .font(.system(size: diameter * 0.15, weight: .light))
-                .foregroundStyle(isLocked ? VANASITheme.textPrimary : VANASITheme.textSecondary)
-                .symbolEffect(.bounce, value: isLocked)
-                .contentTransition(.symbolEffect(.replace))
         }
-        .animation(VANASITheme.springSnappy, value: isLocked)
-        .onAppear {
-            pulse = isLocked
-            glow = isLocked
-        }
-        .onChange(of: isLocked) { _, locked in
-            pulse = locked
-            glow = locked
-        }
+        .animation(VANASITheme.springSoft, value: isLocked)
     }
 }
 

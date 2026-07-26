@@ -18,7 +18,6 @@ struct VANASIMeritCard: View {
                     Text("\(total)")
                         .font(.system(size: 34, weight: .light, design: .rounded))
                         .foregroundStyle(VANASITheme.textPrimary)
-                        .contentTransition(.numericText())
                 }
                 Spacer()
                 VStack(alignment: .trailing, spacing: 2) {
