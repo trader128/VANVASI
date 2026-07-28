@@ -47,12 +47,8 @@ struct SessionHistoryView: View {
                         }
                     }
 
-                    section("Events") {
-                        if events.isEmpty {
-                            Text("Lock enable and disable events will show here.")
-                                .font(.footnote)
-                                .foregroundStyle(VANASITheme.textWhisper)
-                        } else {
+                    if !events.isEmpty {
+                        section("Lock events") {
                             ForEach(events) { event in
                                 HStack {
                                     Text(eventLabel(event.action))

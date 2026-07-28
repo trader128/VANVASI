@@ -1,27 +1,51 @@
-VANVASI 1.2 — Notes for App Review
-===================================
+VANVASI 1.2 — App Store Review Notes (paste into App Store Connect)
+====================================================================
 
-VANVASI is a self-imposed digital wellbeing app for adults (not parental monitoring).
+App name: VANVASI
+Bundle ID: com.vanasi.app
+Version: 1.2.0
 
-WHAT'S NEW IN 1.2:
-- Merit points: gentle rewards for enabling monk mode, staying focused, and daily streaks
-- In-app Merit guide (Settings → Merit points)
-- Live Activity on Lock Screen / Dynamic Island during monk mode and temporary unlock windows
-- Expanded onboarding and in-app "How it works" guide (from 1.1)
-- Improved home UI, haptics, and block screen (shield) branding
+WHAT VANVASI IS
+---------------
+VANVASI is a self-imposed digital wellbeing app for adults. Users voluntarily enable "monk mode" to shield most apps using Apple's Screen Time / Family Controls API. Phone and Messages (and VANVASI itself) remain accessible. It is NOT parental monitoring software.
 
-HOW TO TEST:
-1. Complete onboarding — grant Screen Time when prompted.
-2. On "Free apps", select Phone, Messages, and VANVASI.
-3. Tap the lock ring → monk mode ON (merit toast may appear).
-4. Optional: allow Live Activities when prompted — status shows on Lock Screen.
-5. Open Safari or another app → shield with Pause / Unlock.
-6. Tap Unlock → complete pause flow in VANVASI (Live Activity may show countdown).
-7. Settings → How it works / Merit points for guides.
-8. End lock: Settings → End lock.
+WHAT'S NEW IN 1.2
+-----------------
+• End-lock security: optional 4-digit PIN, Face ID, or iPhone passcode to turn off monk mode
+• Monk session length: 15m / 30m / 1h / 2h from lock-on (auto end session)
+• Merit points, levels, and in-app Merit guide
+• Live Activity on Lock Screen during monk mode and timed unlock breaks
+• Shield flow: Pause / Unlock → in-app confirmation; "Stay focused" awards merit
+• Onboarding copy explaining iOS limits (Watch, Files, Safari may stay available)
+• Home UI polish, session countdown, in-app Privacy / Terms / Support
 
-PRICING: App is free. No payment required for core features.
+IMPROVEMENTS SINCE LAST REJECTION (build 11)
+--------------------------------------------
+• Age rating: app does NOT include Parental Controls or Age Assurance (self-lock only)
+• Family Controls entitlement included on app + extensions (distribution approved on App ID)
+• Removed unfinished copy; pause screen text differs for shield vs home break request
+• History, Schedule, and legal screens polished; no placeholder strings
 
-EMERGENCY EXIT: Settings → End lock. Optional PIN available.
+HOW TO TEST (physical iPhone required)
+--------------------------------------
+1. Install build. Complete onboarding → grant Screen Time when iOS prompts.
+2. Free apps: select Phone, Messages, and VANVASI.
+3. Choose session length (e.g. 30m) → tap lock ring → monk mode ACTIVE.
+4. Open a blocked app → system shield → Open VANVASI or Stay focused.
+5. Settings → End lock security, Merit, How it works, Support, Privacy, Terms.
 
-CONTACT: support@vanasi.app
+PRICING: Free. In-app purchases disabled in this build.
+
+PRIVACY & SUPPORT URLS
+----------------------
+Privacy: https://www.savarun.com/apps/vanvasi/privacy.html
+Support: https://www.savarun.com/apps/vanvasi/support.html
+Terms:   https://www.savarun.com/apps/vanvasi/terms.html
+
+CONTACT
+-------
+Lekhraj Dagur · monudagur1@gmail.com · +91 8401024176
+
+Demo account: Not applicable (no login).
+
+Thank you for reviewing VANVASI.

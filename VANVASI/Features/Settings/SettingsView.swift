@@ -50,6 +50,9 @@ struct SettingsView: View {
                         settingsLink("Privacy", subtitle: "savarun.com · VANVASI policy") {
                             PrivacyPolicyView()
                         }
+                        settingsLink("Terms", subtitle: "Terms of use") {
+                            TermsOfUseView()
+                        }
 
                         if VANVASIConfig.showPaymentsInSettings {
                             divider

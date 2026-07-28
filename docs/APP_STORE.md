@@ -36,7 +36,7 @@ screen time, focus, app blocker, digital wellbeing, monk mode, distraction, phon
 Productivity
 
 ## Age Rating
-4+
+4+ — **Do not** select In-App Controls / Parental Controls / Age Assurance. VANVASI is adult self-lock only (optional PIN/Face ID to end the user's own session).
 
 ## Screenshots Needed (6.7" iPhone — 1290×2796)
 

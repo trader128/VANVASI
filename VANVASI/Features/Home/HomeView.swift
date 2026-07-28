@@ -59,6 +59,7 @@ struct HomeView: View {
         .fullScreenCover(item: $homeUnlockRequest) { request in
             UnlockConfirmView(
                 request: request,
+                flow: .openedFromHome,
                 onUnlocked: { homeUnlockRequest = nil },
                 onCancel: { homeUnlockRequest = nil }
             )
@@ -177,7 +178,7 @@ struct HomeView: View {
             .padding(.horizontal, 32)
 
             if MonkSessionUntilManager.activeUntil != nil {
-                Text("App breaks · up to \(VANVASIConfig.unlockAllMinutes)m")
+                Text("Timed breaks last up to \(VANVASIConfig.unlockAllMinutes) minutes, then monk mode returns.")
                     .font(.caption2)
                     .foregroundStyle(VANASITheme.textWhisper)
                     .multilineTextAlignment(.center)
@@ -210,7 +211,7 @@ struct HomeView: View {
             }
 
             if stats.focusScore > 0, !lockManager.isLockEnabled {
-                Text("Focus habit · \(stats.focusScore)/100")
+                Text("Habit score · \(stats.focusScore)/100")
                     .font(.caption2)
                     .foregroundStyle(VANASITheme.textWhisper)
             }

@@ -20,7 +20,12 @@ struct ScheduledLockView: View {
                     stepperRow("End", minutes: $end)
                 }
 
-                Text("Shortcuts: When Focus turns on → Enable VANVASI Lock")
+                Text("During this window, monk mode turns on automatically each day. You can still end lock anytime in Settings.")
+                    .font(.footnote.weight(.light))
+                    .foregroundStyle(VANASITheme.textSecondary)
+                    .lineSpacing(4)
+
+                Text("Tip: In the Shortcuts app, create an automation when a Focus mode starts and run the action “Enable VANVASI Lock”.")
                     .font(.caption)
                     .foregroundStyle(VANASITheme.textWhisper)
                     .lineSpacing(4)
@@ -29,7 +34,7 @@ struct ScheduledLockView: View {
             }
             .padding(32)
         }
-        .navigationTitle("")
+        .navigationTitle("Schedule")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(VANASITheme.void, for: .navigationBar)
         .onDisappear(perform: save)

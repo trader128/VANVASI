@@ -1,8 +1,16 @@
 import SwiftUI
 import SwiftData
 
+enum UnlockConfirmContext {
+    /// Opened from a system shield via notification or deep link.
+    case openedFromShield
+    /// Started from the home screen break request.
+    case openedFromHome
+}
+
 struct UnlockConfirmView: View {
     let request: UnlockRequest
+    var flow: UnlockConfirmContext = .openedFromShield
     let onUnlocked: () -> Void
     let onCancel: () -> Void
 
@@ -52,7 +60,7 @@ struct UnlockConfirmView: View {
                     .padding(.horizontal, 40)
                     .vanasiAppear(delay: 0.2)
 
-                Text("You already paused at the shield.")
+                Text(pauseContextLine)
                     .font(.caption)
                     .foregroundStyle(VANASITheme.textWhisper)
                     .padding(.top, 8)
@@ -132,6 +140,15 @@ struct UnlockConfirmView: View {
         switch request {
         case .singleApp(let label): return "Still need \(label)?"
         case .unlockAll: return "Still need full access?"
+        }
+    }
+
+    private var pauseContextLine: String {
+        switch flow {
+        case .openedFromShield:
+            return "You already paused at the shield."
+        case .openedFromHome:
+            return "Take a breath before your timed break."
         }
     }
 

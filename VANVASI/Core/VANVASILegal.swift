@@ -32,7 +32,7 @@ enum VANVASILegal {
     • Monk mode on/off, unlock sessions, lock history
     • Merit points, focus habit score, streaks
     • Optional end-lock PIN (Keychain) or Face ID / device passcode
-    • Optional payment records if paid unlocks are enabled (Apple processes payment)
+    • Payment records only if a future version offers optional paid unlocks (Apple processes payment)
 
     We do not sell your data. We do not use analytics or advertising SDKs. We do not read content inside other apps.
 
@@ -57,5 +57,24 @@ enum VANVASILegal {
     © \(copyrightLine)
 
     Full policy: \(siteBase)/privacy.html
+    """
+
+    static let termsSummaryText = """
+    VANVASI Terms of Use
+
+    Last updated: July 2026
+    Published by \(developerName)
+
+    VANVASI is a self-imposed focus tool for your own iPhone. You choose when to enable or end monk mode. VANVASI is not parental control software and is not intended to monitor others.
+
+    Use at your own discretion. We do not guarantee that every app can be blocked — Apple’s Screen Time APIs have system limits.
+
+    Core features are provided as-is. Contact us for support before leaving a review if something is not working on your device.
+
+    \(developerName)
+    Email: \(supportEmail)
+    Phone: \(supportPhone)
+
+    Full terms: \(siteBase)/terms.html
     """
 }

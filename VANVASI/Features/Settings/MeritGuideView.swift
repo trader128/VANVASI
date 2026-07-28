@@ -12,7 +12,7 @@ struct MeritGuideView: View {
                 rule("Monk mode on", "+\(VANVASIConfig.pointsLockEngaged)", "Turn on the lock ring")
                 rule("Protected time", "+\(VANVASIConfig.pointsPerFiveMinutesLocked) / 5 min", "Stay in monk mode")
                 rule("Stay focused", "+\(VANVASIConfig.pointsStayFocused)", "Decline unlock on the pause screen")
-                rule("Daily streak", "+\(VANVASIConfig.pointsStreakDayBonus)+", "Lock at least once per day")
+                rule("Daily streak", "+\(VANVASIConfig.pointsStreakDayBonus)/day", "Lock at least once per day")
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("LEVELS")

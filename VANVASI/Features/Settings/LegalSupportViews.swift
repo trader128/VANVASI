@@ -22,6 +22,28 @@ struct PrivacyPolicyView: View {
     }
 }
 
+struct TermsOfUseView: View {
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 20) {
+                Text(VANVASILegal.termsSummaryText)
+                    .font(.footnote.weight(.light))
+                    .foregroundStyle(VANASITheme.textSecondary)
+                    .lineSpacing(6)
+
+                Link("Open full terms on savarun.com", destination: VANVASILegal.termsURL)
+                    .font(.footnote)
+                    .foregroundStyle(VANASITheme.textPrimary)
+            }
+            .padding(32)
+        }
+        .background(VANASIBackground())
+        .navigationTitle("Terms")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(VANASITheme.void, for: .navigationBar)
+    }
+}
+
 struct SupportContactView: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -38,7 +60,7 @@ struct SupportContactView: View {
                     Link(VANVASILegal.supportPhone, destination: URL(string: "tel:\(VANVASILegal.supportPhoneTel)")!)
                 }
 
-                Text("We usually reply within 2-3 business days.")
+                Text("We usually reply within 2–3 business days.")
                     .font(.caption)
                     .foregroundStyle(VANASITheme.textWhisper)
 
